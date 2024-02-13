@@ -13,16 +13,7 @@ Watch the presentation video on YouTube: [Presentation Video](https://www.youtub
 
 ## Demo - Backend
 
-Watch the backend demo on YouTube: [Backend Demo Video]()
-
-## Demo - Frontend
-
-Watch the frontend demo on YouTube: [Frontend Demo Video]()
-
-## Documentation
-
-
-
+Watch the backend demo on YouTube: [Backend Demo Video](https://www.youtube.com/watch?v=zH_UVhJcVKM)
 
 ## Inspiration
 
