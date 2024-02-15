@@ -18,7 +18,7 @@ html, body {
   overflow: hidden;
   overflow-y: hidden;
   overflow-x: hidden;
-  background-color: black;
+  background-color: rgb(232, 8, 8);
   background-image: radial-gradient(#69696959 1.2px, transparent 1px);
   background-size: 36px 36px;
   animation: pulsate 20s infinite;
