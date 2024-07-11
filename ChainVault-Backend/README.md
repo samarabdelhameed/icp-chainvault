@@ -1,3 +1,152 @@
+# ICP-ChainVault
+
+ICP-ChainVault is a robust synthetic asset management system built on the Internet Computer Protocol (ICP). It leverages smart contracts to handle synthetic asset minting, collateral management, and oracle integration for asset pricing. The system ensures secure and efficient management of synthetic assets, enabling users to deposit assets, create vaults, and manage synthetic tokens seamlessly.
+
+## Features
+
+- **Synthetic Asset Minting**: Mint synthetic tokens backed by collateral.
+- **Collateral Management**: Manage and add collateral to vaults, ensuring adequate backing for synthetic assets.
+- **Oracle Integration**: Fetch real-time price data from oracles for accurate asset valuation.
+- **Secure Transfers**: Handle secure token transfers, approvals, and allowances.
+- **Comprehensive Storage**: Utilize stable storage for tracking balances, vault states, and allowances.
+
+## Project Structure
+
+```
+ICP-ChainVault/
+├── src/
+│   ├── DepositModule/
+│   │   ├── ckBTCDeposit.ts
+│   │   └── minter.ts
+│   ├── OracleModule/
+│   │   ├── oracle.ts
+│   │   └── types.ts
+│   ├── VaultManager/
+│   │   ├── VaultManager.ts
+│   │   ├── helpers.ts
+│   │   ├── storage.ts
+│   │   └── types.ts
+│   ├── synthsBase/
+│   │   ├── TokenMinter/
+│   │   │   └── SynthTokenMinter.ts
+│   │   ├── Update/
+│   │   │   ├── approveMain.ts
+│   │   │   └── transferMain.ts
+│   │   ├── query/
+│   │   │   └── queryFunctions.ts
+│   │   ├── storage/
+│   │   │   └── storage.ts
+│   │   ├── transfers/
+│   │   │   ├── burn.ts
+│   │   │   ├── mint.ts
+│   │   │   ├── transfer.ts
+│   │   │   ├── transferFrom.ts
+│   │   │   └── transferFromBurn.ts
+│   │   ├── index.ts
+│   │   └── init.ts
+│   └── candidFiles/
+│       ├── deposit.did
+│       ├── oracle.did
+│       ├── synbase.did
+│       ├── synthMinter.did
+│       └── vaultmanager.did
+├── README.md
+└── package.json
+```
+## Detailed Explanation of Key Modules
+
+### DepositModule
+Handles Bitcoin deposits and interactions with the ckBTC token.
+
+- **ckBTCDeposit.ts**: 
+  - Manages Bitcoin deposit operations.
+  - Functions: `getBalance()`, `updateBalance()`, `getBtcDepositAddress()`, `transferToVault()`.
+
+- **minter.ts**:
+  - Defines the `Minter` service.
+  - Functions: `get_btc_address()`, `update_balance()`.
+
+### OracleModule
+Integrates with an exchange rate oracle to fetch real-time price data.
+
+- **oracle.ts**:
+  - Interacts with the exchange rate oracle.
+  - Functions: `getBTCUSDT()`, `btcPriceTranForm()`.
+
+- **types.ts**:
+  - Defines types for asset classes, exchange rate requests, and results.
+
+### VaultManager
+Manages the creation and operation of vaults, including collateral management and debt operations.
+
+- **VaultManager.ts**:
+  - Core logic for vault management.
+  - Functions: `init()`, `createVault()`, `addCollateral()`, `borrow()`, `repayDebt()`, `withdrawCollateral()`, `getBtcPrice()`, `collateralAmountInDollar()`, `getVaultActualDebt()`, `normalizeDebt()`, `getUserVaultIds()`.
+
+- **helpers.ts**:
+  - Helper functions for calculations.
+  - Functions: `calculateNewAccumulator()`.
+
+- **storage.ts**:
+  - Storage definitions for vault data.
+  - Structures: `VaultStorage`, `UserVaultIdMapping`, `IndividualVaultStorage`.
+
+- **types.ts**:
+  - Defines types for vault metadata, state data, individual vault data.
+
+### synthsBase
+Base module for managing synthetic tokens, including minting, transfers, and approvals.
+
+- **TokenMinter/SynthTokenMinter.ts**:
+  - Minting operations for synthetic tokens.
+  - Functions: `mintToken()`, `updateVaultManager()`.
+
+- **Update/approveMain.ts**:
+  - Approval logic for token transfers.
+  - Functions: `icrc2_approve()`, `testingFee()`.
+
+- **Update/transferMain.ts**:
+  - Handles token transfers and allowances.
+  - Functions: `icrc1_transfer()`, `icrc2_transfer_from()`.
+
+- **query/queryFunctions.ts**:
+  - Query functions for retrieving token metadata and balances.
+  - Functions: `icrc1_name()`, `icrc1_symbol()`, `icrc1_decimals()`, `icrc1_fee()`, `icrc1_metadata()`, `icrc1_total_supply()`, `icrc1_minting_account()`, `icrc1_supported_standards()`, `icrc1_balance_of()`, `icrc2_allowance()`.
+
+- **storage/storage.ts**:
+  - Storage management for token states, balances, and allowances.
+  - Structures: `TokenState`, `AccountBalance`, `AllowanceStorage`.
+
+- **transfers/burn.ts**:
+  - Logic for burning tokens.
+  - Function: `handle_burn()`.
+
+- **transfers/mint.ts**:
+  - Logic for minting tokens.
+  - Function: `handle_mint()`.
+
+- **transfers/transfer.ts**:
+  - Handles token transfer operations.
+  - Function: `handle_transfer()`.
+
+- **transfers/transferFrom.ts**:
+  - Implements logic for transferring tokens using allowances.
+  - Function: `handle_transfer_from()`.
+
+- **transfers/transferFromBurn.ts**:
+  - Manages transfers that result in token burns.
+  - Function: `handle_transfer_from_burn()`.
+
+- **index.ts**:
+  - Exports various functions and modules.
+  - Functions: `icrc1_symbol()`, `icrc1_name()`, `icrc1_decimals()`, `icrc1_total_supply()`, `icrc1_minting_account()`, `icrc1_supported_standards()`, `icrc1_metadata()`, `icrc2_allowance()`, `icrc1_fee()`, `icrc1_balance_of()`, `testPadAccount()`.
+
+- **init.ts**:
+  - Initialization logic for the token state.
+  - Functions: `constructor()`, `testingTokenState()`, `updateMinterAccount()`, `updatePrimaryAccount()`.
+
+
+   ```
 # How to Deploy Locally
 ## Demo - Backend
 
