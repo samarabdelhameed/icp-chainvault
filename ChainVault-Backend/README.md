@@ -145,6 +145,113 @@ Base module for managing synthetic tokens, including minting, transfers, and app
   - Initialization logic for the token state.
   - Functions: `constructor()`, `testingTokenState()`, `updateMinterAccount()`, `updatePrimaryAccount()`.
 
+Certainly! Below are all the steps and commands you used before building the canisters, which you can add to your README file.
+
+### Steps and Commands
+
+1. **Stop DFX:**
+   Ensure that DFX is stopped:
+
+   ```sh
+   dfx stop
+   ```
+
+2. **Delete the Local State:**
+   Delete the entire DFX state directory to ensure a fresh start:
+
+   ```sh
+   rm -rf "/Users/s/Library/Application Support/org.dfinity.dfx/network/local/state"
+   ```
+
+3. **Clean the NPM Modules and Cache:**
+   Clean the NPM modules and cache to ensure no issues with dependencies:
+
+   ```sh
+   rm -rf node_modules
+   npm cache clean --force
+   ```
+
+4. **Reinstall Dependencies:**
+   Reinstall the NPM dependencies:
+
+   ```sh
+   npm install --legacy-peer-deps
+   ```
+
+5. **Start DFX:**
+   Start DFX again:
+
+   ```sh
+   dfx start
+   ```
+
+6. **Create the `synbase` Canister:**
+   Create the `synbase` canister:
+
+   ```sh
+   dfx canister create synbase
+   ```
+
+7. **Rebuild All Canisters:**
+   Rebuild all canisters:
+
+   ```sh
+   dfx build
+   ```
+
+### Example README Section
+
+## Setup and Build Instructions
+1. **Stop DFX:**
+   Ensure that DFX is stopped:
+
+   ```sh
+   dfx stop
+   ```
+
+2. **Delete the Local State:**
+   Delete the entire DFX state directory to ensure a fresh start:
+
+   ```sh
+   rm -rf "/Users/s/Library/Application Support/org.dfinity.dfx/network/local/state"
+   ```
+
+3. **Clean the NPM Modules and Cache:**
+   Clean the NPM modules and cache to ensure no issues with dependencies:
+
+   ```sh
+   rm -rf node_modules
+   npm cache clean --force
+   ```
+
+4. **Reinstall Dependencies:**
+   Reinstall the NPM dependencies:
+
+   ```sh
+   npm install --legacy-peer-deps
+   ```
+
+5. **Start DFX:**
+   Start DFX again:
+
+   ```sh
+   dfx start
+   ```
+
+6. **Create the `synbase` Canister:**
+   Create the `synbase` canister:
+
+   ```sh
+   dfx canister create synbase
+   ```
+
+7. **Rebuild All Canisters:**
+   Rebuild all canisters:
+
+   ```sh
+   dfx build
+   ```
+```
 
    ```
 # How to Deploy Locally
@@ -156,6 +263,7 @@ Watch the backend demo on YouTube: [Backend Demo Video](https://www.youtube.com/
 1. **Start the Local Network:**
    ```sh
    cd ChainVault-Backend
+    npm install reflect-metadata --save --legacy-peer-deps
    dfx start
    ```
 Running dfx start for version 0.16.1
@@ -285,6 +393,15 @@ URLs:
     vaultmanager: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
     
 6. **Deploy the SynBase Canister with Argument:**
+ ```sh
+ dfx identity get-principal
+
+elgv4-xvf4l-qtu3a-7cbf5-cmnjq-taxy7-jlgj4-bbi2b-25fga-s5rva-wae
+➜   dfx canister id synthMinter
+
+a3shf-5eaaa-aaaaa-qaafa-cai
+ ```
+
    ```sh
    dfx deploy synbase --argument='(record {
        name = "Synthetic USD";                         
