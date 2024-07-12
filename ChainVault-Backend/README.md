@@ -443,12 +443,285 @@ Call the getBalance function of the deposit canister
 
 ## Further Configuration
 1. **Deploy an icrc-1 Compatible Token** to mimic the behaviour of ckbtc.
+dfx build icrc1_token
+dfx deploy icrc1_token
+
+Building canisters...
+Executing 'npx azle icrc1_token'
+
+Building canister icrc1_token
+
+[1/2] 🔨 Compiling TypeScript... 1.71s
+[2/2] 🚧 Building Wasm binary... 9.16s
+
+Done in 11.51s.
+
+🎉 Built canister icrc1_token at .azle/icrc1_token/icrc1_token.wasm.gz
+Deploying: icrc1_token
+All canisters have already been created.
+Building canisters...
+Executing 'npx azle icrc1_token'
+
+Building canister icrc1_token
+
+[1/2] 🔨 Compiling TypeScript... 1.80s
+[2/2] 🚧 Building Wasm binary... 4.36s
+
+Done in 6.74s.
+
+🎉 Built canister icrc1_token at .azle/icrc1_token/icrc1_token.wasm.gz
+Installing canisters...
+Installing code for canister icrc1_token, with canister ID avqkn-guaaa-aaaaa-qaaea-cai
+Deployed canisters.
+URLs:
+  Backend canister via Candid interface:
+    deposit: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=be2us-64aaa-aaaaa-qaabq-cai
+    icrc1_token: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=avqkn-guaaa-aaaaa-qaaea-cai
+    oracle: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
+    synbase: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bkyz2-fmaaa-aaaaa-qaaaq-cai
+    synthMinter: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
+    vaultmanager: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=br5f7-7uaaa-aaaaa-qaaca-cai
+➜  
+
 
 2. **Update the Canister Addresses in the Codes:**
    - Mainly in `vaultmanager` code and `oracle`.
 
 3. **Update the Canister Address of SynthMinter in VaultManager.**
+dfx build
+
+Building canisters...
+Executing 'npx azle synthMinter'
+
+Building canister synthMinter
+
+[1/2] 🔨 Compiling TypeScript... 5.81s
+[2/2] 🚧 Building Wasm binary... 8.35s
+
+Done in 14.77s.
+
+🎉 Built canister synthMinter at .azle/synthMinter/synthMinter.wasm.gz
+Executing 'npx azle vaultmanager'
+
+Building canister vaultmanager
+
+[1/2] 🔨 Compiling TypeScript... 6.96s
+[2/2] 🚧 Building Wasm binary... 9.74s
+
+Done in 17.35s.
+
+🎉 Built canister vaultmanager at .azle/vaultmanager/vaultmanager.wasm.gz
+Executing 'npx azle oracle'
+
+Building canister oracle
+
+[1/2] 🔨 Compiling TypeScript... 5.13s
+[2/2] 🚧 Building Wasm binary... 7.57s
+
+Done in 13.32s.
+
+🎉 Built canister oracle at .azle/oracle/oracle.wasm.gz
+Executing 'npx azle icrc1_token'
+
+Building canister icrc1_token
+
+[1/2] 🔨 Compiling TypeScript... 1.64s
+[2/2] 🚧 Building Wasm binary... 4.28s
+
+Done in 6.50s.
+
+🎉 Built canister icrc1_token at .azle/icrc1_token/icrc1_token.wasm.gz
+Executing 'npx azle deposit'
+
+Building canister deposit
+
+[1/2] 🔨 Compiling TypeScript... 6.59s
+[2/2] 🚧 Building Wasm binary... 8.26s
+
+Done in 15.47s.
+
+🎉 Built canister deposit at .azle/deposit/deposit.wasm.gz
+Executing 'npx azle synbase'
+
+Building canister synbase
+
+[1/2] 🔨 Compiling TypeScript... 4.87s
+[2/2] 🚧 Building Wasm binary... 7.08s
+
+Done in 12.58s.
+
+🎉 Built canister synbase at .azle/synbase/synbase.wasm.gz
+
+dfx deploy vaultmanager
+
+Deploying: vaultmanager
+All canisters have already been created.
+Building canisters...
+Executing 'npx azle vaultmanager'
+
+Building canister vaultmanager
+
+[1/2] 🔨 Compiling TypeScript... 7.25s
+[2/2] 🚧 Building Wasm binary... 10.71s
+
+Done in 18.63s.
+
+🎉 Built canister vaultmanager at .azle/vaultmanager/vaultmanager.wasm.gz
+Installing canisters...
+Upgrading code for canister vaultmanager, with canister ID br5f7-7uaaa-aaaaa-qaaca-cai
+Deployed canisters.
+URLs:
+  Backend canister via Candid interface:
+    deposit: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=be2us-64aaa-aaaaa-qaabq-cai
+    icrc1_token: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=avqkn-guaaa-aaaaa-qaaea-cai
+    oracle: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
+    synbase: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bkyz2-fmaaa-aaaaa-qaaaq-cai
+    synthMinter: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
+    vaultmanager: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=br5f7-7uaaa-aaaaa-qaaca-cai
+
+dfx canister call vaultmanager testInit
+
+(variant { Ok = "Done" })
+
+
 
 4. **Update the Canister Address of Oracle in VaultManager.**
+dfx build
+
+Building canisters...
+Executing 'npx azle icrc1_token'
+
+Building canister icrc1_token
+
+[1/2] 🔨 Compiling TypeScript... 1.89s
+[2/2] 🚧 Building Wasm binary... 5.81s
+
+Done in 8.29s.
+
+🎉 Built canister icrc1_token at .azle/icrc1_token/icrc1_token.wasm.gz
+Executing 'npx azle deposit'
+
+Building canister deposit
+
+[1/2] 🔨 Compiling TypeScript... 6.58s
+[2/2] 🚧 Building Wasm binary... 8.71s
+
+Done in 15.90s.
+
+🎉 Built canister deposit at .azle/deposit/deposit.wasm.gz
+Executing 'npx azle vaultmanager'
+
+Building canister vaultmanager
+
+[1/2] 🔨 Compiling TypeScript... 6.93s
+[2/2] 🚧 Building Wasm binary... 11.16s
+
+Done in 18.78s.
+
+🎉 Built canister vaultmanager at .azle/vaultmanager/vaultmanager.wasm.gz
+Executing 'npx azle synbase'
+
+Building canister synbase
+
+[1/2] 🔨 Compiling TypeScript... 4.82s
+[2/2] 🚧 Building Wasm binary... 7.00s
+
+Done in 12.45s.
+
+🎉 Built canister synbase at .azle/synbase/synbase.wasm.gz
+Executing 'npx azle oracle'
+
+Building canister oracle
+
+[1/2] 🔨 Compiling TypeScript... 2.16s
+[2/2] 🚧 Building Wasm binary... 4.62s
+
+Done in 7.36s.
+
+🎉 Built canister oracle at .azle/oracle/oracle.wasm.gz
+Executing 'npx azle synthMinter'
+
+Building canister synthMinter
+
+[1/2] 🔨 Compiling TypeScript... 5.76s
+[2/2] 🚧 Building Wasm binary... 7.52s
+
+Done in 13.89s.
+
+🎉 Built canister synthMinter at .azle/synthMinter/synthMinter.wasm.gz
+
+dfx deploy oracle
+
+Deploying: oracle
+All canisters have already been created.
+Building canisters...
+Executing 'npx azle oracle'
+
+Building canister oracle
+
+[1/2] 🔨 Compiling TypeScript... 2.22s
+[2/2] 🚧 Building Wasm binary... 5.63s
+
+Done in 8.44s.
+
+🎉 Built canister oracle at .azle/oracle/oracle.wasm.gz
+Installing canisters...
+Upgrading code for canister oracle, with canister ID bd3sg-teaaa-aaaaa-qaaba-cai
+Deployed canisters.
+URLs:
+  Backend canister via Candid interface:
+    deposit: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=be2us-64aaa-aaaaa-qaabq-cai
+    icrc1_token: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=avqkn-guaaa-aaaaa-qaaea-cai
+    oracle: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
+    synbase: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bkyz2-fmaaa-aaaaa-qaaaq-cai
+    synthMinter: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
+    vaultmanager: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=br5f7-7uaaa-aaaaa-qaaca-cai
+
+dfx canister status oracle
+
+Canister status call result for oracle.
+Status: Running
+Controllers: 7dmok-m2ubv-u2fct-jbdrq-5ibns-mfiso-z7r7a-2rhsv-q6xsl-tqpmm-fae bnz7o-iuaaa-aaaaa-qaaaa-cai
+Memory allocation: 0
+Compute allocation: 0
+Freezing threshold: 2_592_000
+Memory Size: Nat(4667776)
+Balance: 3_088_611_594_822 Cycles
+Reserved: 0 Cycles
+Reserved Cycles Limit: 5_000_000_000_000 Cycles
+WASM Memory Limit: 0 Bytes
+Module hash: 0xac6c976698a86531dbab1c1127b9df164b2a091339134ba05dd6d9f0189a6ed9
+Number of queries: 0
+Instructions spent in queries: 0
+Total query request payload size (bytes): 0
+Total query response payload size (bytes): 0
+
+dfx deploy oracle
+
+Deploying: oracle
+All canisters have already been created.
+Building canisters...
+Executing 'npx azle oracle'
+
+Building canister oracle
+
+[1/2] 🔨 Compiling TypeScript... 5.10s
+[2/2] 🚧 Building Wasm binary... 19.36s
+
+Done in 25.09s.
+
+🎉 Built canister oracle at .azle/oracle/oracle.wasm.gz
+Installing canisters...
+Upgrading code for canister oracle, with canister ID bd3sg-teaaa-aaaaa-qaaba-cai
+Deployed canisters.
+URLs:
+  Backend canister via Candid interface:
+    deposit: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=be2us-64aaa-aaaaa-qaabq-cai
+    icrc1_token: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=avqkn-guaaa-aaaaa-qaaea-cai
+    oracle: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
+    synbase: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bkyz2-fmaaa-aaaaa-qaaaq-cai
+    synthMinter: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
+    vaultmanager: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=br5f7-7uaaa-aaaaa-qaaca-cai
+➜  ChainVault-Backend git:(main) ✗ 
 
 5. **Update the Canister Address of SynBase in SynthMinter.**
