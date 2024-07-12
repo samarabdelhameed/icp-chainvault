@@ -145,7 +145,7 @@ Base module for managing synthetic tokens, including minting, transfers, and app
   - Initialization logic for the token state.
   - Functions: `constructor()`, `testingTokenState()`, `updateMinterAccount()`, `updatePrimaryAccount()`.
 
-Certainly! Below are all the steps and commands you used before building the canisters, which you can add to your README file.
+
 
 ### Steps and Commands
 
@@ -202,6 +202,7 @@ Certainly! Below are all the steps and commands you used before building the can
 ### Example README Section
 
 ## Setup and Build Instructions
+
 1. **Stop DFX:**
    Ensure that DFX is stopped:
 
@@ -403,24 +404,42 @@ a3shf-5eaaa-aaaaa-qaafa-cai
  ```
 
    ```sh
-   dfx deploy synbase --argument='(record {
-       name = "Synthetic USD";                         
-       symbol = "SynUsd";                           
-       decimal = 8;                                           
-       fee = 10;
-       permitted_drift_nanos = 86_400_000_000_000;
-       transaction_window_nanos = 86_400_000_000_000;                                                                                   
-       minting_account = (opt record {
-           owner = principal "<canister id of synthminter deployed above>";
-           subaccount = null;
-       });
+dfx deploy synbase --argument='(record {
+    name = "Synthetic USD";
+    symbol = "SynUsd";
+    decimal = 8;
+    fee = 10;
+    permitted_drift_nanos = 86400000000000;
+    transaction_window_nanos = 86400000000000;
+    minting_account = (opt record {
+        owner = principal "a3shf-5eaaa-aaaaa-qaafa-cai";
+        subaccount = null;
+    });
+    primary_account = (opt record {
+        owner = principal "elgv4-xvf4l-qtu3a-7cbf5-cmnjq-taxy7-jlgj4-bbi2b-25fga-s5rva-wae";
+        subaccount = null;
+    });
+})'
 
-       primary_account = (opt record {
-           owner = principal "<enter your principal>";
-           subaccount = null;
-       });
-   })'
    ```
+   **All the canisters have been successfully deployed. Here are the URLs for the backend canisters via the Candid interface:**
+    ```sh
+Deposit: http://127.0.0.1:4943/?canisterId=be2us-64aaa-aaaaa-qaabq-cai
+Oracle: http://127.0.0.1:4943/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai
+Synbase: http://127.0.0.1:4943/?canisterId=bkyz2-fmaaa-aaaaa-qaaaq-cai
+SynthMinter: http://127.0.0.1:4943/?canisterId=bw4dl-smaaa-aaaaa-qaacq-cai
+VaultManager: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai
+
+**Verify and Test the Canisters:**
+1. **Get the Balance from the Deposit Canister:**
+Call the getBalance function of the deposit canister
+-   dfx canister call deposit updateVaultManagerAddress '(principal "br5f7-7uaaa-aaaaa-qaaca-cai")'
+
+("ok")
+
+- 
+
+
 
 ## Further Configuration
 1. **Deploy an icrc-1 Compatible Token** to mimic the behaviour of ckbtc.
