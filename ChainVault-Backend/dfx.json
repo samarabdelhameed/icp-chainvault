@@ -48,14 +48,11 @@
       "wasm": ".azle/synthMinter/synthMinter.wasm.gz",
       "optimize": "size"
     },
-    "icrc1_token": {
-      "main": "src/icrc1Token/icrc1_token.ts",
+    "wallet": {
       "type": "custom",
-      "build": "npx azle icrc1_token",
-      "root": "src",
-      "ts": "src/icrc1Token/icrc1_token.ts",
-      "candid": "src/candidFiles/icrc1_token.did",
-      "wasm": ".azle/icrc1_token/icrc1_token.wasm.gz"
+      "candid": "wallet.did",
+      "wasm": "wallet.wasm",
+      "build": ""
     }
   }
 }

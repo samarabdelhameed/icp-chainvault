@@ -724,4 +724,44 @@ URLs:
     vaultmanager: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=br5f7-7uaaa-aaaaa-qaaca-cai
 ➜  ChainVault-Backend git:(main) ✗ 
 
+dfx build oracle
+dfx deploy oracle
+
+Building canisters...
+Executing 'npx azle oracle'
+
+Building canister oracle
+
+[1/2] 🔨 Compiling TypeScript... 5.40s
+[2/2] 🚧 Building Wasm binary... 23.31s
+
+Done in 29.36s.
+
+🎉 Built canister oracle at .azle/oracle/oracle.wasm.gz
+Deploying: oracle
+All canisters have already been created.
+Building canisters...
+Executing 'npx azle oracle'
+
+Building canister oracle
+
+[1/2] 🔨 Compiling TypeScript... 5.21s
+[2/2] 🚧 Building Wasm binary... 7.64s
+
+Done in 13.46s.
+
+🎉 Built canister oracle at .azle/oracle/oracle.wasm.gz
+Installing canisters...
+Upgrading code for canister oracle, with canister ID bd3sg-teaaa-aaaaa-qaaba-cai
+Deployed canisters.
+URLs:
+  Backend canister via Candid interface:
+    deposit: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=be2us-64aaa-aaaaa-qaabq-cai
+    icrc1_token: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=avqkn-guaaa-aaaaa-qaaea-cai
+    oracle: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
+    synbase: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bkyz2-fmaaa-aaaaa-qaaaq-cai
+    synthMinter: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
+    vaultmanager: http://127.0.0.1:4943/?canisterId=by6od-j4aaa-aaaaa-qaadq-cai&id=br5f7-7uaaa-aaaaa-qaaca-cai
+    
+
 5. **Update the Canister Address of SynBase in SynthMinter.**
