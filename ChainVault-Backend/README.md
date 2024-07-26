@@ -276,7 +276,8 @@ Dashboard: http://localhost:55431/_/dashboard
    ```sh
    dfx deploy oracle
    ```
-   Deploying: oracle
+dfx deploy oracle                                             
+Deploying: oracle
 Creating canisters...
 Creating canister oracle...
 oracle canister created with canister id: bd3sg-teaaa-aaaaa-qaaba-cai
@@ -285,10 +286,10 @@ Executing 'npx azle oracle'
 
 Building canister oracle
 
-[1/2] 🔨 Compiling TypeScript... 17.95s
-[2/2] 🚧 Building Wasm binary... 101.99s
+[1/2] 🔨 Compiling TypeScript... 5.32s
+[2/2] 🚧 Building Wasm binary... 21.80s
 
-Done in 121.18s.
+Done in 27.79s.
 
 🎉 Built canister oracle at .azle/oracle/oracle.wasm.gz
 Installing canisters...
@@ -298,49 +299,42 @@ Installing code for canister oracle, with canister ID bd3sg-teaaa-aaaaa-qaaba-ca
 Deployed canisters.
 URLs:
   Backend canister via Candid interface:
-    deposit: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bkyz2-fmaaa-aaaaa-qaaaq-cai
-    oracle: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
+    oracle: http://127.0.0.1:4943/?canisterId=be2us-64aaa-aaaaa-qaabq-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
 
 3. **Deploy the Deposit Canister:**
    ```sh
    dfx deploy deposit
    ```
-   Deploying: deposit
-Creating a wallet canister on the local network.
-The wallet canister on the "local" network for user "default" is "bnz7o-iuaaa-aaaaa-qaaaa-cai"
+   dfx deploy deposit
+Deploying: deposit
 Creating canisters...
 Creating canister deposit...
-deposit canister created with canister id: bkyz2-fmaaa-aaaaa-qaaaq-cai
+deposit canister created with canister id: br5f7-7uaaa-aaaaa-qaaca-cai
 Building canisters...
 Executing 'npx azle deposit'
 
 Building canister deposit
 
-Initial build takes a few minutes. Don't panic. Subsequent builds will be faster.
+[1/2] 🔨 Compiling TypeScript... 6.76s
+[2/2] 🚧 Building Wasm binary... 9.25s
 
-[0/2] 🏗️  Preparing prerequisites... 68.63s
-[1/2] 🔨 Compiling TypeScript... 449.52s
-[2/2] 🚧 Building Wasm binary... 128.23s
-
-Done in 647.01s.
+Done in 16.69s.
 
 🎉 Built canister deposit at .azle/deposit/deposit.wasm.gz
 Installing canisters...
-Creating UI canister on the local network.
-The UI canister on the "local" network is "br5f7-7uaaa-aaaaa-qaaca-cai"
-Installing code for canister deposit, with canister ID bkyz2-fmaaa-aaaaa-qaaaq-cai
+Installing code for canister deposit, with canister ID br5f7-7uaaa-aaaaa-qaaca-cai
 Deployed canisters.
 URLs:
   Backend canister via Candid interface:
-    deposit: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bkyz2-fmaaa-aaaaa-qaaaq-cai
-    oracle: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
-➜  ChainVault-Backend git:(main) ✗ 
+    deposit: http://127.0.0.1:4943/?canisterId=be2us-64aaa-aaaaa-qaabq-cai&id=br5f7-7uaaa-aaaaa-qaaca-cai
+    oracle: http://127.0.0.1:4943/?canisterId=be2us-64aaa-aaaaa-qaabq-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
 
 4. **Deploy the VaultManager Canister:**
    ```sh
    dfx deploy vaultmanager
    ```
-   Deploying: vaultmanager
+   dfx deploy vaultmanager
+Deploying: vaultmanager
 Creating canisters...
 Creating canister vaultmanager...
 vaultmanager canister created with canister id: bw4dl-smaaa-aaaaa-qaacq-cai
@@ -349,10 +343,10 @@ Executing 'npx azle vaultmanager'
 
 Building canister vaultmanager
 
-[1/2] 🔨 Compiling TypeScript... 7.95s
-[2/2] 🚧 Building Wasm binary... 16.39s
+[1/2] 🔨 Compiling TypeScript... 7.05s
+[2/2] 🚧 Building Wasm binary... 11.08s
 
-Done in 25.08s.
+Done in 18.83s.
 
 🎉 Built canister vaultmanager at .azle/vaultmanager/vaultmanager.wasm.gz
 Installing canisters...
@@ -360,15 +354,16 @@ Installing code for canister vaultmanager, with canister ID bw4dl-smaaa-aaaaa-qa
 Deployed canisters.
 URLs:
   Backend canister via Candid interface:
-    deposit: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bkyz2-fmaaa-aaaaa-qaaaq-cai
-    oracle: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
-    vaultmanager: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
+    deposit: http://127.0.0.1:4943/?canisterId=be2us-64aaa-aaaaa-qaabq-cai&id=br5f7-7uaaa-aaaaa-qaaca-cai
+    oracle: http://127.0.0.1:4943/?canisterId=be2us-64aaa-aaaaa-qaabq-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
+    vaultmanager: http://127.0.0.1:4943/?canisterId=be2us-64aaa-aaaaa-qaabq-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
 
 5. **Deploy the SynthMinter Canister:**
    ```sh
    dfx deploy synthMinter
    ```
-   Deploying: synthMinter
+   dfx deploy synthMinter
+Deploying: synthMinter
 Creating canisters...
 Creating canister synthMinter...
 synthMinter canister created with canister id: b77ix-eeaaa-aaaaa-qaada-cai
@@ -378,9 +373,9 @@ Executing 'npx azle synthMinter'
 Building canister synthMinter
 
 [1/2] 🔨 Compiling TypeScript... 6.33s
-[2/2] 🚧 Building Wasm binary... 14.40s
+[2/2] 🚧 Building Wasm binary... 21.46s
 
-Done in 21.52s.
+Done in 28.47s.
 
 🎉 Built canister synthMinter at .azle/synthMinter/synthMinter.wasm.gz
 Installing canisters...
@@ -388,19 +383,19 @@ Installing code for canister synthMinter, with canister ID b77ix-eeaaa-aaaaa-qaa
 Deployed canisters.
 URLs:
   Backend canister via Candid interface:
-    deposit: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bkyz2-fmaaa-aaaaa-qaaaq-cai
-    oracle: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
-    synthMinter: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=b77ix-eeaaa-aaaaa-qaada-cai
-    vaultmanager: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
+    deposit: http://127.0.0.1:4943/?canisterId=be2us-64aaa-aaaaa-qaabq-cai&id=br5f7-7uaaa-aaaaa-qaaca-cai
+    oracle: http://127.0.0.1:4943/?canisterId=be2us-64aaa-aaaaa-qaabq-cai&id=bd3sg-teaaa-aaaaa-qaaba-cai
+    synthMinter: http://127.0.0.1:4943/?canisterId=be2us-64aaa-aaaaa-qaabq-cai&id=b77ix-eeaaa-aaaaa-qaada-cai
+    vaultmanager: http://127.0.0.1:4943/?canisterId=be2us-64aaa-aaaaa-qaabq-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
     
 6. **Deploy the SynBase Canister with Argument:**
  ```sh
- dfx identity get-principal
+dfx identity get-principal                                   
 
-elgv4-xvf4l-qtu3a-7cbf5-cmnjq-taxy7-jlgj4-bbi2b-25fga-s5rva-wae
+
+hkoto-7ykqd-y6gid-qvkx4-hxslt-lscav-zlc2f-nu7fx-movq2-v5ety-wqe
 ➜   dfx canister id synthMinter
-
-a3shf-5eaaa-aaaaa-qaafa-cai
+b77ix-eeaaa-aaaaa-qaada-cai
  ```
 
    ```sh
@@ -412,11 +407,12 @@ dfx deploy synbase --argument='(record {
     permitted_drift_nanos = 86400000000000;
     transaction_window_nanos = 86400000000000;
     minting_account = (opt record {
-        owner = principal "a3shf-5eaaa-aaaaa-qaafa-cai";
+        owner = principal "b77ix-eeaaa-aaaaa-qaada-cai";
         subaccount = null;
     });
     primary_account = (opt record {
-        owner = principal "elgv4-xvf4l-qtu3a-7cbf5-cmnjq-taxy7-jlgj4-bbi2b-25fga-s5rva-wae";
+      2hfao-epw3w-htxiz-lg52d-kawgm-zw4x3-tv3xm-jeeru-yqx6a-tmw5u-3ae
+        owner = principal "hkoto-7ykqd-y6gid-qvkx4-hxslt-lscav-zlc2f-nu7fx-movq2-v5ety-wqe";
         subaccount = null;
     });
 })'
@@ -429,6 +425,27 @@ Oracle: http://127.0.0.1:4943/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai
 Synbase: http://127.0.0.1:4943/?canisterId=bkyz2-fmaaa-aaaaa-qaaaq-cai
 SynthMinter: http://127.0.0.1:4943/?canisterId=bw4dl-smaaa-aaaaa-qaacq-cai
 VaultManager: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai
+
+
+dfx canister status synbase
+
+Canister status call result for synbase.
+Status: Running
+Controllers: bnz7o-iuaaa-aaaaa-qaaaa-cai hkoto-7ykqd-y6gid-qvkx4-hxslt-lscav-zlc2f-nu7fx-movq2-v5ety-wqe
+Memory allocation: 0
+Compute allocation: 0
+Freezing threshold: 2_592_000
+Memory Size: Nat(63950141)
+Balance: 3_091_561_157_027 Cycles
+Reserved: 0 Cycles
+Reserved Cycles Limit: 5_000_000_000_000 Cycles
+WASM Memory Limit: 0 Bytes
+Module hash: 0xb6e5f8ddd56be2d8bce8e75b4b956b6c4e7b8a9e4c45a1f3597469118ad73d90
+Number of queries: 0
+Instructions spent in queries: 0
+Total query request payload size (bytes): 0
+Total query response payload size (bytes): 0
+
 
 **Verify and Test the Canisters:**
 1. **Get the Balance from the Deposit Canister:**

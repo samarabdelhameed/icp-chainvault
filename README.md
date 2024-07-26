@@ -6,6 +6,12 @@
 ChainVault is a pioneering decentralized finance (DeFi) protocol developed on the Internet Computer Protocol (ICP) platform, designed to unlock instant liquidity for Bitcoin holders. By leveraging the seamless integration of ICP with the Bitcoin network, ChainVault enables users to use ckBTC as collateral to mint stablecoins, providing a secure and efficient solution for liquidity without compromising the inherent security of the Bitcoin network.
 ![Launch app](https://github.com/samarabdelhameed/pics/blob/main/Screen%20Shot%202024-02-15%20at%2011.07.33%20AM.png)
 
+## Frontend
+
+![Home page1](https://github.com/samarabdelhameed/pics/blob/main/26.png)
+![Home page2](https://github.com/samarabdelhameed/pics/blob/main/25.png)
+![Home page3](https://github.com/samarabdelhameed/pics/blob/main/24.png)
+
 # Project Title
 
 ## Presentation
@@ -272,6 +278,8 @@ URLs:
     vaultmanager: http://127.0.0.1:4943/?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
     
 6. **Deploy the SynBase Canister with Argument:**
+dfx identity get-principal    
+
    ```sh
    dfx deploy synbase --argument='(record {
        name = "Synthetic USD";                         
@@ -281,28 +289,18 @@ URLs:
        permitted_drift_nanos = 86_400_000_000_000;
        transaction_window_nanos = 86_400_000_000_000;                                                                                   
        minting_account = (opt record {
-           owner = principal "<canister id of synthminter deployed above>";
+           owner = principal "hkoto-7ykqd-y6gid-qvkx4-hxslt-lscav-zlc2f-nu7fx-movq2-v5ety-wqe";
            subaccount = null;
        });
 
        primary_account = (opt record {
-           owner = principal "<enter your principal>";
+           owner = principal "hkoto-7ykqd-y6gid-qvkx4-hxslt-lscav-zlc2f-nu7fx-movq2-v5ety-wqe";
            subaccount = null;
        });
    })'
    ```
 
-## Further Configuration
-1. **Deploy an icrc-1 Compatible Token** to mimic the behaviour of ckbtc.
 
-2. **Update the Canister Addresses in the Codes:**
-   - Mainly in `vaultmanager` code and `oracle`.
-
-3. **Update the Canister Address of SynthMinter in VaultManager.**
-
-4. **Update the Canister Address of Oracle in VaultManager.**
-
-5. **Update the Canister Address of SynBase in SynthMinter.**
 
 
 ## Conclusion

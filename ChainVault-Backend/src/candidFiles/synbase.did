@@ -136,6 +136,7 @@ service : (InitArgs) -> {
   icrc2_allowance : (AllowanceArgs) -> (Allowance) query;
   icrc2_approve : (ApproveArgs) -> (_AzleResult_1);
   icrc2_transfer_from : (TransferFromArgs) -> (_AzleResult_2);
+  mint : (Account, nat) -> (text);
   testPadAccount : (opt vec nat8) -> (Account) query;
   testingFee : (opt nat) -> (bool) query;
   updateMinterAccount : (principal) -> (text);

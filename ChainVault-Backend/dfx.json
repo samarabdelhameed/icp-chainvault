@@ -50,8 +50,8 @@
     },
     "wallet": {
       "type": "custom",
-      "candid": "wallet.did",
-      "wasm": "wallet.wasm",
+      "candid": "src/candidFiles/wallet.did",
+      "wasm": "src/wallet/wallet.wasm",
       "build": ""
     }
   }

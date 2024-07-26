@@ -91,9 +91,7 @@ const MyApp = () => {
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.navbarLogo}>
-        <img src="/icons/logo.png" alt="Logo" className={styles.logoImage} />
-      </div>
+    
       <div className={styles.navbarLinks}>
       <Link
           href="/app"
@@ -101,7 +99,7 @@ const MyApp = () => {
             router.pathname === "/app" ? styles.activeLink : ""
           }`}
         >
-          Borrow
+          Borrow3
         </Link>
 
         <Link

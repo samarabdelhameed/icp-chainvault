@@ -5,6 +5,12 @@
 - **Objective**: The ICP-ChainVault platform enables users to mint stablecoins, specifically cine USD (pegged to the US dollar), using CK BTC as collateral.
 - **Target Audience**: Users holding CK BTC who wish to leverage their holdings to mint stablecoins without selling their cryptocurrency.
 
+## Frontend
+
+![Home page1](https://github.com/samarabdelhameed/pics/blob/main/26.png)
+![Home page2](https://github.com/samarabdelhameed/pics/blob/main/25.png)
+![Home page3](https://github.com/samarabdelhameed/pics/blob/main/24.png)
+
 ### How the Protocol Works
 - **Collateral Token**: CK BTC.
 - **Stablecoin**: cine USD, pegged 1:1 with the US dollar.

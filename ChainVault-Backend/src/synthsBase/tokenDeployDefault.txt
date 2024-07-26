@@ -1,4 +1,4 @@
-'( record {               
+dfx deploy synbase --argument='( record {               
     name = "Synthetic USD";                         
     symbol = "SynUsd";                           
     decimals = 8;                                           
@@ -18,17 +18,7 @@
     });
 })'
 
-
-
-
-
-
-
-
-
-
-
-    initial_balances = vec {                                
+   dfx deploy synbase --argument= initial_balances = vec {                                
         record {                                            
             record {                                        
                 owner = principal "2hfao-epw3w-htxiz-lg52d-kawgm-zw4x3-tv3xm-jeeru-yqx6a-tmw5u-3ae";   
