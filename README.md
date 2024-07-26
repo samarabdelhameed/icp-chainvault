@@ -6,7 +6,7 @@
 ChainVault is a pioneering decentralized finance (DeFi) protocol developed on the Internet Computer Protocol (ICP) platform, designed to unlock instant liquidity for Bitcoin holders. By leveraging the seamless integration of ICP with the Bitcoin network, ChainVault enables users to use ckBTC as collateral to mint stablecoins, providing a secure and efficient solution for liquidity without compromising the inherent security of the Bitcoin network.
 
 
-## Frontend
+## Frontend intgration
 
 ![Launch app](https://github.com/samarabdelhameed/pics/blob/main/26.png)
 ![Home page2](https://github.com/samarabdelhameed/pics/blob/main/25.png)
