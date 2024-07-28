@@ -521,7 +521,7 @@ const Borrow = () => {
                 className={styles.Calculate}
                 onClick={handleBorrow}
               >
-                Borrow
+                Borrow4
               </button>
               <button
                 className={styles.Vault}
@@ -1002,16 +1002,16 @@ const Borrow = () => {
     <div>
       <Head>
         <title>
-        ChainVault Finance - Unlock Liquidity: Borrow Against ckbtc |
+          SynthiFy Finance - Unlock Liquidity: Borrow Against ckbtc |
           Decentralized Crypto Lending
         </title>
         <meta
           name="description"
-          content="ChainVault Finance allows you to unlock liquidity by borrowing against your ckbtc holdings. Access stablecoins instantly and maximize your crypto assets. Join the future of decentralized finance today!"
+          content="SynthiFy Finance allows you to unlock liquidity by borrowing against your ckbtc holdings. Access stablecoins instantly and maximize your crypto assets. Join the future of decentralized finance today!"
         />
         <meta
           name="keywords"
-          content="ChainVault Finance, ChainVault App, ChainVault, ChainVault app, ChainVault finance, ChainVault twitter, Decentralized finance platform, Crypto lending and borrowing, Collateralized loans, Synth tokens, Stablecoin minting, Instant liquidity, Yield farming, Smart contracts, Financial decentralization, Crypto-backed loans, Cryptocurrency protocol, Decentralized liquidity pool, SynthUSD stablecoin, Blockchain assets, Peer-to-peer lending, Yield optimization, DeFi ecosystem, Blockchain technology, Liquidity protocol, Asset-backed loans, Tokenized assets, Yield generation, Crypto investment, Digital currency, Yield farming strategies, DeFi governance, Crypto staking, Crypto portfolio management, Yield farming rewards, Crypto savings accounts, DeFi lending platforms, Yield farming liquidity, Crypto-backed stablecoins, Yield farming risks, Blockchain-based finance, DeFi tokenized assets, Yield farming projects, Automated finance, Crypto liquidity solutions, Liquidity mining, DeFi tokens, Tokenization of assets, Decentralized savings, Decentralized exchange, Synthetic assets, Crypto yield farming, Yield farming platforms, Crypto asset management, Crypto yield optimization, DeFi lending protocols, Crypto finance solutions, DeFi borrowing and lending, Blockchain investment strategies, Yield farming opportunities, DeFi portfolio diversification, DeFi governance tokens, Decentralized finance apps, Crypto investment vehicles, Decentralized lending platforms, Blockchain collateralization, Yield farming strategies and risks, Crypto loan collateral, DeFi liquidity providers, Crypto yield pools, Crypto trading and investment, Decentralized asset management, Cryptocurrency yield farming, Blockchain lending platforms, Crypto yield generation, Crypto portfolio optimization, DeFi asset-backed loans, Decentralized lending and borrowing, Stablecoin creation, Crypto asset diversification, Yield farming security, Blockchain-based savings, Crypto-backed loan collateral, Yield farming projects and rewards, ChainVault Finance updates"
+          content="SynthiFy Finance, SynthiFy App, synthify, synthify app, synthify finance, synthify twitter, Decentralized finance platform, Crypto lending and borrowing, Collateralized loans, Synth tokens, Stablecoin minting, Instant liquidity, Yield farming, Smart contracts, Financial decentralization, Crypto-backed loans, Cryptocurrency protocol, Decentralized liquidity pool, SynthUSD stablecoin, Blockchain assets, Peer-to-peer lending, Yield optimization, DeFi ecosystem, Blockchain technology, Liquidity protocol, Asset-backed loans, Tokenized assets, Yield generation, Crypto investment, Digital currency, Yield farming strategies, DeFi governance, Crypto staking, Crypto portfolio management, Yield farming rewards, Crypto savings accounts, DeFi lending platforms, Yield farming liquidity, Crypto-backed stablecoins, Yield farming risks, Blockchain-based finance, DeFi tokenized assets, Yield farming projects, Automated finance, Crypto liquidity solutions, Liquidity mining, DeFi tokens, Tokenization of assets, Decentralized savings, Decentralized exchange, Synthetic assets, Crypto yield farming, Yield farming platforms, Crypto asset management, Crypto yield optimization, DeFi lending protocols, Crypto finance solutions, DeFi borrowing and lending, Blockchain investment strategies, Yield farming opportunities, DeFi portfolio diversification, DeFi governance tokens, Decentralized finance apps, Crypto investment vehicles, Decentralized lending platforms, Blockchain collateralization, Yield farming strategies and risks, Crypto loan collateral, DeFi liquidity providers, Crypto yield pools, Crypto trading and investment, Decentralized asset management, Cryptocurrency yield farming, Blockchain lending platforms, Crypto yield generation, Crypto portfolio optimization, DeFi asset-backed loans, Decentralized lending and borrowing, Stablecoin creation, Crypto asset diversification, Yield farming security, Blockchain-based savings, Crypto-backed loan collateral, Yield farming projects and rewards, SynthiFy Finance updates"
         />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -1019,46 +1019,46 @@ const Borrow = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="ChainVault Finance - Unlock Liquidity with ckbtc Holdings"
+          content="SynthiFy Finance - Unlock Liquidity with ckbtc Holdings"
         />
         <meta
           name="twitter:description"
-          content="Unlock liquidity with ChainVault Finance and maximize your crypto assets. Join the future of decentralized finance!"
+          content="Unlock liquidity with SynthiFy Finance and maximize your crypto assets. Join the future of decentralized finance!"
         />
         <meta
           name="twitter:image"
           content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
         />
-        <meta name="twitter:site" content="@ChainVaultFinance" />
-        <meta name="twitter:creator" content="@ChainVaultFinance" />
+        <meta name="twitter:site" content="@SynthiFyFinance" />
+        <meta name="twitter:creator" content="@SynthiFyFinance" />
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="ChainVault Finance - Unlock Liquidity with ckbtc Holdings"
+          content="SynthiFy Finance - Unlock Liquidity with ckbtc Holdings"
         />
         <meta
           property="og:description"
-          content="Unlock liquidity with ChainVault Finance and maximize your crypto assets. Join the future of decentralized finance!"
+          content="Unlock liquidity with SynthiFy Finance and maximize your crypto assets. Join the future of decentralized finance!"
         />
         <meta
           property="og:image"
           content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
         />
-        <meta property="og:url" content="https://ChainVaultapp.com/" />
+        <meta property="og:url" content="https://synthifyapp.com/" />
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="ChainVault Finance - Unlock Liquidity with ckbtc Holdings"
+          content="SynthiFy Finance - Unlock Liquidity with ckbtc Holdings"
         />
         <meta
           property="og:description"
-          content="Unlock liquidity with ChainVault Finance and maximize your crypto assets. Join the future of decentralized finance!"
+          content="Unlock liquidity with SynthiFy Finance and maximize your crypto assets. Join the future of decentralized finance!"
         />
         <meta
           property="og:image"
           content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
         />
-        <meta property="og:url" content="https://ChainVaultapp.com/" />
+        <meta property="og:url" content="https://synthifyapp.com/" />
       </Head>
       <div className={styles.blob}></div>
       {isConnected ? (

@@ -10,18 +10,14 @@ const MyApp = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [assets, setAssets] = useState([]); // State to store assets
 
-  const [isModalOpen0, setIsModalOpen0] = useState(false);
-  const [isModalOpen1, setIsModalOpen1] = useState(false);
   const router = useRouter();
-  const vaultManagerAddress = "isswh-liaaa-aaaal-qcdrq-cai"
+  const vaultManagerAddress = "isswh-liaaa-aaaal-qcdrq-cai";
+  const synthTokenAddress = "i3r53-5aaaa-aaaal-qcdqa-cai";
+  const synthMinterAddress = "i4q3p-qyaaa-aaaal-qcdqq-cai";
+  const depositModuleAddress = "ivtqt-gqaaa-aaaal-qcdra-cai";
 
-  const synthTokenAddress = "i3r53-5aaaa-aaaal-qcdqa-cai"
+  const whitelist = [vaultManagerAddress, synthTokenAddress, synthMinterAddress, depositModuleAddress];
 
-  const synthMinterAddress = "i4q3p-qyaaa-aaaal-qcdqq-cai"
-
-  const depositModuleAddress = "ivtqt-gqaaa-aaaal-qcdra-cai"
-
-  const whitelist = [vaultManagerAddress,synthTokenAddress,synthMinterAddress,depositModuleAddress]
   useEffect(() => {
     const checkWalletConnection = async () => {
       try {
@@ -29,7 +25,6 @@ const MyApp = () => {
         const userAssets = await window.ic.infinityWallet.getUserAssets();
         console.log(`User's list of tokens/assets`, userAssets);
         setIsConnected(result);
-        console.log("useAssets",userAssets)
         setAssets(userAssets); // Set the assets in state
 
         if (result) {
@@ -91,7 +86,7 @@ const MyApp = () => {
 
   return (
     <nav className={styles.navbar}>
-    
+      <div className={styles.navbarTitle}>ChainVault</div>
       <div className={styles.navbarLinks}>
       <Link
           href="/app"
@@ -99,7 +94,7 @@ const MyApp = () => {
             router.pathname === "/app" ? styles.activeLink : ""
           }`}
         >
-          Borrow3
+          Documents
         </Link>
 
         <Link
@@ -110,6 +105,7 @@ const MyApp = () => {
         >
           Borrow
         </Link>
+
         <Link
           href="/withdraw"
           className={`${styles.navbarLink} ${
@@ -122,7 +118,7 @@ const MyApp = () => {
 
       {isConnected ? (
         <div className={styles.dropdownContainer}>
-          {assets ? (
+          {assets.length > 0 ? (
             <div className={styles["select-container"]}>
               <select
                 className={styles["select-element"]}
@@ -142,11 +138,7 @@ const MyApp = () => {
 
           <button className={styles.connectButton} onClick={toggleModal}>
             {connectedAddress ? `${connectedAddress.slice(0, 8)}... ` : ""}
-            {isModalOpen ? (
-              <i className="fa fa-caret-down"></i>
-            ) : (
-              <i className="fa fa-caret-down"></i>
-            )}
+            <i className={`fa fa-caret-down`}></i>
           </button>
           {isModalOpen && (
             <div className={styles.modalBackdrop}>
