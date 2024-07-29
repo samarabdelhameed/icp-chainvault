@@ -89,9 +89,9 @@ const MyApp = () => {
       <div className={styles.navbarTitle}>ChainVault</div>
       <div className={styles.navbarLinks}>
       <Link
-          href="/app"
+          href="/withdraw"
           className={`${styles.navbarLink} ${
-            router.pathname === "/app" ? styles.activeLink : ""
+            router.pathname === "/withdraw" ? styles.activeLink : ""
           }`}
         >
           Documents

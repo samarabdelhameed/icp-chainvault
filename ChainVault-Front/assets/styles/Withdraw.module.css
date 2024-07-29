@@ -8,7 +8,6 @@
   justify-content: center; /* Horizontally center elements */
   align-items: center; /* Vertically center elements */
   color: white;
-  background-image: radial-gradient(#69696959 1.2px, transparent 1px);
   background-size: 36px 36px;
   opacity: 0.8;
   animation: pulsate 20s infinite;

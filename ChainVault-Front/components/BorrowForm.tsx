@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "../assets/styles/Borrow.module.css";
-import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
-import { Opt } from "azle";
 import { Principal } from "@dfinity/principal";
 
 import { idlFactory as vaultManageridlFactory } from "../vaultmanager.did.js";
@@ -15,10 +13,6 @@ import {
   AllowanceArgs,
 } from "@/vaultmanager(ts).did";
 import { _SERVICE as synBase_SERVICE } from "@/synbase(t).did";
-
-import { Account } from "@/vaultmanager(ts).did";
-import { Allowance } from "@/vaultmanager(ts).did";
-import { ApproveArgs } from "@/synbase(t).did";
 
 const Borrow = () => {
   const [vaultID, setVaultID] = useState("");
@@ -76,7 +70,6 @@ const Borrow = () => {
           setConnectedAddress(address);
           await VaultManagercreateActor();
           await SyntheTokenCreateActor();
-          //
           console.log(`The connected user's public key  sis:`, publicKey);
         }
       } catch (e) {
@@ -88,13 +81,11 @@ const Borrow = () => {
   }, []);
 
   useEffect(() => {
-    // Call getuserIdVaults whenever selectedOption changes to "Create Vault"
     if (selectedOption === "Create Vault" && vaultManager !== null) {
       getuserIdVaults();
     }
   }, [selectedOption, vaultManager]);
 
-  //@todo: Change the use effect condition
   useEffect(() => {
     const main = async () => {
       await checkAllowance();
@@ -103,21 +94,6 @@ const Borrow = () => {
     main();
   }, []);
 
-  //   useEffect(()=> {
-  //     const main = async() =>{
-  //       await checkCurrentVaultIds()
-  //     };
-  //     main();
-  //   },[selectedOption])
-
-  // const checkCurrentVaultIds = async() => {
-
-  //   if(vaultManager !== null && vaultID !== ""){
-  //     const vaultID
-  //   setCurrentVaultDetails(await vaultManager.getVaultDetails(vaultId))
-  //   }
-
-  // }
   const validateFields1 = () => {
     const synthUsdAmountNum = parseFloat(synthUsdAmount);
 
@@ -256,17 +232,14 @@ const Borrow = () => {
 
       const approveResult = await synBaseAddress.icrc2_approve(approve_args);
       if ("Ok" in approveResult) {
-        // It's of type 'Ok'
-        const okValue = approveResult["Ok"]; // You can access the 'Ok' property
+        const okValue = approveResult["Ok"];
         console.log("Ok result:", okValue);
         router.reload();
         return true;
       } else if ("Err" in approveResult) {
-        // It's of type 'Err'
-        const errValue = approveResult["Err"]; // You can access the 'Err' property
+        const errValue = approveResult["Err"];
         console.log("Err result:", errValue);
       } else {
-        // It's neither 'Ok' nor 'Err'
         console.log("Invalid result:", approveResult);
       }
     }
@@ -324,8 +297,7 @@ const Borrow = () => {
       }
     }
   };
-  //change1
-  //@bug here = if the valuues in the field are not entered it should not allow you to click buttons
+
   const handleRepayDebt = async () => {
     if (validateFields2()) {
       if (vaultManager !== null) {
@@ -376,7 +348,6 @@ const Borrow = () => {
           setCurrentVaultDetails(await vaultManager.getVaultDetails(vaultId));
           console.log(currentVautDetails);
         } catch (e) {
-          //@todo: show the error messaeg e somewhere
           console.log(e);
         }
       }
@@ -399,23 +370,16 @@ const Borrow = () => {
   const handleVaultIDChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
 
-    // Check if the input is a positive integer
     if (/^[0-9]\d*$/.test(inputValue)) {
       setVaultID(inputValue);
     } else {
-      // If not a positive integer, you can display an error message or handle it in another way
-      // For now, we clear the input
       setVaultID("");
     }
   };
 
-  const handleVaultFunction = async () => {};
-
   const getForm = () => {
     switch (selectedOption) {
-      //asset.synthUsdAmount this will be userAssets 1st element  userAssets[0]
       case "Borrow":
-        //  setVaultID(0);
         return (
           <form>
             <div className={styles.formCont1}>
@@ -521,7 +485,7 @@ const Borrow = () => {
                 className={styles.Calculate}
                 onClick={handleBorrow}
               >
-                Borrow4
+                Borrow
               </button>
               <button
                 className={styles.Vault}
@@ -533,9 +497,7 @@ const Borrow = () => {
             </div>
           </form>
         );
-      //asset.ckbtAmount  this will be userAssets 2n element  userAssets[1]
       case "Add Collateral":
-        // setVaultID(0);
         return (
           <form>
             <div className={styles.formCont1}>
@@ -555,27 +517,16 @@ const Borrow = () => {
                         />
                       </div>
                     </label>
-                    <div className={styles.gasFee}>
-  
-                    </div>
+                    <div className={styles.gasFee}></div>
                   </div>
                 </div>
                 <div>
                   <div className={styles.input2Container}>
                     <div className={styles.inputGroup}>
                       <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                        <div className={styles.iconContainer}>
-                          <Image
-                            src="/icons/ckBTC.png"
-                            alt="ckBtc Icon"
-                            width={30}
-                            height={30}
-                            className={styles.iconImage}
-                          />
-                        </div>
+                        <div className={styles.iconContainer}></div>
                         ckBtc
                       </label>
-
                       <input
                         type="number"
                         id="ckBtc"
@@ -585,9 +536,7 @@ const Borrow = () => {
                         placeholder="0.0"
                       />
                     </div>
-                    <div className={styles.gasFee}>
-  
-                    </div>
+                    <div className={styles.gasFee}></div>
                   </div>
                 </div>
               </div>
@@ -667,9 +616,7 @@ const Borrow = () => {
             </div>
           </form>
         );
-      //asset.ckbtcAmount
       case "Create Vault":
-        //  setVaultID(0);
         return (
           <form className={styles.formCont}>
             <div className={styles.leftbox}>
@@ -677,78 +624,18 @@ const Borrow = () => {
                 <div className={styles.createWalletContainer}>
                   <button
                     className={styles.createWalletButton}
-                    onClick={handleCreateVaultFunction} //or use  onClick={handleCreateVaultFunction}
+                    onClick={handleCreateVaultFunction}
                   >
                     Create Vault
                   </button>
                   {currentVaultIds.length > 0 && (
-                    <div
-                      style={{
-                        backgroundColor: "black",
-                        color: "white",
-                        border: "2px solid #0f0d3b",
-                        borderRadius: "5px",
-                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                        fontFamily: "Arial, sans-serif",
-                        display: "inline-block",
-                        padding: "5px",
-                        marginTop: "20px",
-                        width: "200px",
-                        maxHeight: "300px",
-                        overflowY: "auto",
-                        scrollbarWidth: "thin",
-                        scrollbarColor: "grey white",
-                        MsOverflowStyle: "none",
-                      }}
-                    >
-                      <style>
-                        {`
-        ::-webkit-scrollbar {
-          width: 12px; // set scrollbar width
-        }
-
-        ::-webkit-scrollbar-track {
-          background: white; // set track background color
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background-color: grey; // set thumb color
-          border-radius: 6px; // set thumb border radius
-          border: 3px solid white; // set thumb border color
-        }
-        `}
-                      </style>
-                      <p
-                        style={{
-                          fontSize: "18px",
-                          marginBottom: "10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        Current Vault IDs:
-                      </p>
-                      <ul
-                        style={{
-                          listStyleType: "none",
-                          padding: "0",
-                          textAlign: "center",
-                        }}
-                      >
+                    <div className={styles.vaultIdContainer}>
+                      <p className={styles.vaultIdTitle}>Current Vault IDs:</p>
+                      <ul className={styles.vaultIdList}>
                         {currentVaultIds.map((vaultId) => (
                           <li
                             key={vaultId.toString()}
-                            style={{
-                              fontSize: "16px",
-                              marginBottom: "5px",
-                              padding: "5px 10px",
-                              backgroundColor: "#fff",
-                              border: "0px solid #9793d9",
-                              borderRadius: "3px",
-                              transition:
-                               "background-color 0.3s, transform 0.3s",
-                              margin: "10px 5px",
-                              color: "black",
-                            }}
+                            className={styles.vaultIdItem}
                           >
                             {vaultId.toString()}
                           </li>
@@ -853,9 +740,7 @@ const Borrow = () => {
             </div>
           </form>
         );
-      //asset.ckbtcAmount
       case "Repay Debt":
-        //  setVaultID(0);
         return (
           <form>
             <div className={styles.formCont1}>
@@ -875,9 +760,7 @@ const Borrow = () => {
                         />
                       </div>
                     </label>
-                    <div className={styles.gasFee}>
-  
-                    </div>
+                    <div className={styles.gasFee}></div>
                   </div>
                 </div>
                 <div>
@@ -895,8 +778,7 @@ const Borrow = () => {
                         />
                       </div>
                     </label>
-                    <div className={styles.gasFee}>
-                    </div>
+                    <div className={styles.gasFee}></div>
                   </div>
                 </div>
               </div>
@@ -968,7 +850,7 @@ const Borrow = () => {
                 <button
                   type="button"
                   className={styles.Calculate}
-                  onClick={handleApprove} // Assuming this should trigger approval
+                  onClick={handleApprove}
                 >
                   Approve
                 </button>
@@ -976,7 +858,7 @@ const Borrow = () => {
                 <button
                   type="button"
                   className={styles.Calculate}
-                  onClick={handleRepayDebt} // Assuming this should trigger repayment
+                  onClick={handleRepayDebt}
                 >
                   Repay Debt
                 </button>
@@ -1002,16 +884,16 @@ const Borrow = () => {
     <div>
       <Head>
         <title>
-          SynthiFy Finance - Unlock Liquidity: Borrow Against ckbtc |
+          chainvault Finance - Unlock Liquidity: Borrow Against ckbtc |
           Decentralized Crypto Lending
         </title>
         <meta
           name="description"
-          content="SynthiFy Finance allows you to unlock liquidity by borrowing against your ckbtc holdings. Access stablecoins instantly and maximize your crypto assets. Join the future of decentralized finance today!"
+          content="chainvault  Finance allows you to unlock liquidity by borrowing against your ckbtc holdings. Access stablecoins instantly and maximize your crypto assets. Join the future of decentralized finance today!"
         />
         <meta
           name="keywords"
-          content="SynthiFy Finance, SynthiFy App, synthify, synthify app, synthify finance, synthify twitter, Decentralized finance platform, Crypto lending and borrowing, Collateralized loans, Synth tokens, Stablecoin minting, Instant liquidity, Yield farming, Smart contracts, Financial decentralization, Crypto-backed loans, Cryptocurrency protocol, Decentralized liquidity pool, SynthUSD stablecoin, Blockchain assets, Peer-to-peer lending, Yield optimization, DeFi ecosystem, Blockchain technology, Liquidity protocol, Asset-backed loans, Tokenized assets, Yield generation, Crypto investment, Digital currency, Yield farming strategies, DeFi governance, Crypto staking, Crypto portfolio management, Yield farming rewards, Crypto savings accounts, DeFi lending platforms, Yield farming liquidity, Crypto-backed stablecoins, Yield farming risks, Blockchain-based finance, DeFi tokenized assets, Yield farming projects, Automated finance, Crypto liquidity solutions, Liquidity mining, DeFi tokens, Tokenization of assets, Decentralized savings, Decentralized exchange, Synthetic assets, Crypto yield farming, Yield farming platforms, Crypto asset management, Crypto yield optimization, DeFi lending protocols, Crypto finance solutions, DeFi borrowing and lending, Blockchain investment strategies, Yield farming opportunities, DeFi portfolio diversification, DeFi governance tokens, Decentralized finance apps, Crypto investment vehicles, Decentralized lending platforms, Blockchain collateralization, Yield farming strategies and risks, Crypto loan collateral, DeFi liquidity providers, Crypto yield pools, Crypto trading and investment, Decentralized asset management, Cryptocurrency yield farming, Blockchain lending platforms, Crypto yield generation, Crypto portfolio optimization, DeFi asset-backed loans, Decentralized lending and borrowing, Stablecoin creation, Crypto asset diversification, Yield farming security, Blockchain-based savings, Crypto-backed loan collateral, Yield farming projects and rewards, SynthiFy Finance updates"
+          content="chainvault  Finance, chainvault  App, chainvault , chainvault  app, chainvault  finance, chainvault  twitter, Decentralized finance platform, Crypto lending and borrowing, Collateralized loans, Synth tokens, Stablecoin minting, Instant liquidity, Yield farming, Smart contracts, Financial decentralization, Crypto-backed loans, Cryptocurrency protocol, Decentralized liquidity pool, SynthUSD stablecoin, Blockchain assets, Peer-to-peer lending, Yield optimization, DeFi ecosystem, Blockchain technology, Liquidity protocol, Asset-backed loans, Tokenized assets, Yield generation, Crypto investment, Digital currency, Yield farming strategies, DeFi governance, Crypto staking, Crypto portfolio management, Yield farming rewards, Crypto savings accounts, DeFi lending platforms, Yield farming liquidity, Crypto-backed stablecoins, Yield farming risks, Blockchain-based finance, DeFi tokenized assets, Yield farming projects, Automated finance, Crypto liquidity solutions, Liquidity mining, DeFi tokens, Tokenization of assets, Decentralized savings, Decentralized exchange, Synthetic assets, Crypto yield farming, Yield farming platforms, Crypto asset management, Crypto yield optimization, DeFi lending protocols, Crypto finance solutions, DeFi borrowing and lending, Blockchain investment strategies, Yield farming opportunities, DeFi portfolio diversification, DeFi governance tokens, Decentralized finance apps, Crypto investment vehicles, Decentralized lending platforms, Blockchain collateralization, Yield farming strategies and risks, Crypto loan collateral, DeFi liquidity providers, Crypto yield pools, Crypto trading and investment, Decentralized asset management, Cryptocurrency yield farming, Blockchain lending platforms, Crypto yield generation, Crypto portfolio optimization, DeFi asset-backed loans, Decentralized lending and borrowing, Stablecoin creation, Crypto asset diversification, Yield farming security, Blockchain-based savings, Crypto-backed loan collateral, Yield farming projects and rewards, chainvault  Finance updates"
         />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -1019,58 +901,62 @@ const Borrow = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="SynthiFy Finance - Unlock Liquidity with ckbtc Holdings"
+          content="chainvault  Finance - Unlock Liquidity with ckbtc Holdings"
         />
         <meta
           name="twitter:description"
-          content="Unlock liquidity with SynthiFy Finance and maximize your crypto assets. Join the future of decentralized finance!"
+          content="Unlock liquidity with chainvault  Finance and maximize your crypto assets. Join the future of decentralized finance!"
         />
         <meta
           name="twitter:image"
           content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
         />
-        <meta name="twitter:site" content="@SynthiFyFinance" />
-        <meta name="twitter:creator" content="@SynthiFyFinance" />
+        <meta name="twitter:site" content="@chainvault Finance" />
+        <meta name="twitter:creator" content="@chainvault Finance" />
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="SynthiFy Finance - Unlock Liquidity with ckbtc Holdings"
+          content="chainvault Finance - Unlock Liquidity with ckbtc Holdings"
         />
         <meta
           property="og:description"
-          content="Unlock liquidity with SynthiFy Finance and maximize your crypto assets. Join the future of decentralized finance!"
+          content="Unlock liquidity with chainvault  Finance and maximize your crypto assets. Join the future of decentralized finance!"
         />
         <meta
           property="og:image"
           content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
         />
-        <meta property="og:url" content="https://synthifyapp.com/" />
+        <meta property="og:url" content="" />
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="SynthiFy Finance - Unlock Liquidity with ckbtc Holdings"
+          content="chainvault  Finance - Unlock Liquidity with ckbtc Holdings"
         />
         <meta
           property="og:description"
-          content="Unlock liquidity with SynthiFy Finance and maximize your crypto assets. Join the future of decentralized finance!"
+          content="Unlock liquidity with chainvault  Finance and maximize your crypto assets. Join the future of decentralized finance!"
         />
         <meta
           property="og:image"
           content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
         />
-        <meta property="og:url" content="https://synthifyapp.com/" />
+        <meta property="og:url" content="" />
       </Head>
       <div className={styles.blob}></div>
       {isConnected ? (
         <div className={styles.tableContainer}>
+          <div className={styles.headerContainer}>
+            <h2 className="text-xl font-semibold">Borrow</h2>
+          </div>
           <table id="tableList" className={styles.tableList}>
             <thead>
               <tr>
-                <th>Collateral Token</th>
-                <th>Stablecoin</th>
-                <th>Interest Rate</th>
-                <th>Liquidation Fee</th>
-                <th>Max. LTV</th>
+                <th>COLLATERAL TOKEN</th>
+                <th>STABLECOIN</th>
+                <th>INTEREST FEE</th>
+                <th>LIQUIDATION FEE</th>
+                <th>MAX LTV</th>
+                <th>ACTIONS</th>
               </tr>
             </thead>
             <tbody>
@@ -1081,13 +967,36 @@ const Borrow = () => {
                 <td>0.5%</td>
                 <td>80%</td>
                 <td>
-                  <button className={styles.borrowButton} onClick={toggleModal}>
+                  <button
+                    className="bg-green-300 text-black px-4 py-2 rounded-md focus:outline-none"
+                    onClick={toggleModal}
+                  >
                     Manage Vault
                   </button>
                 </td>
               </tr>
             </tbody>
           </table>
+          <div className={styles.paginationContainer}>
+            <div className="text-xs text-gray-400">
+              Showing 1 to 10 of 40 entries
+            </div>
+            <div className="flex space-x-2">
+              <button className="bg-gray-600 text-gray-400 px-3 py-1 rounded-md focus:outline-none">
+                Previous
+              </button>
+              <button className="bg-gray-600 text-gray-400 px-3 py-1 rounded-md focus:outline-none">
+                1
+              </button>
+              <button className="bg-gray-600 text-gray-400 px-3 py-1 rounded-md focus:outline-none">
+                2
+              </button>
+              <button className="bg-gray-600 text-gray-400 px-3 py-1 rounded-md focus:outline-none">
+                Next
+              </button>
+            </div>
+          </div>
+
           {isModalOpen && (
             <div className={styles.modalBackdrop}>
               <div className={styles.modalContent}>
