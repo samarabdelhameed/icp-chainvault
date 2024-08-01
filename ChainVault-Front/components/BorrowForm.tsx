@@ -872,7 +872,7 @@ const Borrow = () => {
             Download and get started for free with{" "}
             <Link href="https://wallet.bitfinity.network/" target="_blank">
               BitFinity Wallet
-            </Link>{" "}
+            </Link>
           </p>
         </div>
       )}

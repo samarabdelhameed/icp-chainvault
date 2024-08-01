@@ -10,6 +10,9 @@
 ![Home page1](https://github.com/samarabdelhameed/pics/blob/main/26.png)
 ![Home page2](https://github.com/samarabdelhameed/pics/blob/main/25.png)
 ![Home page3](https://github.com/samarabdelhameed/pics/blob/main/24.png)
+![Borrow Form](https://github.com/samarabdelhameed/pics/blob/main/borrow3.png)
+![Withdraw Form](https://github.com/samarabdelhameed/pics/blob/main/withdraw.png)
+
 
 ### How the Protocol Works
 - **Collateral Token**: CK BTC.

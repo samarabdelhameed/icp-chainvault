@@ -261,10 +261,8 @@ const Withdraw = () => {
       {isConnected ? (
         <div className={styles.container}>
           <div className={styles.formContainer}>
-            <h1>Withdraw</h1>
-            <h4>
-              Current Deposited Balance In Module: {currentUserBalance ?? "loading"} CKBTC
-            </h4>
+          <h2 className="text-2xl font-bold mb-2">Withdraw</h2>
+          <p className="text-lg font-medium text-gray-300 mb-4">Current Deposited Balance In Module: 0 CKBTC</p>
             <form onSubmit={handleWithdraw}>
               <input
                 type="number"
