@@ -490,6 +490,10 @@
     font-size: 14px;
     margin-left: 10%;
   }
+  .mintGreen {
+    color: #98FF98; /* Mint green color */
+  }
+  
 
   .borrowButton:hover {
     padding: 10px 20px;
