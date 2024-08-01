@@ -5,75 +5,70 @@ import Link from "next/link";
 import Head from "next/head";
 import { Principal } from "@dfinity/principal";
 
-import { idlFactory as vaultManageridlFactory } from "../vaultmanager.did.js";
+import { idlFactory as vaultManagerIdlFactory } from "../vaultmanager.did.js";
 import { synBaseIdlFactory } from "../synBase.did";
 import {
-  _SERVICE as vaultmanager_SERVICE,
+  _SERVICE as VaultManagerService,
   IndividualVaultData,
   AllowanceArgs,
 } from "@/vaultmanager(ts).did";
-import { _SERVICE as synBase_SERVICE } from "@/synbase(t).did";
+import { _SERVICE as SynBaseService } from "@/synbase(t).did";
+
+const VAULT_MANAGER_ADDRESS = "isswh-liaaa-aaaal-qcdrq-cai";
+const SYNTH_TOKEN_ADDRESS = "i3r53-5aaaa-aaaal-qcdqa-cai";
+const SYNTH_MINTER_ADDRESS = "i4q3p-qyaaa-aaaal-qcdqq-cai";
+
+const WHITELIST = [
+  VAULT_MANAGER_ADDRESS,
+  SYNTH_TOKEN_ADDRESS,
+  SYNTH_MINTER_ADDRESS,
+];
 
 const Borrow = () => {
+  // State Variables
   const [vaultID, setVaultID] = useState("");
-  const [synthUsdAmount, setsynthUsdAmount] = useState("");
-  const [collatAmnt, setcollatAmnt] = useState("");
-  const [ckBtcAmount, setckBtcAmount] = useState("");
-  const [Currency, setCurrency] = useState("sUSD");
-  const [selectedPill, setSelectedPill] = useState("");
+  const [synthUsdAmount, setSynthUsdAmount] = useState("");
+  const [collateralAmount, setCollateralAmount] = useState("");
+  const [debtToRepay, setDebtToRepay] = useState("");
+  const [selectedOption, setSelectedOption] = useState("Borrow");
   const [connectedAddress, setConnectedAddress] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("Borrow");
-  const [backendData, setBackendData] = useState("");
-  const [vaultManager, setVaultManager] = useState<vaultmanager_SERVICE | null>(
+  const [vaultManager, setVaultManager] = useState<VaultManagerService | null>(
     null
   );
-  const [currentVautDetails, setCurrentVaultDetails] =
+  const [currentVaultDetails, setCurrentVaultDetails] =
     useState<IndividualVaultData | null>(null);
-  const [connectPrincipal, setConnectedPrincipal] = useState<Principal | null>(
+  const [connectedPrincipal, setConnectedPrincipal] = useState<Principal | null>(
     null
   );
   const [currentVaultIds, setCurrentVaultIds] = useState<Array<bigint>>([]);
-  const [Allowance, setAllowance] = useState<Allowance | null>(null);
-  const [synBaseAddress, setSynBaseAddress] = useState<synBase_SERVICE | null>(
+  const [allowance, setAllowance] = useState<any>(null); // Update type based on your Allowance interface
+  const [synBaseService, setSynBaseService] = useState<SynBaseService | null>(
     null
   );
-  const [debtToRepay, setDebtToRepay] = useState("");
-
-  const [actualUserDebt, setActualUserDebt] = useState<number | null>();
-
-  const vaultManagerAddress = "isswh-liaaa-aaaal-qcdrq-cai";
-
-  const synthTokenAddress = "i3r53-5aaaa-aaaal-qcdqa-cai";
-
-  const synthMinterAddress = "i4q3p-qyaaa-aaaal-qcdqq-cai";
-
-  const whitelist = [
-    vaultManagerAddress,
-    synthTokenAddress,
-    synthMinterAddress,
-  ];
+  const [actualUserDebt, setActualUserDebt] = useState<number | null>(null);
 
   const router = useRouter();
 
+  // Effect Hooks
   useEffect(() => {
     const checkWalletConnection = async () => {
       try {
-        const result = await window.ic.infinityWallet.isConnected();
-        setIsConnected(result);
+        const isConnected = await window.ic.infinityWallet.isConnected();
+        setIsConnected(isConnected);
 
-        if (result) {
-          const publicKey = await window.ic.infinityWallet.getPrincipal();
-          setConnectedPrincipal(publicKey);
-          const address = publicKey.toText();
+        if (isConnected) {
+          const principal = await window.ic.infinityWallet.getPrincipal();
+          setConnectedPrincipal(principal);
+          const address = principal.toText();
           setConnectedAddress(address);
-          await VaultManagercreateActor();
-          await SyntheTokenCreateActor();
-          console.log(`The connected user's public key  sis:`, publicKey);
+          await createVaultManagerActor();
+          await createSynthTokenActor();
+          console.log(`Connected user's public key:`, principal);
         }
-      } catch (e) {
-        console.log("Error checking wallet connection:", e);
+      } catch (error) {
+        console.error("Error checking wallet connection:", error);
       }
     };
 
@@ -82,7 +77,7 @@ const Borrow = () => {
 
   useEffect(() => {
     if (selectedOption === "Create Vault" && vaultManager !== null) {
-      getuserIdVaults();
+      fetchUserVaultIds();
     }
   }, [selectedOption, vaultManager]);
 
@@ -94,7 +89,8 @@ const Borrow = () => {
     main();
   }, []);
 
-  const validateFields1 = () => {
+  // Utility Functions
+  const validateBorrowFields = () => {
     const synthUsdAmountNum = parseFloat(synthUsdAmount);
 
     if (vaultID === "" || isNaN(synthUsdAmountNum) || synthUsdAmountNum < 0) {
@@ -105,7 +101,7 @@ const Borrow = () => {
     return true;
   };
 
-  const validateFields2 = () => {
+  const validateRepayDebtFields = () => {
     const debtToRepayNum = parseFloat(debtToRepay);
     if (vaultID === "" || debtToRepay === "" || debtToRepayNum < 0) {
       alert("Please fill in all required fields");
@@ -113,9 +109,10 @@ const Borrow = () => {
     }
     return true;
   };
-  const validateFields3 = () => {
-    const collatAmntNum = parseFloat(collatAmnt);
-    if (vaultID === "" || collatAmnt === "" || collatAmntNum < 0) {
+
+  const validateCollateralFields = () => {
+    const collateralAmountNum = parseFloat(collateralAmount);
+    if (vaultID === "" || collateralAmount === "" || collateralAmountNum < 0) {
       alert("Please fill in all required fields");
       return false;
     }
@@ -124,15 +121,15 @@ const Borrow = () => {
 
   const connectWallet = async () => {
     try {
-      const publicKey = await window.ic.infinityWallet.requestConnect({
-        whitelist,
+      const principal = await window.ic.infinityWallet.requestConnect({
+        whitelist: WHITELIST,
       });
       router.reload();
-      const address = publicKey.toText();
+      const address = principal.toText();
       setConnectedAddress(address);
-      console.log(`The connected user's public key is:`, publicKey);
-    } catch (e) {
-      console.log("Error connecting wallet:", e);
+      console.log(`Connected user's public key:`, principal);
+    } catch (error) {
+      console.error("Error connecting wallet:", error);
     }
   };
 
@@ -143,33 +140,35 @@ const Borrow = () => {
       setIsConnected(false);
       setConnectedAddress(null);
       console.log("Wallet disconnected");
-    } catch (e) {
-      console.log("Error disconnecting wallet:", e);
+    } catch (error) {
+      console.error("Error disconnecting wallet:", error);
     }
   };
 
-  const getuserIdVaults = async () => {
-    if (vaultManager !== null && connectPrincipal !== null) {
+  const fetchUserVaultIds = async () => {
+    if (vaultManager !== null && connectedPrincipal !== null) {
       try {
-        const vaultids = await vaultManager.getUserVaultIds(connectPrincipal);
-        setCurrentVaultIds(vaultids);
-      } catch (e) {
-        console.log("error in getting user id vaults", e);
+        const vaultIds = await vaultManager.getUserVaultIds(connectedPrincipal);
+        setCurrentVaultIds(vaultIds);
+      } catch (error) {
+        console.error("Error fetching user vault IDs:", error);
       }
     }
   };
 
   const resetState = () => {
     setVaultID("");
-    setsynthUsdAmount("");
-    setcollatAmnt("");
+    setSynthUsdAmount("");
+    setCollateralAmount("");
+    setDebtToRepay("");
     setCurrentVaultDetails(null);
     setCurrentVaultIds([]);
   };
-  const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value);
+
+  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedOption(event.target.value);
     resetState();
-    if (e.target.value === "Repay Debt") {
+    if (event.target.value === "Repay Debt") {
       checkAllowance();
     }
   };
@@ -178,45 +177,44 @@ const Borrow = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const VaultManagercreateActor = async () => {
+  const createVaultManagerActor = async () => {
     try {
-      const _vaultManager = await window.ic.infinityWallet.createActor({
-        canisterId: vaultManagerAddress,
-        interfaceFactory: vaultManageridlFactory,
+      const vaultManager = await window.ic.infinityWallet.createActor({
+        canisterId: VAULT_MANAGER_ADDRESS,
+        interfaceFactory: vaultManagerIdlFactory,
         host: undefined,
       });
-      setVaultManager(_vaultManager);
-    } catch (e) {
-      console.log("Error creating actor:", e);
+      setVaultManager(vaultManager);
+    } catch (error) {
+      console.error("Error creating vault manager actor:", error);
     }
   };
 
   const checkAllowance = async () => {
-    if (synBaseAddress !== null && connectPrincipal !== null) {
-      const allowance_args: AllowanceArgs = {
+    if (synBaseService !== null && connectedPrincipal !== null) {
+      const allowanceArgs: AllowanceArgs = {
         account: {
-          owner: connectPrincipal,
+          owner: connectedPrincipal,
           subaccount: [],
         },
         spender: {
-          owner: Principal.fromText(vaultManagerAddress),
+          owner: Principal.fromText(VAULT_MANAGER_ADDRESS),
           subaccount: [],
         },
       };
-      console.log("before allowance");
-      const allowance = await synBaseAddress.icrc2_allowance(allowance_args);
-      console.log(allowance);
-      setAllowance(allowance);
+      try {
+        const allowance = await synBaseService.icrc2_allowance(allowanceArgs);
+        console.log(allowance);
+        setAllowance(allowance);
+      } catch (error) {
+        console.error("Error checking allowance:", error);
+      }
     }
   };
 
   const handleApprove = async () => {
-    console.log(
-      `Checking synabse ${synBaseAddress} and connnectPrincipal ${connectPrincipal}`
-    );
-    if (synBaseAddress !== null && connectPrincipal !== null) {
-      console.log("heeeeere");
-      const approve_args: ApproveArgs = {
+    if (synBaseService !== null && connectedPrincipal !== null) {
+      const approveArgs: ApproveArgs = {
         fee: [],
         memo: [],
         from_subaccount: [],
@@ -225,150 +223,138 @@ const Borrow = () => {
         expected_allowance: [],
         expires_at: [],
         spender: {
-          owner: Principal.fromText(vaultManagerAddress),
+          owner: Principal.fromText(VAULT_MANAGER_ADDRESS),
           subaccount: [],
         },
       };
 
-      const approveResult = await synBaseAddress.icrc2_approve(approve_args);
-      if ("Ok" in approveResult) {
-        const okValue = approveResult["Ok"];
-        console.log("Ok result:", okValue);
-        router.reload();
-        return true;
-      } else if ("Err" in approveResult) {
-        const errValue = approveResult["Err"];
-        console.log("Err result:", errValue);
-      } else {
-        console.log("Invalid result:", approveResult);
+      try {
+        const approveResult = await synBaseService.icrc2_approve(approveArgs);
+        if ("Ok" in approveResult) {
+          const okValue = approveResult["Ok"];
+          console.log("Approval successful:", okValue);
+          router.reload();
+          return true;
+        } else if ("Err" in approveResult) {
+          const errValue = approveResult["Err"];
+          console.error("Approval error:", errValue);
+        } else {
+          console.error("Invalid approval result:", approveResult);
+        }
+      } catch (error) {
+        console.error("Error during approval:", error);
       }
     }
   };
 
-  const handleGetVaultDetails = async (e) => {
-    e.preventDefault();
+  const handleGetVaultDetails = async (event: React.FormEvent) => {
+    event.preventDefault();
     if (vaultManager !== null) {
-      const _vaultId = BigInt(parseInt(vaultID));
-      const data = await vaultManager.getVaultDetails(_vaultId);
-      setCurrentVaultDetails(data);
+      try {
+        const vaultId = BigInt(parseInt(vaultID));
+        const details = await vaultManager.getVaultDetails(vaultId);
+        setCurrentVaultDetails(details);
 
-      const actualUserDebt = await vaultManager.getVaultActualDebt(_vaultId);
-      setActualUserDebt(actualUserDebt);
+        const userDebt = await vaultManager.getVaultActualDebt(vaultId);
+        setActualUserDebt(userDebt);
+      } catch (error) {
+        console.error("Error getting vault details:", error);
+      }
     }
   };
-  const SyntheTokenCreateActor = async () => {
+
+  const createSynthTokenActor = async () => {
     try {
-      const _synthBase = await window.ic.infinityWallet.createActor({
-        canisterId: synthTokenAddress,
+      const synBaseService = await window.ic.infinityWallet.createActor({
+        canisterId: SYNTH_TOKEN_ADDRESS,
         interfaceFactory: synBaseIdlFactory,
         host: undefined,
       });
-      setSynBaseAddress(_synthBase);
-    } catch (e) {
-      console.log("Error creating synthActor:", e);
+      setSynBaseService(synBaseService);
+    } catch (error) {
+      console.error("Error creating synth token actor:", error);
     }
   };
 
   const handleBorrow = async () => {
-    if (validateFields1()) {
-      if (synthUsdAmount !== null) {
-        console.log("collatAmount", parseFloat(synthUsdAmount));
-        const decimalAdjustedsUsd = BigInt(
-          Math.pow(10, 8) * parseFloat(synthUsdAmount)
-        );
-        console.log("decimal adjusts", decimalAdjustedsUsd);
+    if (validateBorrowFields()) {
+      const synthUsdBigInt = BigInt(Math.pow(10, 8) * parseFloat(synthUsdAmount));
+      const vaultId = BigInt(parseInt(vaultID));
 
-        const vaultId = BigInt(parseInt(vaultID));
+      if (vaultManager !== null) {
+        try {
+          const result = await vaultManager.borrow(vaultId, synthUsdBigInt);
+          console.log("Borrow result:", result);
 
-        if (vaultManager !== null) {
-          try {
-            const result = await vaultManager.borrow(
-              vaultId,
-              decimalAdjustedsUsd
-            );
-            console.log(result);
-
-            setCurrentVaultDetails(await vaultManager.getVaultDetails(vaultId));
-            console.log(currentVautDetails);
-          } catch (e) {
-            console.log(e);
-          }
+          const details = await vaultManager.getVaultDetails(vaultId);
+          setCurrentVaultDetails(details);
+          console.log("Current vault details:", currentVaultDetails);
+        } catch (error) {
+          console.error("Error borrowing:", error);
         }
       }
     }
   };
 
   const handleRepayDebt = async () => {
-    if (validateFields2()) {
+    if (validateRepayDebtFields()) {
       if (vaultManager !== null) {
         try {
-          const _vaultId = BigInt(parseInt(vaultID));
-
+          const vaultId = BigInt(parseInt(vaultID));
           const parsedValue = parseFloat(debtToRepay);
-          const _debtToRepay =
+          const debtBigInt =
             (BigInt(Math.pow(10, 8)) * BigInt(Math.round(parsedValue * 10))) /
             BigInt(10);
 
-          console.log(_vaultId);
+          const result = await vaultManager.repayDebt(vaultId, debtBigInt, []);
+          console.log("Repay result:", result);
 
-          const result = await vaultManager.repayDebt(
-            _vaultId,
-            _debtToRepay,
-            []
-          );
-          console.log(result);
-
-          setCurrentVaultDetails(await vaultManager.getVaultDetails(_vaultId));
-          console.log(currentVautDetails);
-        } catch (e) {
-          console.log(e);
+          const details = await vaultManager.getVaultDetails(vaultId);
+          setCurrentVaultDetails(details);
+          console.log("Current vault details:", currentVaultDetails);
+        } catch (error) {
+          console.error("Error repaying debt:", error);
         }
       }
     }
   };
 
-  const handleaddCollateral = async () => {
-    if (validateFields3()) {
-      console.log("collatAmount", parseFloat(collatAmnt));
-
-      const parsedValue = parseFloat(collatAmnt);
-      console.log("parse values", parsedValue);
-      const decimalAdjusted = BigInt(parsedValue * 10 ** 8);
-      console.log("decimal adjusts", decimalAdjusted);
-
+  const handleAddCollateral = async () => {
+    if (validateCollateralFields()) {
+      const parsedValue = parseFloat(collateralAmount);
+      const collateralBigInt = BigInt(parsedValue * 10 ** 8);
       const vaultId = BigInt(parseInt(vaultID));
+
       if (vaultManager !== null) {
         try {
-          const result = await vaultManager.addCollateral(
-            vaultId,
-            decimalAdjusted
-          );
-          console.log(result);
+          const result = await vaultManager.addCollateral(vaultId, collateralBigInt);
+          console.log("Add collateral result:", result);
 
-          setCurrentVaultDetails(await vaultManager.getVaultDetails(vaultId));
-          console.log(currentVautDetails);
-        } catch (e) {
-          console.log(e);
+          const details = await vaultManager.getVaultDetails(vaultId);
+          setCurrentVaultDetails(details);
+          console.log("Current vault details:", currentVaultDetails);
+        } catch (error) {
+          console.error("Error adding collateral:", error);
         }
       }
     }
   };
 
-  const handleCreateVaultFunction = async (e) => {
-    e.preventDefault();
+  const handleCreateVault = async (event: React.FormEvent) => {
+    event.preventDefault();
     if (vaultManager !== null) {
       try {
         const vaultId = await vaultManager.createVault([]);
-        getuserIdVaults();
-        console.log(vaultId);
-      } catch (e) {
-        console.log("Error occured when creating vault:", e);
+        fetchUserVaultIds();
+        console.log("Created vault ID:", vaultId);
+      } catch (error) {
+        console.error("Error creating vault:", error);
       }
     }
   };
 
-  const handleVaultIDChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
+  const handleVaultIDChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
 
     if (/^[0-9]\d*$/.test(inputValue)) {
       setVaultID(inputValue);
@@ -377,120 +363,88 @@ const Borrow = () => {
     }
   };
 
-  const getForm = () => {
+  const renderForm = () => {
     switch (selectedOption) {
       case "Borrow":
         return (
           <form>
-            <div className={styles.formCont1}>
-              <div className={styles.leftboxes1}>
-                <div>
-                  <div className={styles.input1Container}>
-                    <label htmlFor="sUsd">
-                      <div className={styles.inputGroup}>
-                        Vault ID
-                        <input
-                          type="text"
-                          id="vaultID"
-                          name="vaultID"
-                          value={vaultID}
-                          onChange={handleVaultIDChange}
-                          placeholder="0"
-                        />
-                      </div>
-                    </label>
-                    <div className={styles.gasFee}></div>
-                  </div>
-                </div>
-                <div>
-                  <div className={styles.input2Container}>
-                    <label htmlFor="sUsd">
-                      <div className={styles.inputGroup}>
-                        synthUsd
-                        <input
-                          type="number"
-                          id="synthUsd"
-                          name="synthUsd"
-                          value={synthUsdAmount}
-                          onChange={(e) => setsynthUsdAmount(e.target.value)}
-                          placeholder="0.0"
-                        />
-                      </div>
-                    </label>
-                    <div className={styles.gasFee}></div>
-                  </div>
-                </div>
+            <div className={styles.formContainer}>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultID">
+                  Vault ID
+                  <input
+                    type="text"
+                    id="vaultID"
+                    name="vaultID"
+                    value={vaultID}
+                    onChange={handleVaultIDChange}
+                    placeholder="0"
+                  />
+                </label>
               </div>
-              <div className={styles.rightbox1}>
-                <div className={styles.input3Container}>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault LTV Ratio
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultLtvRatio !== undefined
-                          ? `${Math.round(
-                              currentVautDetails.vaultLtvRatio * 100
-                            )}%`
-                          : `0%`}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault Current Collateral
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultCurrentCollateral !== undefined
-                          ? `${currentVautDetails.vaultCurrentCollateral} CKBTC`
-                          : 0}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault Current Collaterisation Ratio
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultLtvRatio !== undefined
-                          ? `${Math.round(
-                              (1 / currentVautDetails.vaultLtvRatio) * 100
-                            )}%`
-                          : `0%`}
-                      </p>
-                    </div>
-                  </div>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Health Factor
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>0</p>
-                    </div>
-                  </div>
-                </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="synthUsd">
+                  synthUsd
+                  <input
+                    type="number"
+                    id="synthUsd"
+                    name="synthUsd"
+                    value={synthUsdAmount}
+                    onChange={(e) => setSynthUsdAmount(e.target.value)}
+                    placeholder="0.0"
+                  />
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultLtvRatio">
+                  Vault LTV Ratio
+                  <p>
+                    {currentVaultDetails?.vaultLtvRatio !== undefined
+                      ? `${Math.round(currentVaultDetails.vaultLtvRatio * 100)}%`
+                      : `0%`}
+                  </p>
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultCurrentCollateral">
+                  Vault Current Collateral
+                  <p>
+                    {currentVaultDetails?.vaultCurrentCollateral !== undefined
+                      ? `${currentVaultDetails.vaultCurrentCollateral} CKBTC`
+                      : 0}
+                  </p>
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultCollaterisationRatio">
+                  Vault Current Collaterisation Ratio
+                  <p>
+                    {currentVaultDetails?.vaultLtvRatio !== undefined
+                      ? `${Math.round(
+                          (1 / currentVaultDetails.vaultLtvRatio) * 100
+                        )}%`
+                      : `0%`}
+                  </p>
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="healthFactor">
+                  Health Factor
+                  <p>0</p>
+                </label>
               </div>
             </div>
-            <div className={styles.bottomdiv}>
+            <div className={styles.actionButtons}>
               <button
                 type="button"
-                className={styles.Calculate}
+                className={styles.calculateButton}
                 onClick={handleBorrow}
               >
                 Borrow
               </button>
               <button
-                className={styles.Vault}
+                className={styles.createVaultButton}
                 onClick={() => setSelectedOption("Create Vault")}
-                style={{ marginTop: "10px" }}
               >
                 Create Vault
               </button>
@@ -500,116 +454,83 @@ const Borrow = () => {
       case "Add Collateral":
         return (
           <form>
-            <div className={styles.formCont1}>
-              <div className={styles.leftboxes1}>
-                <div>
-                  <div className={styles.input1Container}>
-                    <label htmlFor="sUsd">
-                      <div className={styles.inputGroup}>
-                        Vault ID
-                        <input
-                          type="text"
-                          id="vaultID"
-                          name="vaultID"
-                          value={vaultID}
-                          onChange={handleVaultIDChange}
-                          placeholder="0"
-                        />
-                      </div>
-                    </label>
-                    <div className={styles.gasFee}></div>
-                  </div>
-                </div>
-                <div>
-                  <div className={styles.input2Container}>
-                    <div className={styles.inputGroup}>
-                      <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                        <div className={styles.iconContainer}></div>
-                        ckBtc
-                      </label>
-                      <input
-                        type="number"
-                        id="ckBtc"
-                        name="ckBtc"
-                        value={collatAmnt}
-                        onChange={(e) => setcollatAmnt(e.target.value)}
-                        placeholder="0.0"
-                      />
-                    </div>
-                    <div className={styles.gasFee}></div>
-                  </div>
-                </div>
+            <div className={styles.formContainer}>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultID">
+                  Vault ID
+                  <input
+                    type="text"
+                    id="vaultID"
+                    name="vaultID"
+                    value={vaultID}
+                    onChange={handleVaultIDChange}
+                    placeholder="0"
+                  />
+                </label>
               </div>
-              <div className={styles.rightbox1}>
-                <div className={styles.input3Container}>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault LTV Ratio
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultLtvRatio !== undefined
-                          ? `${Math.round(
-                              currentVautDetails.vaultLtvRatio * 100
-                            )} %`
-                          : `0%`}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault Current Collateral
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultCurrentCollateral !== undefined
-                          ? `${currentVautDetails.vaultCurrentCollateral} CKBTC`
-                          : 0}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault Current Collaterisation Ratio
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultLtvRatio !== undefined
-                          ? `${Math.round(
-                              (1 / currentVautDetails.vaultLtvRatio) * 100
-                            )} %`
-                          : `0%`}
-                      </p>
-                    </div>
-                  </div>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Health Factor
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>0</p>
-                    </div>
-                  </div>
-                </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="collateralAmount">
+                  ckBtc
+                  <input
+                    type="number"
+                    id="collateralAmount"
+                    name="collateralAmount"
+                    value={collateralAmount}
+                    onChange={(e) => setCollateralAmount(e.target.value)}
+                    placeholder="0.0"
+                  />
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultLtvRatio">
+                  Vault LTV Ratio
+                  <p>
+                    {currentVaultDetails?.vaultLtvRatio !== undefined
+                      ? `${Math.round(currentVaultDetails.vaultLtvRatio * 100)}%`
+                      : `0%`}
+                  </p>
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultCurrentCollateral">
+                  Vault Current Collateral
+                  <p>
+                    {currentVaultDetails?.vaultCurrentCollateral !== undefined
+                      ? `${currentVaultDetails.vaultCurrentCollateral} CKBTC`
+                      : 0}
+                  </p>
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultCollaterisationRatio">
+                  Vault Current Collaterisation Ratio
+                  <p>
+                    {currentVaultDetails?.vaultLtvRatio !== undefined
+                      ? `${Math.round(
+                          (1 / currentVaultDetails.vaultLtvRatio) * 100
+                        )}%`
+                      : `0%`}
+                  </p>
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="healthFactor">
+                  Health Factor
+                  <p>0</p>
+                </label>
               </div>
             </div>
-            <div className={styles.bottomdiv}>
+            <div className={styles.actionButtons}>
               <button
                 type="button"
-                className={styles.Calculate}
-                onClick={handleaddCollateral}
+                className={styles.calculateButton}
+                onClick={handleAddCollateral}
               >
                 Add Collateral
               </button>
               <button
-                className={styles.Vault}
+                className={styles.createVaultButton}
                 onClick={() => setSelectedOption("Create Vault")}
-                style={{ marginTop: "10px" }}
               >
                 Create Vault
               </button>
@@ -618,238 +539,174 @@ const Borrow = () => {
         );
       case "Create Vault":
         return (
-          <form className={styles.formCont}>
-            <div className={styles.leftbox}>
-              <div className={styles.input24Container}>
-                <div className={styles.createWalletContainer}>
-                  <button
-                    className={styles.createWalletButton}
-                    onClick={handleCreateVaultFunction}
-                  >
-                    Create Vault
-                  </button>
-                  {currentVaultIds.length > 0 && (
-                    <div className={styles.vaultIdContainer}>
-                      <p className={styles.vaultIdTitle}>Current Vault IDs:</p>
-                      <ul className={styles.vaultIdList}>
-                        {currentVaultIds.map((vaultId) => (
-                          <li
-                            key={vaultId.toString()}
-                            className={styles.vaultIdItem}
-                          >
-                            {vaultId.toString()}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {backendData && (
-                    <p className={styles.backendData}>{backendData}</p>
-                  )}
+          <form className={styles.formContainer}>
+            <div className={styles.inputGroup}>
+              <button
+                className={styles.createVaultButton}
+                onClick={handleCreateVault}
+              >
+                Create Vault
+              </button>
+              {currentVaultIds.length > 0 && (
+                <div className={styles.vaultIdContainer}>
+                  <p className={styles.vaultIdTitle}>Current Vault IDs:</p>
+                  <ul className={styles.vaultIdList}>
+                    {currentVaultIds.map((vaultId) => (
+                      <li
+                        key={vaultId.toString()}
+                        className={styles.vaultIdItem}
+                      >
+                        {vaultId.toString()}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
+              )}
             </div>
-            <div className={styles.rightboxes}>
-              <div>
-                <div className={styles.input29Container}>
-                  <div className={styles.inputGroup31}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault LTV Ratio
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultLtvRatio !== undefined
-                          ? `${Math.round(
-                              currentVautDetails.vaultLtvRatio * 100
-                            )}%`
-                          : `0%`}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault Current Collateral
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultCurrentCollateral !== undefined
-                          ? `${currentVautDetails.vaultCurrentCollateral} CKBTC`
-                          : 0}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault Current Collaterisation Ratio
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultLtvRatio !== undefined
-                          ? `${Math.round(
-                              (1 / currentVautDetails.vaultLtvRatio) * 100
-                            )}%`
-                          : `0%`}
-                      </p>
-                    </div>
-                  </div>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault Debt
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {actualUserDebt !== null
-                          ? `${actualUserDebt} SynthUSD`
-                          : "Fetching"}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className={styles.input31Container}>
-                  <label htmlFor="sUsd">
-                    <div className={styles.inputGroup31}>
-                      Vault ID
-                      <input
-                        type="text"
-                        id="vaultID"
-                        name="vaultID"
-                        value={vaultID}
-                        onChange={handleVaultIDChange}
-                        placeholder="0"
-                      />
-                    </div>
-                  </label>
-                  <div className={styles.gasFee}></div>
-                </div>
-              </div>
-              <div>
-                <button
-                  className={styles.VaultDetails}
-                  onClick={handleGetVaultDetails}
-                >
-                  Get Vault Details
-                </button>
-              </div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="vaultLtvRatio">
+                Vault LTV Ratio
+                <p>
+                  {currentVaultDetails?.vaultLtvRatio !== undefined
+                    ? `${Math.round(currentVaultDetails.vaultLtvRatio * 100)}%`
+                    : `0%`}
+                </p>
+              </label>
+            </div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="vaultCurrentCollateral">
+                Vault Current Collateral
+                <p>
+                  {currentVaultDetails?.vaultCurrentCollateral !== undefined
+                    ? `${currentVaultDetails.vaultCurrentCollateral} CKBTC`
+                    : 0}
+                </p>
+              </label>
+            </div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="vaultCollaterisationRatio">
+                Vault Current Collaterisation Ratio
+                <p>
+                  {currentVaultDetails?.vaultLtvRatio !== undefined
+                    ? `${Math.round(
+                        (1 / currentVaultDetails.vaultLtvRatio) * 100
+                      )}%`
+                    : `0%`}
+                </p>
+              </label>
+            </div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="vaultDebt">
+                Vault Debt
+                <p>
+                  {actualUserDebt !== null
+                    ? `${actualUserDebt} SynthUSD`
+                    : "Fetching"}
+                </p>
+              </label>
+            </div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="vaultID">
+                Vault ID
+                <input
+                  type="text"
+                  id="vaultID"
+                  name="vaultID"
+                  value={vaultID}
+                  onChange={handleVaultIDChange}
+                  placeholder="0"
+                />
+              </label>
+            </div>
+            <div>
+              <button
+                className={styles.getVaultDetailsButton}
+                onClick={handleGetVaultDetails}
+              >
+                Get Vault Details
+              </button>
             </div>
           </form>
         );
       case "Repay Debt":
         return (
           <form>
-            <div className={styles.formCont1}>
-              <div className={styles.leftboxes1}>
-                <div>
-                  <div className={styles.input1Container}>
-                    <label htmlFor="sUsd">
-                      <div className={styles.inputGroup}>
-                        Vault ID
-                        <input
-                          type="text"
-                          id="vaultID"
-                          name="vaultID"
-                          value={vaultID}
-                          onChange={handleVaultIDChange}
-                          placeholder="0"
-                        />
-                      </div>
-                    </label>
-                    <div className={styles.gasFee}></div>
-                  </div>
-                </div>
-                <div>
-                  <div className={styles.input2Container}>
-                    <label htmlFor="sUsd">
-                      <div className={styles.inputGroup}>
-                        synthUsd
-                        <input
-                          type="number"
-                          id="synthUsd"
-                          name="synthUsd"
-                          value={debtToRepay}
-                          onChange={(e) => setDebtToRepay(e.target.value)}
-                          placeholder="0.0"
-                        />
-                      </div>
-                    </label>
-                    <div className={styles.gasFee}></div>
-                  </div>
-                </div>
+            <div className={styles.formContainer}>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultID">
+                  Vault ID
+                  <input
+                    type="text"
+                    id="vaultID"
+                    name="vaultID"
+                    value={vaultID}
+                    onChange={handleVaultIDChange}
+                    placeholder="0"
+                  />
+                </label>
               </div>
-              <div className={styles.rightbox1}>
-                <div className={styles.input3Container}>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault LTV Ratio
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultLtvRatio !== undefined
-                          ? `${Math.round(
-                              currentVautDetails.vaultLtvRatio * 100
-                            )}%`
-                          : `0%`}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault Current Collateral
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultCurrentCollateral !== undefined
-                          ? `${currentVautDetails.vaultCurrentCollateral} CKBTC`
-                          : 0}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Vault Current Collaterisation Ratio
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>
-                        {currentVautDetails !== null &&
-                        currentVautDetails.vaultLtvRatio !== undefined
-                          ? `${Math.round(
-                              (1 / currentVautDetails.vaultLtvRatio) * 100
-                            )}%`
-                          : `0%`}
-                      </p>
-                    </div>
-                  </div>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                      Health Factor
-                    </label>
-                    <div className={styles.TextRight}>
-                      <p>0</p>
-                    </div>
-                  </div>
-                </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="debtToRepay">
+                  synthUsd
+                  <input
+                    type="number"
+                    id="debtToRepay"
+                    name="debtToRepay"
+                    value={debtToRepay}
+                    onChange={(e) => setDebtToRepay(e.target.value)}
+                    placeholder="0.0"
+                  />
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultLtvRatio">
+                  Vault LTV Ratio
+                  <p>
+                    {currentVaultDetails?.vaultLtvRatio !== undefined
+                      ? `${Math.round(currentVaultDetails.vaultLtvRatio * 100)}%`
+                      : `0%`}
+                  </p>
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultCurrentCollateral">
+                  Vault Current Collateral
+                  <p>
+                    {currentVaultDetails?.vaultCurrentCollateral !== undefined
+                      ? `${currentVaultDetails.vaultCurrentCollateral} CKBTC`
+                      : 0}
+                  </p>
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="vaultCollaterisationRatio">
+                  Vault Current Collaterisation Ratio
+                  <p>
+                    {currentVaultDetails?.vaultLtvRatio !== undefined
+                      ? `${Math.round(
+                          (1 / currentVaultDetails.vaultLtvRatio) * 100
+                        )}%`
+                      : `0%`}
+                  </p>
+                </label>
+              </div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="healthFactor">
+                  Health Factor
+                  <p>0</p>
+                </label>
               </div>
             </div>
-            <div className={styles.bottomdiv}>
-              {Allowance &&
-              (Allowance.allowance < BigInt(100000000000) ||
-                (Allowance.expires_at &&
-                  Allowance.expires_at.length > 0 &&
-                  Allowance.expires_at[0] / BigInt(1000000) <
+            <div className={styles.actionButtons}>
+              {allowance &&
+              (allowance.allowance < BigInt(100000000000) ||
+                (allowance.expires_at &&
+                  allowance.expires_at.length > 0 &&
+                  allowance.expires_at[0] / BigInt(1000000) <
                     BigInt(new Date().getTime()))) ? (
                 <button
                   type="button"
-                  className={styles.Calculate}
+                  className={styles.approveButton}
                   onClick={handleApprove}
                 >
                   Approve
@@ -857,21 +714,18 @@ const Borrow = () => {
               ) : (
                 <button
                   type="button"
-                  className={styles.Calculate}
+                  className={styles.repayDebtButton}
                   onClick={handleRepayDebt}
                 >
                   Repay Debt
                 </button>
               )}
-              <div>
-                <button
-                  className={styles.Vault}
-                  onClick={() => setSelectedOption("Create Vault")}
-                  style={{ marginTop: "10px" }}
-                >
-                  Create Vault
-                </button>
-              </div>
+              <button
+                className={styles.createVaultButton}
+                onClick={() => setSelectedOption("Create Vault")}
+              >
+                Create Vault
+              </button>
             </div>
           </form>
         );
@@ -884,57 +738,43 @@ const Borrow = () => {
     <div>
       <Head>
         <title>
-          chainvault Finance - Unlock Liquidity: Borrow Against ckbtc |
+          Chainvault Finance - Unlock Liquidity: Borrow Against ckbtc |
           Decentralized Crypto Lending
         </title>
         <meta
           name="description"
-          content="chainvault  Finance allows you to unlock liquidity by borrowing against your ckbtc holdings. Access stablecoins instantly and maximize your crypto assets. Join the future of decentralized finance today!"
+          content="Chainvault Finance allows you to unlock liquidity by borrowing against your ckbtc holdings. Access stablecoins instantly and maximize your crypto assets. Join the future of decentralized finance today!"
         />
         <meta
           name="keywords"
-          content="chainvault  Finance, chainvault  App, chainvault , chainvault  app, chainvault  finance, chainvault  twitter, Decentralized finance platform, Crypto lending and borrowing, Collateralized loans, Synth tokens, Stablecoin minting, Instant liquidity, Yield farming, Smart contracts, Financial decentralization, Crypto-backed loans, Cryptocurrency protocol, Decentralized liquidity pool, SynthUSD stablecoin, Blockchain assets, Peer-to-peer lending, Yield optimization, DeFi ecosystem, Blockchain technology, Liquidity protocol, Asset-backed loans, Tokenized assets, Yield generation, Crypto investment, Digital currency, Yield farming strategies, DeFi governance, Crypto staking, Crypto portfolio management, Yield farming rewards, Crypto savings accounts, DeFi lending platforms, Yield farming liquidity, Crypto-backed stablecoins, Yield farming risks, Blockchain-based finance, DeFi tokenized assets, Yield farming projects, Automated finance, Crypto liquidity solutions, Liquidity mining, DeFi tokens, Tokenization of assets, Decentralized savings, Decentralized exchange, Synthetic assets, Crypto yield farming, Yield farming platforms, Crypto asset management, Crypto yield optimization, DeFi lending protocols, Crypto finance solutions, DeFi borrowing and lending, Blockchain investment strategies, Yield farming opportunities, DeFi portfolio diversification, DeFi governance tokens, Decentralized finance apps, Crypto investment vehicles, Decentralized lending platforms, Blockchain collateralization, Yield farming strategies and risks, Crypto loan collateral, DeFi liquidity providers, Crypto yield pools, Crypto trading and investment, Decentralized asset management, Cryptocurrency yield farming, Blockchain lending platforms, Crypto yield generation, Crypto portfolio optimization, DeFi asset-backed loans, Decentralized lending and borrowing, Stablecoin creation, Crypto asset diversification, Yield farming security, Blockchain-based savings, Crypto-backed loan collateral, Yield farming projects and rewards, chainvault  Finance updates"
+          content="Chainvault Finance, Chainvault App, Chainvault, Chainvault app, Chainvault finance, Chainvault twitter, Decentralized finance platform, Crypto lending and borrowing, Collateralized loans, Synth tokens, Stablecoin minting, Instant liquidity, Yield farming, Smart contracts, Financial decentralization, Crypto-backed loans, Cryptocurrency protocol, Decentralized liquidity pool, SynthUSD stablecoin, Blockchain assets, Peer-to-peer lending, Yield optimization, DeFi ecosystem, Blockchain technology, Liquidity protocol, Asset-backed loans, Tokenized assets, Yield generation, Crypto investment, Digital currency, Yield farming strategies, DeFi governance, Crypto staking, Crypto portfolio management, Yield farming rewards, Crypto savings accounts, DeFi lending platforms, Yield farming liquidity, Crypto-backed stablecoins, Yield farming risks, Blockchain-based finance, DeFi tokenized assets, Yield farming projects, Automated finance, Crypto liquidity solutions, Liquidity mining, DeFi tokens, Tokenization of assets, Decentralized savings, Decentralized exchange, Synthetic assets, Crypto yield farming, Yield farming platforms, Crypto asset management, Crypto yield optimization, DeFi lending protocols, Crypto finance solutions, DeFi borrowing and lending, Blockchain investment strategies, Yield farming opportunities, DeFi portfolio diversification, DeFi governance tokens, Decentralized finance apps, Crypto investment vehicles, Decentralized lending platforms, Blockchain collateralization, Yield farming strategies and risks, Crypto loan collateral, DeFi liquidity providers, Crypto yield pools, Crypto trading and investment, Decentralized asset management, Cryptocurrency yield farming, Blockchain lending platforms, Crypto yield generation, Crypto portfolio optimization, DeFi asset-backed loans, Decentralized lending and borrowing, Stablecoin creation, Crypto asset diversification, Yield farming security, Blockchain-based savings, Crypto-backed loan collateral, Yield farming projects and rewards, Chainvault Finance updates"
         />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="/icons/tabicon.jpg" />{" "}
+        <link rel="icon" href="/icons/tabicon.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="chainvault  Finance - Unlock Liquidity with ckbtc Holdings"
+          content="Chainvault Finance - Unlock Liquidity with ckbtc Holdings"
         />
         <meta
           name="twitter:description"
-          content="Unlock liquidity with chainvault  Finance and maximize your crypto assets. Join the future of decentralized finance!"
+          content="Unlock liquidity with Chainvault Finance and maximize your crypto assets. Join the future of decentralized finance!"
         />
         <meta
           name="twitter:image"
           content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
         />
-        <meta name="twitter:site" content="@chainvault Finance" />
-        <meta name="twitter:creator" content="@chainvault Finance" />
+        <meta name="twitter:site" content="@Chainvault Finance" />
+        <meta name="twitter:creator" content="@Chainvault Finance" />
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="chainvault Finance - Unlock Liquidity with ckbtc Holdings"
+          content="Chainvault Finance - Unlock Liquidity with ckbtc Holdings"
         />
         <meta
           property="og:description"
-          content="Unlock liquidity with chainvault  Finance and maximize your crypto assets. Join the future of decentralized finance!"
-        />
-        <meta
-          property="og:image"
-          content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
-        />
-        <meta property="og:url" content="" />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:title"
-          content="chainvault  Finance - Unlock Liquidity with ckbtc Holdings"
-        />
-        <meta
-          property="og:description"
-          content="Unlock liquidity with chainvault  Finance and maximize your crypto assets. Join the future of decentralized finance!"
+          content="Unlock liquidity with Chainvault Finance and maximize your crypto assets. Join the future of decentralized finance!"
         />
         <meta
           property="og:image"
@@ -1020,7 +860,7 @@ const Borrow = () => {
                     ></i>
                   </div>
                 </div>
-                <div className={styles.modalContainer}>{getForm()}</div>
+                <div className={styles.modalContainer}>{renderForm()}</div>
               </div>
             </div>
           )}

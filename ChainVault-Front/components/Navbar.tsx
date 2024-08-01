@@ -4,37 +4,43 @@ import { Principal } from "@dfinity/principal";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-const MyApp = () => {
-  const [connectedAddress, setConnectedAddress] = useState(null);
+const VAULT_MANAGER_ADDRESS = "isswh-liaaa-aaaal-qcdrq-cai";
+const SYNTH_TOKEN_ADDRESS = "i3r53-5aaaa-aaaal-qcdqa-cai";
+const SYNTH_MINTER_ADDRESS = "i4q3p-qyaaa-aaaal-qcdqq-cai";
+const DEPOSIT_MODULE_ADDRESS = "ivtqt-gqaaa-aaaal-qcdra-cai";
+
+const WHITELIST = [
+  VAULT_MANAGER_ADDRESS,
+  SYNTH_TOKEN_ADDRESS,
+  SYNTH_MINTER_ADDRESS,
+  DEPOSIT_MODULE_ADDRESS,
+];
+
+const Navbar = () => {
+  const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [assets, setAssets] = useState([]); // State to store assets
+  const [assets, setAssets] = useState<{ name: string; balance: number }[]>([]);
 
   const router = useRouter();
-  const vaultManagerAddress = "isswh-liaaa-aaaal-qcdrq-cai";
-  const synthTokenAddress = "i3r53-5aaaa-aaaal-qcdqa-cai";
-  const synthMinterAddress = "i4q3p-qyaaa-aaaal-qcdqq-cai";
-  const depositModuleAddress = "ivtqt-gqaaa-aaaal-qcdra-cai";
-
-  const whitelist = [vaultManagerAddress, synthTokenAddress, synthMinterAddress, depositModuleAddress];
 
   useEffect(() => {
     const checkWalletConnection = async () => {
       try {
-        const result = await window.ic.infinityWallet.isConnected();
+        const isConnected = await window.ic.infinityWallet.isConnected();
         const userAssets = await window.ic.infinityWallet.getUserAssets();
-        console.log(`User's list of tokens/assets`, userAssets);
-        setIsConnected(result);
-        setAssets(userAssets); // Set the assets in state
+        console.log("User's list of tokens/assets", userAssets);
+        setIsConnected(isConnected);
+        setAssets(userAssets);
 
-        if (result) {
-          const publicKey = await window.ic.infinityWallet.getPrincipal();
-          const address = publicKey.toText();
+        if (isConnected) {
+          const principal = await window.ic.infinityWallet.getPrincipal();
+          const address = principal.toText();
           setConnectedAddress(address);
-          console.log(`The connected user's public key is:`, publicKey);
+          console.log("The connected user's public key is:", principal);
         }
-      } catch (e) {
-        console.log("Error checking wallet connection:", e);
+      } catch (error) {
+        console.error("Error checking wallet connection:", error);
       }
     };
 
@@ -43,15 +49,15 @@ const MyApp = () => {
 
   const connectWallet = async () => {
     try {
-      const publicKey = await window.ic.infinityWallet.requestConnect({
-        whitelist
+      const principal = await window.ic.infinityWallet.requestConnect({
+        whitelist: WHITELIST,
       });
       router.reload();
-      const address = publicKey.toText();
+      const address = principal.toText();
       setConnectedAddress(address);
-      console.log(`The connected user's public key is:`, publicKey);
-    } catch (e) {
-      console.log("Error connecting wallet:", e);
+      console.log("The connected user's public key is:", principal);
+    } catch (error) {
+      console.error("Error connecting wallet:", error);
     }
   };
 
@@ -62,8 +68,8 @@ const MyApp = () => {
       setIsConnected(false);
       setConnectedAddress(null);
       console.log("Wallet disconnected");
-    } catch (e) {
-      console.log("Error disconnecting wallet:", e);
+    } catch (error) {
+      console.error("Error disconnecting wallet:", error);
     }
   };
 
@@ -71,7 +77,7 @@ const MyApp = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const copyAddress = () => {
+  const copyAddressToClipboard = () => {
     if (connectedAddress) {
       navigator.clipboard
         .writeText(connectedAddress)
@@ -88,10 +94,10 @@ const MyApp = () => {
     <nav className={styles.navbar}>
       <div className={styles.navbarTitle}>ChainVault</div>
       <div className={styles.navbarLinks}>
-      <Link
-          href="/withdraw"
+        <Link
+          href="/documents"
           className={`${styles.navbarLink} ${
-            router.pathname === "/withdraw" ? styles.activeLink : ""
+            router.pathname === "/documents" ? styles.activeLink : ""
           }`}
         >
           Documents
@@ -119,12 +125,8 @@ const MyApp = () => {
       {isConnected ? (
         <div className={styles.dropdownContainer}>
           {assets.length > 0 ? (
-            <div className={styles["select-container"]}>
-              <select
-                className={styles["select-element"]}
-                name="assets"
-                id="assets"
-              >
+            <div className={styles.selectContainer}>
+              <select className={styles.selectElement} name="assets" id="assets">
                 {assets.map((asset, index) => (
                   <option key={index} value={asset.name}>
                     {asset.name} {asset.balance / 100000000}
@@ -138,7 +140,7 @@ const MyApp = () => {
 
           <button className={styles.connectButton} onClick={toggleModal}>
             {connectedAddress ? `${connectedAddress.slice(0, 8)}... ` : ""}
-            <i className={`fa fa-caret-down`}></i>
+            <i className="fa fa-caret-down"></i>
           </button>
           {isModalOpen && (
             <div className={styles.modalBackdrop}>
@@ -152,7 +154,7 @@ const MyApp = () => {
                     <h3>{connectedAddress}</h3>
                   </div>
                   <div className={styles.modalActions}>
-                    <button className={styles.copyButton} onClick={copyAddress}>
+                    <button className={styles.copyButton} onClick={copyAddressToClipboard}>
                       <i className="fa fa-copy"></i> Copy Address
                     </button>
                     <button
@@ -171,18 +173,16 @@ const MyApp = () => {
           )}
         </div>
       ) : (
-        <div>
-          <button
-            className={styles.connectButton}
-            type="button"
-            onClick={connectWallet}
-          >
-            Connect Wallet
-          </button>
-        </div>
+        <button
+          className={styles.connectButton}
+          type="button"
+          onClick={connectWallet}
+        >
+          Connect Wallet
+        </button>
       )}
     </nav>
   );
 };
 
-export default MyApp;
+export default Navbar;
