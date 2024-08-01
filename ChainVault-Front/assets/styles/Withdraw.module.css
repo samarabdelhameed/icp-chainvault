@@ -183,19 +183,26 @@
 
 .formButton {
   border: 2px double transparent;
-  background-image: linear-gradient(rgb(13, 14, 33), rgb(13, 14, 33)), radial-gradient(circle at left top, rgb(1, 110, 218), rgb(217, 0, 192));
+  background-image: linear-gradient(rgb(152, 255, 152), rgb(152, 255, 152)); /* Mint green */
   background-origin: border-box;
   background-clip: padding-box, border-box;
-  color: #fff;
+  color: #333; /* Change text color to dark for contrast */
   font-weight: bold;
-  padding: 12px 26px; /* Adjusted padding */
+  padding: 12px 26px;
   border-radius: 10px;
   cursor: pointer;
   font-size: 15px;
-  margin: 20px auto 0 auto; /* 20px top margin, and auto for the right/left margin */
   justify-content: center;
-  display: flex;
+  align-items: center;
+  display: inline-flex;
+  transition: box-shadow 0.3s ease;
 }
+
+.formButton:hover {
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2); /* Shadow effect on hover */
+}
+
+
 
 .formButton2{
   background:#69696959;

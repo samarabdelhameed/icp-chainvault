@@ -1,5 +1,3 @@
-//@todo: reset btcDepositAddress on page reload or if its not default value
-
 import styles from "../assets/styles/Withdraw.module.css";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -7,71 +5,60 @@ import { useRouter } from "next/router";
 import { encodeIcrcAccount } from "@dfinity/ledger";
 import { Principal } from "@dfinity/principal";
 import { idlFactory as depositIdlFactory } from "../deposit.did";
-import { idlFactory as vaultManageridlFactory } from "../vaultmanager.did.js";
+import { idlFactory as vaultManagerIdlFactory } from "../vaultmanager.did.js";
 import { _SERVICE as DepositModule } from "../deposit.did(t)";
-import { _SERVICE as vaultmanager_SERVICE } from "../vaultmanager(ts).did";
+import { _SERVICE as VaultManagerService } from "../vaultmanager(ts).did";
 import { Account } from "@/synbase(t).did";
 import Head from "next/head";
 
+const DEPOSIT_MODULE_ADDRESS = "ivtqt-gqaaa-aaaal-qcdra-cai";
+const VAULT_MANAGER_ADDRESS = "isswh-liaaa-aaaal-qcdrq-cai";
+const INITIAL_BTC_DEPOSIT_ADDRESS = "Click Get Deposit Address";
+
 const Withdraw = () => {
+  // State Variables
   const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpen0, setIsModalOpen0] = useState(false);
-  const [isModalOpen1, setIsModalOpen1] = useState(false);
-  const [assets, setAssets] = useState([]); // State to store assets
-  const [connectPrincipal, setConnectedPrincipal] = useState<Principal | null>(
-    null
-  );
+  const [isModalOpenDepositCkBTC, setIsModalOpenDepositCkBTC] = useState(false);
+  const [isModalOpenDepositBTC, setIsModalOpenDepositBTC] = useState(false);
+  const [assets, setAssets] = useState([]);
+  const [connectedPrincipal, setConnectedPrincipal] = useState<Principal | null>(null);
   const [encodedAccount, setEncodedAccount] = useState("");
-  const [vaultID, setvaultID] = useState("");
-  const [address, setaddress] = useState("");
-  const [amount, setamount] = useState("");
-
-  const [depositModule, setDepositModule] = useState<DepositModule | null>(
-    null
-  );
-  const [vaultManager, setVaultManager] = useState<vaultmanager_SERVICE | null>(
-    null
-  );
-
-  const [btcDepositAddress, setbtcDepositAddress] = useState<string>(
-    "Click Get  Deposit Address"
-  );
+  const [vaultID, setVaultID] = useState("");
+  const [address, setAddress] = useState("");
+  const [amount, setAmount] = useState("");
+  const [depositModule, setDepositModule] = useState<DepositModule | null>(null);
+  const [vaultManager, setVaultManager] = useState<VaultManagerService | null>(null);
+  const [btcDepositAddress, setBtcDepositAddress] = useState<string>(INITIAL_BTC_DEPOSIT_ADDRESS);
   const [loadingDepositAddress, setLoadingDepositAddress] = useState(false);
-
   const [currentUserBalance, setUserBalance] = useState<string | null>(null);
 
   const router = useRouter();
-  const depositModuleAddress = "ivtqt-gqaaa-aaaal-qcdra-cai";
-  const vaultManagerAddress = "isswh-liaaa-aaaal-qcdrq-cai";
 
+  // Effect Hooks
   useEffect(() => {
     const checkWalletConnection = async () => {
       try {
-        const result = await window.ic.infinityWallet.isConnected();
+        const isConnected = await window.ic.infinityWallet.isConnected();
         const userAssets = await window.ic.infinityWallet.getUserAssets();
-        console.log(`User's list of tokens/assets`, assets);
-        setIsConnected(result);
-        setAssets(userAssets); // Set the assets in state
+        console.log("User's list of tokens/assets", userAssets);
+        setIsConnected(isConnected);
+        setAssets(userAssets);
 
-        if (result) {
-          const publicKey: Principal =
-            await window.ic.infinityWallet.getPrincipal();
-          setConnectedPrincipal(publicKey);
-          const address = publicKey.toText();
+        if (isConnected) {
+          const principal = await window.ic.infinityWallet.getPrincipal();
+          setConnectedPrincipal(principal);
+          const address = principal.toText();
           setConnectedAddress(address);
-          setEncodedAccount(
-            encodeIcrcAccount({
-              owner: Principal.fromText(depositModuleAddress),
-              subaccount: padPrincipalWithZeros(publicKey.toUint8Array()),
-            })
-          );
-          await DepositModulecreateActor();
-          await VaultManagercreateActor();
+          setEncodedAccount(encodeIcrcAccount({
+            owner: Principal.fromText(DEPOSIT_MODULE_ADDRESS),
+            subaccount: padPrincipalWithZeros(principal.toUint8Array()),
+          }));
+          await createDepositModuleActor();
+          await createVaultManagerActor();
         }
-      } catch (e) {
-        console.log("Error checking wallet connection:", e);
+      } catch (error) {
+        console.error("Error checking wallet connection:", error);
       }
     };
 
@@ -79,55 +66,69 @@ const Withdraw = () => {
   }, []);
 
   useEffect(() => {
-    const main = async () => {
-      if (depositModule !== null && connectPrincipal !== null) {
-        const balance = await depositModule.getBalance(connectPrincipal);
-        const decimalAdjustBalance = adjustDecimals(balance);
-        setUserBalance(decimalAdjustBalance.toString());
+    const fetchUserBalance = async () => {
+      if (depositModule && connectedPrincipal) {
+        const balance = await depositModule.getBalance(connectedPrincipal);
+        const adjustedBalance = adjustDecimals(balance);
+        setUserBalance(adjustedBalance.toString());
       }
     };
 
-    main();
-  });
+    fetchUserBalance();
+  }, [depositModule, connectedPrincipal]);
 
-  const toggleModal1 = () => {
-    setbtcDepositAddress("Click Get Deposit Address");
-    setIsModalOpen1(!isModalOpen1);
+  // Functions
+  const toggleModalDepositBTC = () => {
+    setBtcDepositAddress(INITIAL_BTC_DEPOSIT_ADDRESS);
+    setIsModalOpenDepositBTC(!isModalOpenDepositBTC);
   };
 
-  const toggleModal0 = () => {
-    setIsModalOpen0(!isModalOpen0);
+  const toggleModalDepositCkBTC = () => {
+    setIsModalOpenDepositCkBTC(!isModalOpenDepositCkBTC);
   };
 
-  const DepositModulecreateActor = async () => {
+  const createDepositModuleActor = async () => {
     try {
       const depositModule = await window.ic.infinityWallet.createActor({
-        canisterId: depositModuleAddress,
+        canisterId: DEPOSIT_MODULE_ADDRESS,
         interfaceFactory: depositIdlFactory,
         host: undefined,
       });
 
       setDepositModule(depositModule);
-    } catch (e) {
-      console.log("Error creating actor:", e);
+    } catch (error) {
+      console.error("Error creating deposit module actor:", error);
     }
   };
-  function adjustDecimals(amount: bigint) {
-    const decimals = BigInt(Math.pow(10, 8));
 
+  const createVaultManagerActor = async () => {
+    try {
+      const vaultManager = await window.ic.infinityWallet.createActor({
+        canisterId: VAULT_MANAGER_ADDRESS,
+        interfaceFactory: vaultManagerIdlFactory,
+        host: undefined,
+      });
+
+      setVaultManager(vaultManager);
+    } catch (error) {
+      console.error("Error creating vault manager actor:", error);
+    }
+  };
+
+  const adjustDecimals = (amount: bigint) => {
+    const decimals = BigInt(Math.pow(10, 8));
     return Number((amount * decimals) / decimals) / 100000000;
-  }
+  };
+
   const handleGetDepositAddress = async () => {
-    if (depositModule !== null && connectPrincipal !== null) {
+    if (depositModule && connectedPrincipal) {
       try {
         setLoadingDepositAddress(true);
-        const address = await depositModule.getBtcDepositAddress(
-          connectPrincipal
-        );
-        setbtcDepositAddress(address);
-      } catch (e) {
-        console.error("Error getting deposit address:", e);
-        setbtcDepositAddress("Error getting address");
+        const address = await depositModule.getBtcDepositAddress(connectedPrincipal);
+        setBtcDepositAddress(address);
+      } catch (error) {
+        console.error("Error getting deposit address:", error);
+        setBtcDepositAddress("Error getting address");
       } finally {
         setLoadingDepositAddress(false);
       }
@@ -135,60 +136,41 @@ const Withdraw = () => {
   };
 
   const handleUpdateBtcBalance = async () => {
-    if (depositModule !== null && connectPrincipal != null) {
+    if (depositModule && connectedPrincipal) {
       try {
         setLoadingDepositAddress(true);
-        const updateResult = await depositModule.updateBalance(
-          connectPrincipal
-        );
+        const updateResult = await depositModule.updateBalance(connectedPrincipal);
         if ("Err" in updateResult) {
-          setbtcDepositAddress("Error updating balance ");
+          setBtcDepositAddress("Error updating balance");
           console.log(updateResult);
         } else {
-          setbtcDepositAddress("Btc balance updated");
+          setBtcDepositAddress("BTC balance updated");
         }
-      } catch (e) {
-        console.error("Erro updating balance ", e);
-        setbtcDepositAddress("Error updating balance ");
+      } catch (error) {
+        console.error("Error updating balance:", error);
+        setBtcDepositAddress("Error updating balance");
       } finally {
         setLoadingDepositAddress(false);
       }
     }
   };
-  const VaultManagercreateActor = async () => {
-    try {
-      const vaultManager = await window.ic.infinityWallet.createActor({
-        canisterId: vaultManagerAddress,
-        interfaceFactory: vaultManageridlFactory,
-        host: undefined,
-      });
-
-      setVaultManager(vaultManager);
-    } catch (e) {
-      console.log("Error creating actor:", e);
-    }
-  };
 
   const padPrincipalWithZeros = (blob: Uint8Array) => {
-    let newUin8Array = new Uint8Array(32);
-    newUin8Array.set(blob);
-    return newUin8Array;
+    const newUint8Array = new Uint8Array(32);
+    newUint8Array.set(blob);
+    return newUint8Array;
   };
 
-  const copyAddress = () => {
+  const copyAddressToClipboard = () => {
     if (connectedAddress) {
-      navigator.clipboard
-        .writeText(connectedAddress)
-        .then(() => {
-          alert("Address copied to clipboard");
-        })
-        .catch((error) => {
-          console.error("Error copying address to clipboard:", error);
-        });
+      navigator.clipboard.writeText(connectedAddress)
+        .then(() => alert("Address copied to clipboard"))
+        .catch(error => console.error("Error copying address to clipboard:", error));
     }
   };
-  const validateFields1 = () => {
-    if (vaultID === "" || address === "" || amount === "") {
+
+  const validateFields = () => {
+    if (!vaultID || !address || !amount) {
       alert("Please fill in all required fields");
       return false;
     }
@@ -199,55 +181,32 @@ const Withdraw = () => {
     return true;
   };
 
-  //@major issue use is able to enter any text in address field
+  const handleWithdraw = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  const handleWithdraw = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    if (validateFields() && vaultManager) {
+      try {
+        const vaultIdBigInt = BigInt(parseInt(vaultID));
+        const parsedAmount = parseFloat(amount);
+        const amountToWithdraw = (BigInt(Math.pow(10, 8)) * BigInt(Math.round(parsedAmount * 10))) / BigInt(10);
+        const toAccount: Account = {
+          owner: Principal.fromText(address),
+          subaccount: [],
+        };
 
-    if (validateFields1()) {
-      // Handle form submission logic here
-      // You can make an API call or perform any other action
-
-      if (vaultManager !== null) {
-        try {
-          const _vauldId = BigInt(parseInt(vaultID));
-          const parsedValue = parseFloat(amount);
-          const amountToWithdraw =
-            (BigInt(Math.pow(10, 8)) * BigInt(Math.round(parsedValue * 10))) /
-            BigInt(10);
-          const toAccount: Account = {
-            owner: Principal.fromText(address),
-            subaccount: [],
-          };
-
-          console.log(
-            await vaultManager.withdrawCollateral(
-              _vauldId,
-              amountToWithdraw,
-              toAccount
-            )
-          );
-        } catch (e) {
-          console.log("Error occured:", e);
-        }
+        console.log(await vaultManager.withdrawCollateral(vaultIdBigInt, amountToWithdraw, toAccount));
+      } catch (error) {
+        console.error("Error occurred during withdrawal:", error);
       }
     }
   };
 
-  const updateBalance = () => {
-    //add animation for loading balance
-  };
-
-  const handleVaultIDChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-
-    // Check if the input is a positive integer
+  const handleVaultIDChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
     if (/^[0-9]\d*$/.test(inputValue)) {
-      setvaultID(inputValue);
+      setVaultID(inputValue);
     } else {
-      // If not a positive integer, you can display an error message or handle it in another way
-      // For now, we clear the input
-      setvaultID("");
+      setVaultID("");
     }
   };
 
@@ -265,7 +224,7 @@ const Withdraw = () => {
         />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="/icons/tabicon.jpg" />{" "}
+        <link rel="icon" href="/icons/tabicon.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
@@ -295,40 +254,16 @@ const Withdraw = () => {
           content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
         />
         <meta property="og:url" content="https://synthifyapp.com/" />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:title"
-          content="SynthiFy Finance - Unlock Liquidity with ckbtc Holdings"
-        />
-        <meta
-          property="og:description"
-          content="Unlock liquidity with SynthiFy Finance and maximize your crypto assets. Join the future of decentralized finance!"
-        />
-        <meta
-          property="og:image"
-          content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
-        />
-        <meta property="og:url" content="https://synthifyapp.com/" />
       </Head>
+
       <div className={styles.blob}></div>
+
       {isConnected ? (
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            margin: "auto",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "20px",
-          }}
-        >
+        <div className={styles.container}>
           <div className={styles.formContainer}>
             <h1>Withdraw</h1>
             <h4>
-              Current Deposited Balance In Module:{" "}
-              {currentUserBalance ?? "loading"} CKBTC
+              Current Deposited Balance In Module: {currentUserBalance ?? "loading"} CKBTC
             </h4>
             <form onSubmit={handleWithdraw}>
               <input
@@ -346,7 +281,7 @@ const Withdraw = () => {
                 id="address"
                 className={styles.formInput}
                 value={address}
-                onChange={(e) => setaddress(e.target.value)}
+                onChange={(e) => setAddress(e.target.value)}
                 placeholder="Enter address"
               />
               <input
@@ -355,92 +290,78 @@ const Withdraw = () => {
                 id="amount"
                 className={styles.formInput}
                 value={amount}
-                onChange={(e) => setamount(e.target.value)}
+                onChange={(e) => setAmount(e.target.value)}
                 placeholder="Enter amount"
               />
-              <button type="submit" className={styles.formButton}>
-                Submit
-              </button>
+
+              <div className="flex justify-center space-x-4 mt-8">
+                <button type="button" className={styles.formButton} onClick={toggleModalDepositCkBTC}>
+                  Deposit CkBTC
+                </button>
+                {isModalOpenDepositCkBTC && (
+                  <div className={styles.modalBackdrop}>
+                    <div className={styles.modalContent}>
+                      <i
+                        className={`fa fa-times-circle ${styles.closeIcon}`}
+                        onClick={toggleModalDepositCkBTC}
+                      ></i>
+                      <div className={styles.modalContainer}>
+                        <div className={styles.modalHeader}>
+                          <p>Deposit your ckbtc to the below address.</p>
+                          <h3>{encodedAccount}</h3>
+                        </div>
+                      </div>
+
+                      <div className={styles.modalActions}>
+                        <button className={styles.generalButton}>Update Deposits</button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <button type="submit" className={styles.formButton}>
+                  Submit
+                </button>
+                <button type="button" className={styles.formButton} onClick={toggleModalDepositBTC}>
+                  Deposit BTC
+                </button>
+                {isModalOpenDepositBTC && (
+                  <div className={styles.modalBackdrop}>
+                    <div className={styles.modalContent}>
+                      <i
+                        className={`fa fa-times-circle ${styles.closeIcon}`}
+                        onClick={toggleModalDepositBTC}
+                      ></i>
+                      <div className={styles.modalContainer}>
+                        <div className={styles.modalHeader}>
+                          <h3>
+                            {loadingDepositAddress ? "Loading..." : btcDepositAddress}
+                          </h3>
+                          <br />
+                          <br />
+                        </div>
+
+                        <div className={styles.modalActions}>
+                          <button
+                            className={styles.generalButton}
+                            onClick={handleGetDepositAddress}
+                          >
+                            Get Deposit Address
+                          </button>
+                          <br />
+                          <button
+                            className={styles.generalButton}
+                            onClick={handleUpdateBtcBalance}
+                          >
+                            Update Deposit Address
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </form>
-          </div>
-
-          <div
-            style={{
-              width: "100%",
-              height: "100%",
-              margin: "auto",
-              display: "grid",
-              placeItems: "center",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "20px",
-              padding: "20px",
-            }}
-          >
-            <button className={styles.formButton2} onClick={toggleModal0}>
-              Deposit CkBTC
-            </button>
-
-            {isModalOpen0 && (
-              <div className={styles.modalBackdrop}>
-                <div className={styles.modalContent}>
-                  <i
-                    className={`fa fa-times-circle ${styles.closeIcon}`}
-                    onClick={toggleModal0}
-                  ></i>
-                  <div className={styles.modalContainer}>
-                    <div className={styles.modalHeader}>
-                      <p>Deposit your ckbtc to the below address.</p>
-                      <h3>{encodedAccount}</h3>
-                    </div>
-                  </div>
-
-                  <div className={styles.modalActions}>
-                    <button className={styles.general2}>Update Deposits</button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <button className={styles.formButton2} onClick={toggleModal1}>
-              Deposit BTC
-            </button>
-            {isModalOpen1 && (
-              <div className={styles.modalBackdrop}>
-                <div className={styles.modalContent}>
-                  <i
-                    className={`fa fa-times-circle ${styles.closeIcon}`}
-                    onClick={toggleModal1}
-                  ></i>
-                  <div className={styles.modalContainer}>
-                    <div className={styles.modalHeader}>
-                      <h3>
-                        {loadingDepositAddress
-                          ? "Loading..."
-                          : btcDepositAddress}
-                      </h3>
-                      <br></br>
-                      <br></br>
-                    </div>
-
-                    <div className={styles.modalActions}>
-                      <button
-                        className={styles.general2}
-                        onClick={handleGetDepositAddress}
-                      >
-                        Get Deposit Address
-                      </button>
-                      <br></br>
-                      <button
-                        className={styles.general2}
-                        onClick={handleUpdateBtcBalance}
-                      >
-                        Update Deposit Address
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       ) : (
@@ -450,7 +371,7 @@ const Withdraw = () => {
             Download and get started for free with{" "}
             <Link href="https://wallet.bitfinity.network/" target="_blank">
               BitFinity Wallet
-            </Link>{" "}
+            </Link>
           </p>
         </div>
       )}
