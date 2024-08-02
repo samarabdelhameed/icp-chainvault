@@ -686,7 +686,7 @@ const Borrow = () => {
                       style={{
                         backgroundColor: "black",
                         color: "white",
-                        border: "2px solid #0f0d3b",
+                        border: "2px solid #98FF98",
                         borderRadius: "5px",
                         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                         fontFamily: "Arial, sans-serif",

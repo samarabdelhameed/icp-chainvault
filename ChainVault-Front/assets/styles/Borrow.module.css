@@ -97,7 +97,7 @@
 .modalContent {
   background: #121212;
   border-radius: 8px;
-  box-shadow: 0 0px 10px 0 #3a283a;
+  box-shadow: 0 0px 10px 0 #98FF98;
   border: 2px #2b242b;
   border-style: solid;
   padding: 20px;
@@ -241,7 +241,7 @@
   padding: 30px;
   width: 100%;
   background-color: rgb(19, 19, 19);
-  box-shadow: 0 0px 10px 0 #3a283a;
+  box-shadow: 0 0px 10px 0 #98FF98;
   font-weight: 500;
 }
 
@@ -252,7 +252,7 @@
   width: 100%;
   border-radius: 20px;
   background-color: rgb(19, 19, 19);
-  box-shadow: 0 0px 10px 0 #3a283a;
+  box-shadow: 0 0px 10px 0 #98FF98;
   font-weight: 500;
 }
 .input3Container {
@@ -264,7 +264,7 @@
   float: right;
   border-radius: 20px;
   background-color: rgb(19, 19, 19);
-  box-shadow: 0 0px 10px 0 #3a283a;
+  box-shadow: 0 0px 10px 0 #98FF98;
   font-weight: 500;
 }
 
@@ -289,10 +289,10 @@
 .createWalletButton {
   padding: 10px;
   font-size: 17px;
-  background: linear-gradient(135deg, #ec98fbe1, rgba(187, 135, 250, 0.638));
+  background: linear-gradient(135deg, #98FF98, rgba(170, 242, 205, 0.638));
   color: rgb(255, 255, 255);
   border: 0px solid #19b1cc00;
-  box-shadow: 0 0px 30px 0 #663566;
+  box-shadow: 0 0px 30px 0 #235223;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -301,7 +301,7 @@
 
 .createWalletButton:hover {
   border: 0px solid #19b1cc00;
-  box-shadow: 0 0px 40px 0 #7b3f7b;
+  box-shadow: 0 0px 40px 0  #98FF98;
   transition: 0.3s;
 }
 .formCont {
@@ -498,4 +498,6 @@
   .borrowButton:hover {
     padding: 10px 20px;
   }
+
+  
 }
