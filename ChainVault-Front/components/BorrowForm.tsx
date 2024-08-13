@@ -418,13 +418,12 @@ const Borrow = () => {
         //  setVaultID(0);
         return (
           <form>
-            <div className={styles.formCont1}>
-              <div className={styles.leftboxes1}>
+            <div className="mt-6 space-y-4">
                 <div>
-                  <div className={styles.input1Container}>
-                    <label htmlFor="sUsd">
-                      <div className={styles.inputGroup}>
-                        Vault ID
+                   <label htmlFor="sUsd">
+        
+                      <div className={styles.formGroup2}>
+                      <label className={styles.label}> Vault ID</label>
                         <input
                           type="text"
                           id="vaultID"
@@ -432,17 +431,17 @@ const Borrow = () => {
                           value={vaultID}
                           onChange={handleVaultIDChange}
                           placeholder="0"
+                          className={styles.input2}
                         />
                       </div>
                     </label>
                     <div className={styles.gasFee}></div>
-                  </div>
+                  
                 </div>
                 <div>
-                  <div className={styles.input2Container}>
-                    <label htmlFor="sUsd">
-                      <div className={styles.inputGroup}>
-                        synthUsd
+                   
+                      <div className={styles.inputGroup2}>
+                      <label htmlFor="sUsd" className={styles.label}>  synthUsd</label>
                         <input
                           type="number"
                           id="synthUsd"
@@ -450,13 +449,15 @@ const Borrow = () => {
                           value={synthUsdAmount}
                           onChange={(e) => setsynthUsdAmount(e.target.value)}
                           placeholder="0.0"
+                          className={styles.input2}
+
                         />
                       </div>
-                    </label>
+                    
                     <div className={styles.gasFee}></div>
-                  </div>
+                  
                 </div>
-              </div>
+            
               <div className={styles.rightbox1}>
                 <div className={styles.input3Container}>
                   <div className={styles.inputGroup}>
@@ -515,16 +516,17 @@ const Borrow = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.bottomdiv}>
+            
+            <div className="mt-6 flex space-x-4">
               <button
                 type="button"
-                className={styles.Calculate}
+                className={styles.button2}
                 onClick={handleBorrow}
               >
-                Borrow4
+                Borrow
               </button>
               <button
-                className={styles.Vault}
+                className={styles.button3}
                 onClick={() => setSelectedOption("Create Vault")}
                 style={{ marginTop: "10px" }}
               >
@@ -538,13 +540,13 @@ const Borrow = () => {
         // setVaultID(0);
         return (
           <form>
-            <div className={styles.formCont1}>
-              <div className={styles.leftboxes1}>
+         <div className="mt-6 space-y-4">
+
+
                 <div>
-                  <div className={styles.input1Container}>
                     <label htmlFor="sUsd">
-                      <div className={styles.inputGroup}>
-                        Vault ID
+                      <div className={styles.formGroup2}>
+                      <label className={styles.label}> Vault ID</label>
                         <input
                           type="text"
                           id="vaultID"
@@ -552,29 +554,20 @@ const Borrow = () => {
                           value={vaultID}
                           onChange={handleVaultIDChange}
                           placeholder="0"
+                          className={styles.input2}
+
                         />
                       </div>
                     </label>
                     <div className={styles.gasFee}>
   
                     </div>
-                  </div>
+                  
                 </div>
                 <div>
-                  <div className={styles.input2Container}>
-                    <div className={styles.inputGroup}>
-                      <label htmlFor="ckBtc" className={styles.labelWithIcon}>
-                        <div className={styles.iconContainer}>
-                          <Image
-                            src="/icons/ckBTC.png"
-                            alt="ckBtc Icon"
-                            width={30}
-                            height={30}
-                            className={styles.iconImage}
-                          />
-                        </div>
-                        ckBtc
-                      </label>
+                    <div className={styles.inputGroup2}>
+                      
+                        <label className={styles.label}> ckBtc</label>
 
                       <input
                         type="number"
@@ -583,14 +576,17 @@ const Borrow = () => {
                         value={collatAmnt}
                         onChange={(e) => setcollatAmnt(e.target.value)}
                         placeholder="0.0"
+                        className={styles.input2}
+
                       />
                     </div>
                     <div className={styles.gasFee}>
   
                     </div>
-                  </div>
+                  
                 </div>
-              </div>
+              
+              
               <div className={styles.rightbox1}>
                 <div className={styles.input3Container}>
                   <div className={styles.inputGroup}>
@@ -649,16 +645,16 @@ const Borrow = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.bottomdiv}>
+            <div className="mt-6 flex space-x-4">
               <button
                 type="button"
-                className={styles.Calculate}
+                className={styles.button2}
                 onClick={handleaddCollateral}
               >
                 Add Collateral
               </button>
               <button
-                className={styles.Vault}
+                className={styles.button3}
                 onClick={() => setSelectedOption("Create Vault")}
                 style={{ marginTop: "10px" }}
               >
@@ -671,8 +667,10 @@ const Borrow = () => {
       case "Create Vault":
         //  setVaultID(0);
         return (
-          <form className={styles.formCont}>
-            <div className={styles.leftbox}>
+
+          <form className={styles.container3} >
+           <div >
+           <div className={styles.innerContainer3}>
               <div className={styles.input24Container}>
                 <div className={styles.createWalletContainer}>
                   <button
@@ -761,11 +759,12 @@ const Borrow = () => {
                   )}
                 </div>
               </div>
-            </div>
+            
             <div className={styles.rightboxes}>
               <div>
-                <div className={styles.input29Container}>
-                  <div className={styles.inputGroup31}>
+
+                <div className={styles.input3Container}>
+                  <div className={styles.inputGroup}>
                     <label htmlFor="ckBtc" className={styles.labelWithIcon}>
                       Vault LTV Ratio
                     </label>
@@ -824,11 +823,12 @@ const Borrow = () => {
                   </div>
                 </div>
               </div>
+
               <div>
-                <div className={styles.input31Container}>
                   <label htmlFor="sUsd">
-                    <div className={styles.inputGroup31}>
-                      Vault ID
+                  <div className={styles.formGroup2}>
+                      <label className={styles.label}>
+                      Vault ID </label>
                       <input
                         type="text"
                         id="vaultID"
@@ -836,20 +836,24 @@ const Borrow = () => {
                         value={vaultID}
                         onChange={handleVaultIDChange}
                         placeholder="0"
+                        className={styles.input2}
+
                       />
                     </div>
                   </label>
                   <div className={styles.gasFee}></div>
-                </div>
+                
               </div>
               <div>
                 <button
-                  className={styles.VaultDetails}
-                  onClick={handleGetVaultDetails}
+                className={styles.button3}
+                onClick={handleGetVaultDetails}
                 >
                   Get Vault Details
                 </button>
               </div>
+            </div>
+            </div>
             </div>
           </form>
         );
@@ -858,13 +862,12 @@ const Borrow = () => {
         //  setVaultID(0);
         return (
           <form>
-            <div className={styles.formCont1}>
-              <div className={styles.leftboxes1}>
+            <div className="mt-6 space-y-4">
+
                 <div>
-                  <div className={styles.input1Container}>
-                    <label htmlFor="sUsd">
-                      <div className={styles.inputGroup}>
-                        Vault ID
+                  <label htmlFor="sUsd">
+                      <div className={styles.inputGroup2}>
+                      <label  className={styles.label}>  Vault ID</label>
                         <input
                           type="text"
                           id="vaultID"
@@ -872,19 +875,22 @@ const Borrow = () => {
                           value={vaultID}
                           onChange={handleVaultIDChange}
                           placeholder="0"
+                          className={styles.input2}
+
                         />
                       </div>
                     </label>
                     <div className={styles.gasFee}>
   
                     </div>
-                  </div>
+
+                  
                 </div>
+
                 <div>
-                  <div className={styles.input2Container}>
                     <label htmlFor="sUsd">
-                      <div className={styles.inputGroup}>
-                        synthUsd
+                      <div className={styles.inputGroup2}>
+                      <label className={styles.label}> synthUsd</label>
                         <input
                           type="number"
                           id="synthUsd"
@@ -892,14 +898,20 @@ const Borrow = () => {
                           value={debtToRepay}
                           onChange={(e) => setDebtToRepay(e.target.value)}
                           placeholder="0.0"
+                          className={styles.input2}
+
                         />
                       </div>
                     </label>
                     <div className={styles.gasFee}>
                     </div>
-                  </div>
+                  
                 </div>
-              </div>
+
+
+
+              
+              
               <div className={styles.rightbox1}>
                 <div className={styles.input3Container}>
                   <div className={styles.inputGroup}>
@@ -956,41 +968,38 @@ const Borrow = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+                </div>
             </div>
-            <div className={styles.bottomdiv}>
-              {Allowance &&
-              (Allowance.allowance < BigInt(100000000000) ||
-                (Allowance.expires_at &&
-                  Allowance.expires_at.length > 0 &&
-                  Allowance.expires_at[0] / BigInt(1000000) <
-                    BigInt(new Date().getTime()))) ? (
+            <div className="mt-6 space-y-4">
+            {Allowance &&
+            (Allowance.allowance < BigInt(100000000000) ||
+              (Allowance.expires_at &&
+                Allowance.expires_at.length > 0 &&
+                Allowance.expires_at[0] / BigInt(1000000) <
+                  BigInt(new Date().getTime()))) ? (
                 <button
                   type="button"
-                  className={styles.Calculate}
-                  onClick={handleApprove} // Assuming this should trigger approval
+                  className={styles.button4}  
+                  onClick={handleApprove}
                 >
                   Approve
                 </button>
               ) : (
                 <button
                   type="button"
-                  className={styles.Calculate}
-                  onClick={handleRepayDebt} // Assuming this should trigger repayment
+                  className={styles.button4}  
+                  onClick={handleRepayDebt}
                 >
                   Repay Debt
                 </button>
               )}
-              <div>
-                <button
-                  className={styles.Vault}
-                  onClick={() => setSelectedOption("Create Vault")}
-                  style={{ marginTop: "10px" }}
-                >
-                  Create Vault
-                </button>
-              </div>
-            </div>
+            <button
+                className={styles.button5}  
+                onClick={() => setSelectedOption("Create Vault")}
+            >
+                Create Vault
+            </button>
+        </div>
           </form>
         );
       default:
@@ -1002,16 +1011,16 @@ const Borrow = () => {
     <div>
       <Head>
         <title>
-          SynthiFy Finance - Unlock Liquidity: Borrow Against ckbtc |
+          ChainVault Finance - Unlock Liquidity: Borrow Against ckbtc |
           Decentralized Crypto Lending
         </title>
         <meta
           name="description"
-          content="SynthiFy Finance allows you to unlock liquidity by borrowing against your ckbtc holdings. Access stablecoins instantly and maximize your crypto assets. Join the future of decentralized finance today!"
+          content="ChainVault Finance allows you to unlock liquidity by borrowing against your ckbtc holdings. Access stablecoins instantly and maximize your crypto assets. Join the future of decentralized finance today!"
         />
         <meta
           name="keywords"
-          content="SynthiFy Finance, SynthiFy App, synthify, synthify app, synthify finance, synthify twitter, Decentralized finance platform, Crypto lending and borrowing, Collateralized loans, Synth tokens, Stablecoin minting, Instant liquidity, Yield farming, Smart contracts, Financial decentralization, Crypto-backed loans, Cryptocurrency protocol, Decentralized liquidity pool, SynthUSD stablecoin, Blockchain assets, Peer-to-peer lending, Yield optimization, DeFi ecosystem, Blockchain technology, Liquidity protocol, Asset-backed loans, Tokenized assets, Yield generation, Crypto investment, Digital currency, Yield farming strategies, DeFi governance, Crypto staking, Crypto portfolio management, Yield farming rewards, Crypto savings accounts, DeFi lending platforms, Yield farming liquidity, Crypto-backed stablecoins, Yield farming risks, Blockchain-based finance, DeFi tokenized assets, Yield farming projects, Automated finance, Crypto liquidity solutions, Liquidity mining, DeFi tokens, Tokenization of assets, Decentralized savings, Decentralized exchange, Synthetic assets, Crypto yield farming, Yield farming platforms, Crypto asset management, Crypto yield optimization, DeFi lending protocols, Crypto finance solutions, DeFi borrowing and lending, Blockchain investment strategies, Yield farming opportunities, DeFi portfolio diversification, DeFi governance tokens, Decentralized finance apps, Crypto investment vehicles, Decentralized lending platforms, Blockchain collateralization, Yield farming strategies and risks, Crypto loan collateral, DeFi liquidity providers, Crypto yield pools, Crypto trading and investment, Decentralized asset management, Cryptocurrency yield farming, Blockchain lending platforms, Crypto yield generation, Crypto portfolio optimization, DeFi asset-backed loans, Decentralized lending and borrowing, Stablecoin creation, Crypto asset diversification, Yield farming security, Blockchain-based savings, Crypto-backed loan collateral, Yield farming projects and rewards, SynthiFy Finance updates"
+          content="ChainVault Finance, ChainVault App, ChainVault, ChainVault app, ChainVault finance, ChainVault twitter, Decentralized finance platform, Crypto lending and borrowing, Collateralized loans, Synth tokens, Stablecoin minting, Instant liquidity, Yield farming, Smart contracts, Financial decentralization, Crypto-backed loans, Cryptocurrency protocol, Decentralized liquidity pool, SynthUSD stablecoin, Blockchain assets, Peer-to-peer lending, Yield optimization, DeFi ecosystem, Blockchain technology, Liquidity protocol, Asset-backed loans, Tokenized assets, Yield generation, Crypto investment, Digital currency, Yield farming strategies, DeFi governance, Crypto staking, Crypto portfolio management, Yield farming rewards, Crypto savings accounts, DeFi lending platforms, Yield farming liquidity, Crypto-backed stablecoins, Yield farming risks, Blockchain-based finance, DeFi tokenized assets, Yield farming projects, Automated finance, Crypto liquidity solutions, Liquidity mining, DeFi tokens, Tokenization of assets, Decentralized savings, Decentralized exchange, Synthetic assets, Crypto yield farming, Yield farming platforms, Crypto asset management, Crypto yield optimization, DeFi lending protocols, Crypto finance solutions, DeFi borrowing and lending, Blockchain investment strategies, Yield farming opportunities, DeFi portfolio diversification, DeFi governance tokens, Decentralized finance apps, Crypto investment vehicles, Decentralized lending platforms, Blockchain collateralization, Yield farming strategies and risks, Crypto loan collateral, DeFi liquidity providers, Crypto yield pools, Crypto trading and investment, Decentralized asset management, Cryptocurrency yield farming, Blockchain lending platforms, Crypto yield generation, Crypto portfolio optimization, DeFi asset-backed loans, Decentralized lending and borrowing, Stablecoin creation, Crypto asset diversification, Yield farming security, Blockchain-based savings, Crypto-backed loan collateral, Yield farming projects and rewards, ChainVault Finance updates"
         />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -1019,46 +1028,46 @@ const Borrow = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="SynthiFy Finance - Unlock Liquidity with ckbtc Holdings"
+          content="ChainVault Finance - Unlock Liquidity with ckbtc Holdings"
         />
         <meta
           name="twitter:description"
-          content="Unlock liquidity with SynthiFy Finance and maximize your crypto assets. Join the future of decentralized finance!"
+          content="Unlock liquidity with ChainVault Finance and maximize your crypto assets. Join the future of decentralized finance!"
         />
         <meta
           name="twitter:image"
           content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
         />
-        <meta name="twitter:site" content="@SynthiFyFinance" />
-        <meta name="twitter:creator" content="@SynthiFyFinance" />
+        <meta name="twitter:site" content="@ChainVaultFinance" />
+        <meta name="twitter:creator" content="@ChainVaultFinance" />
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="SynthiFy Finance - Unlock Liquidity with ckbtc Holdings"
+          content="ChainVault Finance - Unlock Liquidity with ckbtc Holdings"
         />
         <meta
           property="og:description"
-          content="Unlock liquidity with SynthiFy Finance and maximize your crypto assets. Join the future of decentralized finance!"
+          content="Unlock liquidity with ChainVault Finance and maximize your crypto assets. Join the future of decentralized finance!"
         />
         <meta
           property="og:image"
           content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
         />
-        <meta property="og:url" content="https://synthifyapp.com/" />
+        <meta property="og:url" content="https://ChainVaultapp.com/" />
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="SynthiFy Finance - Unlock Liquidity with ckbtc Holdings"
+          content="ChainVault Finance - Unlock Liquidity with ckbtc Holdings"
         />
         <meta
           property="og:description"
-          content="Unlock liquidity with SynthiFy Finance and maximize your crypto assets. Join the future of decentralized finance!"
+          content="Unlock liquidity with ChainVault Finance and maximize your crypto assets. Join the future of decentralized finance!"
         />
         <meta
           property="og:image"
           content="https://pbs.twimg.com/profile_images/1714692668796923904/n9qKs6od_400x400.jpg"
         />
-        <meta property="og:url" content="https://synthifyapp.com/" />
+        <meta property="og:url" content="https://ChainVaultapp.com/" />
       </Head>
       <div className={styles.blob}></div>
       {isConnected ? (
@@ -1116,26 +1125,27 @@ const Borrow = () => {
           </div>
           {isModalOpen && (
             <div className={styles.modalBackdrop}>
-              <div className={styles.modalContent}>
+              <div className={styles.container2}>
                 <div className={styles.modalNavbar}>
-                  <div className={styles.modalDropdown}>
+                <div className={styles.closeIconContainer}>
+                    <i
+                      className={`fa fa-times-circle ${styles.closeIcon}`}
+                      onClick={toggleModal}
+                    ></i>
+                  </div>
+                  <div className={styles.dropdownContainer2}>
                     <select
                       value={selectedOption}
                       onChange={handleOptionChange}
+                      className={styles.dropdown2}
                     >
                       <option className={styles.options}>Borrow</option>
                       <option className={styles.options}>Add Collateral</option>
                       <option className={styles.options}>Create Vault</option>
                       <option className={styles.options}>Repay Debt</option>
                     </select>
-                    <span className={styles.arrow}>▼</span>
                   </div>
-                  <div className={styles.closeIconContainer}>
-                    <i
-                      className={`fa fa-times-circle ${styles.closeIcon}`}
-                      onClick={toggleModal}
-                    ></i>
-                  </div>
+                
                 </div>
                 <div className={styles.modalContainer}>{getForm()}</div>
               </div>

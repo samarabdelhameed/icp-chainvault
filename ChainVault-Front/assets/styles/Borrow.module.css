@@ -13,6 +13,7 @@
   overflow-x: hidden;
   animation: rotate 7s linear infinite;
 }
+
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
@@ -97,7 +98,7 @@
 .modalContent {
   background: #121212;
   border-radius: 8px;
-  box-shadow: 0 0px 10px 0 #98FF98;
+  box-shadow: 0 0px 10px 0 #3a283a;
   border: 2px #2b242b;
   border-style: solid;
   padding: 20px;
@@ -109,7 +110,6 @@
   z-index: 1800;
   text-align: center;
 }
-
 .modalContent::-webkit-scrollbar {
   width: 12px;
 }
@@ -125,6 +125,56 @@
 .modalContent::-webkit-scrollbar-track {
   border-radius: 20px;
 }
+
+
+.modalContent2 {
+  background: #fbfafa;
+  border-radius: 8px;
+  box-shadow: 0 0px 10px 0 #2d05f6;
+  border: 2px #df750b;
+  border-style: solid;
+  padding: 20px;
+  width: 90%;
+  height: 100%;
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1800;
+  text-align: center;
+}
+/* borrow.module.css */
+
+.dropdownContainer2 {
+  margin-bottom: 1rem; /* mb-4 equivalent */
+}
+
+.dropdown2 {
+  width: 100%; /* w-full equivalent */
+  padding: 0.75rem; /* p-3 equivalent */
+  border: 1px solid #ccc; /* border equivalent (customized for a light grey border) */
+  border-radius: 0.375rem; /* rounded-md equivalent */
+  appearance: none; /* Removes the default dropdown arrow in some browsers */
+  background-color: white; /* Optional: ensures consistent background color */
+}
+
+
+.modalContent2::-webkit-scrollbar {
+  width: 12px;
+}
+
+.modalContent2::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 8px;
+}
+
+.modalContent2::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.modalContent2::-webkit-scrollbar-track {
+  border-radius: 20px;
+}
+
+
 
 .headerContainer h2 {
   color: black;
@@ -163,6 +213,18 @@
   display: flex;
 }
 
+/* borrow.module.css */
+
+.spacingContainer2 {
+  margin-top: 1.5rem; /* mt-6 equivalent */
+}
+
+.spacingContainer2 > * + * {
+  margin-top: 1rem; /* space-y-4 equivalent */
+}
+
+
+
 .leftboxes1 {
   display: flex;
   flex-direction: column;
@@ -186,6 +248,128 @@
   font-size: 30px;
   width: 100%;
 }
+/* borrow.module.css */
+
+/* borrow.module.css */
+
+.formGroup2 {
+    margin-bottom: 1rem; /* Optional: if you want spacing between form elements */
+    display: flex;
+    align-items: center; /* Align items vertically centered */
+}
+
+.label2 {
+    color: #4a5568; /* text-gray-700 equivalent */
+    margin-right: 1rem; /* Add space between label and input */
+    width: 100px; /* Set a fixed width to ensure consistent alignment */
+    text-align: right; /* Align label text to the right */
+}
+
+.input2 {
+    flex-grow: 1; /* Make the input take up the remaining space */
+    padding: 0.75rem; /* p-3 equivalent */
+    border: 1px solid #ccc; /* border equivalent (customized for a light grey border) */
+    border-radius: 0.375rem; /* rounded-md equivalent */
+    background-color: white; /* Optional: ensures consistent background color */
+    color: #2d3748; /* text-gray-800 equivalent for input text color */
+    font-size: 1rem; /* Adjust font size to match Tailwind's input text */
+}
+
+
+/* borrow.module.css */
+
+.button2 {
+  padding-left: 1rem;  /* px-4 equivalent */
+  padding-right: 1rem; /* px-4 equivalent */
+  padding-top: 0.5rem; /* py-2 equivalent */
+  padding-bottom: 0.5rem; /* py-2 equivalent */
+  background-color: #d1d5db; /* bg-gray-300 equivalent */
+  color: black; /* text-black equivalent */
+  border-radius: 0.375rem; /* rounded-md equivalent */
+  border: none; /* Ensure no default border */
+  cursor: pointer; /* Make the button clickable */
+  font-size: 1rem; /* Optional: Font size adjustment */
+  transition: background-color 0.2s ease; /* Optional: Smooth hover effect */
+}
+
+.button2:hover {
+  background-color: #cbd5e0; /* Optional: Darken on hover */
+}
+
+/* borrow.module.css */
+
+.button3 {
+  padding-left: 1rem;  /* px-4 equivalent */
+  padding-right: 1rem; /* px-4 equivalent */
+  padding-top: 0.5rem; /* py-2 equivalent */
+  padding-bottom: 0.5rem; /* py-2 equivalent */
+  background-color: #a7f3d0; /* bg-green-200 equivalent */
+  color: black; /* text-black equivalent */
+  border-radius: 0.375rem; /* rounded-md equivalent */
+  border: none; /* Ensure no default border */
+  cursor: pointer; /* Make the button clickable */
+  font-size: 1rem; /* Optional: Font size adjustment */
+  transition: background-color 0.2s ease; /* Optional: Smooth hover effect */
+}
+
+.button3:hover {
+  background-color: #6ee7b7; /* Optional: Darken on hover (similar to bg-green-300) */
+}
+.button2 + .button3 {
+  margin-left: 1rem; /* Add space between the buttons */
+}
+
+/* Button Styles */
+.button4 {
+  padding-left: 1rem;  /* px-4 equivalent */
+  padding-right: 1rem; /* px-4 equivalent */
+  padding-top: 0.5rem; /* py-2 equivalent */
+  padding-bottom: 0.5rem; /* py-2 equivalent */
+  background-color: #d1d5db; /* bg-gray-300 equivalent */
+  color: black; /* text-black equivalent */
+  border-radius: 0.375rem; /* rounded-md equivalent */
+  border: none; /* Ensure no default border */
+  cursor: pointer; /* Make the button clickable */
+  font-size: 1rem; /* Optional: Font size adjustment */
+  transition: background-color 0.2s ease; /* Optional: Smooth hover effect */
+  display: inline-block; /* Align buttons side by side */
+  margin-right: 1rem; /* Space between buttons */
+}
+
+.button4:hover {
+  background-color: #cbd5e0; /* Optional: Darken on hover */
+}
+
+.button5 {
+  padding-left: 1rem;  /* px-4 equivalent */
+  padding-right: 1rem; /* px-4 equivalent */
+  padding-top: 0.5rem; /* py-2 equivalent */
+  padding-bottom: 0.5rem; /* py-2 equivalent */
+  background-color: #a7f3d0; /* bg-green-200 equivalent */
+  color: black; /* text-black equivalent */
+  border-radius: 0.375rem; /* rounded-md equivalent */
+  border: none; /* Ensure no default border */
+  cursor: pointer; /* Make the button clickable */
+  font-size: 1rem; /* Optional: Font size adjustment */
+  transition: background-color 0.2s ease; /* Optional: Smooth hover effect */
+  display: inline-block; /* Align buttons side by side */
+  margin-top: 20px; /* Add space above the buttons */
+}
+
+.button5:hover {
+  background-color: #6ee7b7; /* Optional: Darken on hover (similar to bg-green-300) */
+}
+
+
+.inputGroup2 {
+  flex: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgb(156, 9, 9);
+  background-color: rgb(254, 252, 252);
+}
+
 
 .inputGroup {
   flex: 4;
@@ -235,15 +419,27 @@
   outline: none;
 }
 .input1Container {
-  border: 2px #2b242b;
+  border: 2px #fcfbfc;
   border-style: solid;
   border-radius: 20px;
   padding: 30px;
   width: 100%;
-  background-color: rgb(19, 19, 19);
-  box-shadow: 0 0px 10px 0 #98FF98;
+  background-color: rgb(250, 248, 248);
+  box-shadow: 0 0px 10px 0 #3a283a;
   font-weight: 500;
 }
+/* borrow.module.css */
+
+.container2 {
+  max-width: 32rem; /* max-w-lg equivalent */
+  margin-left: auto; /* mx-auto equivalent */
+  margin-right: auto; /* mx-auto equivalent */
+  padding: 2rem; /* p-8 equivalent */
+  background-color: white; /* bg-white equivalent */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg equivalent */
+  border-radius: 0.5rem; /* rounded-lg equivalent */
+}
+
 
 .input2Container {
   border: 2px #2b242b;
@@ -252,7 +448,7 @@
   width: 100%;
   border-radius: 20px;
   background-color: rgb(19, 19, 19);
-  box-shadow: 0 0px 10px 0 #98FF98;
+  box-shadow: 0 0px 10px 0 #3a283a;
   font-weight: 500;
 }
 .input3Container {
@@ -264,9 +460,10 @@
   float: right;
   border-radius: 20px;
   background-color: rgb(19, 19, 19);
-  box-shadow: 0 0px 10px 0 #98FF98;
+  box-shadow: 0 0px 10px 0 #3a283a;
   font-weight: 500;
 }
+
 
 .input2Container input::-webkit-outer-spin-button,
 .input2Container input::-webkit-inner-spin-button {
@@ -289,10 +486,10 @@
 .createWalletButton {
   padding: 10px;
   font-size: 17px;
-  background: linear-gradient(135deg, #98FF98, rgba(170, 242, 205, 0.638));
+  background: linear-gradient(135deg, #ec98fbe1, rgba(187, 135, 250, 0.638));
   color: rgb(255, 255, 255);
   border: 0px solid #19b1cc00;
-  box-shadow: 0 0px 30px 0 #235223;
+  box-shadow: 0 0px 30px 0 #663566;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -301,7 +498,7 @@
 
 .createWalletButton:hover {
   border: 0px solid #19b1cc00;
-  box-shadow: 0 0px 40px 0  #98FF98;
+  box-shadow: 0 0px 40px 0 #7b3f7b;
   transition: 0.3s;
 }
 .formCont {
@@ -498,6 +695,193 @@
   .borrowButton:hover {
     padding: 10px 20px;
   }
+
+  .container {
+    max-width: 28rem;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+  }
+  
+  .dropdownContainer {
+    margin-bottom: 1rem;
+  }
+  
+  .dropdown {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background-color: #f9fafb;
+  }
+  
+  .tabs {
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+  }
+  
+  .tabButtonActive {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    color: #000000;
+    border-bottom: 2px solid #38a169;
+    background-color: #f9fafb;
+  }
+  
+  .tabButton {
+    padding: 0.5rem 1rem;
+    color: #4b5563;
+    background-color: #f9fafb;
+  }
+  
+  .formFields {
+    margin-top: 1.5rem;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .formGroup {
+    margin-bottom: 1rem;
+  }
+  
+  .label {
+    display: block;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background-color: #f9fafb;
+  }
+  
+  .flexContainer {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .halfWidth {
+    width: 50%;
+  }
+  
+  .buttonsContainer {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+  
+  .button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .buttonGreen {
+    background-color: #38a169;
+    color: #ffffff;
+  }
+  
+  .buttonGray {
+    background-color: #cbd5e0;
+    color: #1a202c;
+  }
+  /* closeicon */
+
+/* borrow.module.css */
+
+.modalContainer {
+  position: relative; /* Ensures the close icon is positioned relative to this container */
+  background-color: white; /* Background color for the modal */
+  border-radius: 10px; /* Rounded corners for the modal */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow for the modal */
+  padding: 20px; /* Padding inside the modal */
+  max-width: 500px; /* Set a maximum width for the container */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+.closeIconContainer {
+  position: absolute; /* Position the close icon absolutely */
+  top: 10px;          /* Adjust the vertical position */
+  right: 10px;        /* Adjust the horizontal position */
+  z-index: 1000;      /* Ensure the icon appears above other elements */
+}
+
+.closeIcon {
+  font-size: 24px;    /* Size of the close icon */
+  color: #888;        /* Default color of the icon */
+  cursor: pointer;    /* Change cursor to pointer on hover */
+  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+}
+
+.closeIcon:hover {
+  color: #000;        /* Change color to black on hover */
+  transform: scale(1.1); /* Slightly enlarge the icon on hover */
+}
+
+.uploadContainer {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: white; /* Background color for the modal content */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow for the modal */
+  max-width: 500px; /* Set a maximum width for the container */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+.iconContainer {
+  background-color: #e6f0ff; /* Light blue background for the icon */
+  padding: 20px;
+  border-radius: 50%; /* Makes the container circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px; /* Space between icon and text */
+}
+
+.iconContainer i {
+  font-size: 24px; /* Size of the icon inside the container */
+  color: #0066cc; /* Blue color for the icon */
+}
+
+.uploadText {
+  font-size: 18px;
+  color: #333;
+  font-weight: 500;
+}
+
+.uploadSubText {
+  font-size: 14px;
+  color: #777;
+}
+
+.container3 {
+  background-color: #f3f4f6; /* Tailwind's gray-100 */
+  padding: 2rem; /* Tailwind's p-8 */
+  border-radius: 0.5rem; /* Tailwind's rounded-lg */
+  max-width: 64rem; /* Tailwind's max-w-4xl */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.innerContainer3 {
+  background-color: #ffffff; /* Tailwind's white */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind's shadow-md */
+  border-radius: 0.5rem; /* Tailwind's rounded-lg */
+  padding: 1.5rem; /* Tailwind's p-6 */
+  display: flex;
+  gap: 2rem; /* Tailwind's space-x-8 */
+}
+
+
 
   
 }
