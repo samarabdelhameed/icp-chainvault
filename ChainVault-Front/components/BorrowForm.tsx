@@ -1102,12 +1102,77 @@ const Borrow = () => {
                   </button>
                 </td>
               </tr>
+              
+
+              <tr>
+      <td>CkBTC</td>
+      <td>synUSD</td>
+      <td>1.5%</td>
+      <td>0.5%</td>
+      <td>80%</td>
+      <td>
+        <button
+          className="bg-green-300 text-black px-4 py-2 rounded-md focus:outline-none"
+          onClick={toggleModal}
+        >
+          Manage Vault
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>ETH</td>
+      <td>synETH</td>
+      <td>2.0%</td>
+      <td>0.7%</td>
+      <td>75%</td>
+      <td>
+        <button
+          className="bg-green-300 text-black px-4 py-2 rounded-md focus:outline-none"
+          onClick={toggleModal}
+        >
+          Manage Vault
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>BTC</td>
+      <td>synBTC</td>
+      <td>1.2%</td>
+      <td>0.4%</td>
+      <td>85%</td>
+      <td>
+        <button
+          className="bg-green-300 text-black px-4 py-2 rounded-md focus:outline-none"
+          onClick={toggleModal}
+        >
+          Manage Vault
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>ADA</td>
+      <td>synADA</td>
+      <td>1.8%</td>
+      <td>0.6%</td>
+      <td>70%</td>
+      <td>
+        <button
+          className="bg-green-300 text-black px-4 py-2 rounded-md focus:outline-none"
+          onClick={toggleModal}
+        >
+          Manage Vault
+        </button>
+      </td>
+    </tr>
+  
+
             </tbody>
           </table>
           <div className={styles.paginationContainer}>
-            <div className={`text-xs ${styles.mintGreen}`}>
-              Showing 1 to 10 of 40 entries
-            </div>
+          <div className={`text-xs ${styles.mintGreen}`} style={{ color: '#acf1ac' }}>
+  Showing 1 to 10 of 40 entries
+</div>
+
             <div className="flex space-x-2">
               <button className="bg-gray-600 text-gray-400 px-3 py-1 rounded-md focus:outline-none">
                 Previous

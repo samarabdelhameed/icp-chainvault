@@ -364,79 +364,75 @@ const Withdraw = () => {
               
           </div>
 
-          <div className="mt-6 flex space-x-4">
-              <button type="submit" className={styles.submitButton}>
-                Submit
-              </button>
-            
-              
-            <button className={styles.depositButton} onClick={toggleModal0}>
-              Deposit CkBTC
-            </button>
+          <div className={`mt-6 ${styles['button-group']}`}>
+      <button type="submit" className={`${styles.button} ${styles.submitButton}`}>
+        Submit
+      </button>
 
-            {isModalOpen0 && (
-              <div className={styles.modalBackdrop}>
-                <div className={styles.modalContent}>
-                  <i
-                    className={`fa fa-times-circle ${styles.closeIcon}`}
-                    onClick={toggleModal0}
-                  ></i>
-                  <div className={styles.modalContainer}>
-                    <div className={styles.modalHeader}>
-                      <p>Deposit your ckbtc to the below address.</p>
-                      <h3>{encodedAccount}</h3>
-                    </div>
-                  </div>
+      <button className={`${styles.button} ${styles.depositButton}`} onClick={toggleModal0}>
+        Deposit CkBTC
+      </button>
 
-                  <div className={styles.modalActions}>
-                    <button className={styles.general2}>Update Deposits</button>
-                  </div>
-                </div>
+      {isModalOpen0 && (
+        <div className={styles.modalBackdrop}>
+          <div className={styles.modalContent}>
+            <i
+              className={`fa fa-times-circle ${styles.closeIcon}`}
+              onClick={toggleModal0}
+            ></i>
+            <div className={styles.modalContainer}>
+              <div className={styles.modalHeader}>
+                <p>Deposit your ckbtc to the below address.</p>
+                <h3>{encodedAccount}</h3>
               </div>
-            )}
+            </div>
 
-            <button className={styles.depositBtcButton2} onClick={toggleModal1}>
-              Deposit BTC
-            </button>
-            {isModalOpen1 && (
-              <div className={styles.modalBackdrop}>
-                <div className={styles.modalContent}>
-                  <i
-                    className={`fa fa-times-circle ${styles.closeIcon}`}
-                    onClick={toggleModal1}
-                  ></i>
-                  <div className={styles.modalContainer}>
-                    <div className={styles.modalHeader}>
-                      <h3>
-                        {loadingDepositAddress
-                          ? "Loading..."
-                          : btcDepositAddress}
-                      </h3>
-                      <br></br>
-                      <br></br>
-                    </div>
-
-                    <div className={styles.modalActions}>
-                      <button
-                        className={styles.general2}
-                        onClick={handleGetDepositAddress}
-                      >
-                        Get Deposit Address
-                      </button>
-                      <br></br>
-                      <button
-                        className={styles.general2}
-                        onClick={handleUpdateBtcBalance}
-                      >
-                        Update Deposit Address
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-               
-            )}
+            <div className={styles.modalActions}>
+              <button className={styles.general2}>Update Deposits</button>
+            </div>
           </div>
+        </div>
+      )}
+
+      <button className={`${styles.button} ${styles.depositBtcButton2}`} onClick={toggleModal1}>
+        Deposit BTC
+      </button>
+      
+      {isModalOpen1 && (
+        <div className={styles.modalBackdrop}>
+          <div className={styles.modalContent}>
+            <i
+              className={`fa fa-times-circle ${styles.closeIcon}`}
+              onClick={toggleModal1}
+            ></i>
+            <div className={styles.modalContainer}>
+              <div className={styles.modalHeader}>
+                <h3>
+                  {loadingDepositAddress
+                    ? "Loading..."
+                    : btcDepositAddress}
+                </h3>
+              </div>
+
+              <div className={styles.modalActions}>
+                <button
+                  className={styles.general2}
+                  onClick={handleGetDepositAddress}
+                >
+                  Get Deposit Address
+                </button>
+                <button
+                  className={styles.general2}
+                  onClick={handleUpdateBtcBalance}
+                >
+                  Update Deposit Address
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
             </form> 
           
 

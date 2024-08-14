@@ -277,81 +277,42 @@
   text-align: right; /* Align label text to the right */
 }
 
+.button {
+  padding-left: 1.5rem;  /* px-6 equivalent */
+  padding-right: 1.5rem; /* px-6 equivalent */
+  padding-top: 0.75rem;  /* py-3 equivalent */
+  padding-bottom: 0.75rem; /* py-3 equivalent */
+  border-radius: 0.375rem; /* rounded-md equivalent */
+  border: none; /* Ensure no border */
+  cursor: pointer; /* Make the button clickable */
+  transition: background-color 0.2s ease; /* Smooth hover effect */
+  color: black; /* text-black equivalent */
+  font-size: 1rem; /* text-base equivalent */
+}
+
 .submitButton {
-  background-color: #d1d5db; /* Tailwind's bg-gray-300 */
-  color: black; /* Tailwind's text-black */
-  padding-left: 1rem; /* Tailwind's px-4 */
-  padding-right: 1rem; /* Tailwind's px-4 */
-  padding-top: 0.5rem; /* Tailwind's py-2 */
-  padding-bottom: 0.5rem; /* Tailwind's py-2 */
-  border-radius: 0.375rem; /* Tailwind's rounded-md */
-  border: none; /* Ensures there's no border */
-  cursor: pointer; /* Makes the button clickable */
-  transition: background-color 0.2s ease; /* Optional: Smooth hover effect */
+  background-color: #d1d5db; /* bg-gray-300 equivalent */
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* Soft shadow to lift the button */
 }
 
 .submitButton:hover {
-  background-color: #cbd5e0; /* Darkens the background color on hover */
+  background-color: #cbd5e0; /* Darken on hover */
 }
 
-.depositButton {
-  background-color: #a7f3d0; /* Tailwind's bg-green-200 */
-  color: black; /* Tailwind's text-black */
-  padding-left: 1rem; /* Tailwind's px-4 */
-  padding-right: 1rem; /* Tailwind's px-4 */
-  padding-top: 0.5rem; /* Tailwind's py-2 */
-  padding-bottom: 0.5rem; /* Tailwind's py-2 */
-  border-radius: 0.375rem; /* Tailwind's rounded-md */
-  border: none; /* Ensures there's no border */
-  cursor: pointer; /* Makes the button clickable */
-  transition: background-color 0.2s ease; /* Smooth hover effect */
+.depositButton, .depositBtcButton2 {
+  background-color: #a7f3d0; /* bg-green-200 equivalent */
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* Soft shadow to lift the button */
 }
 
-.depositButton:hover {
-  background-color: #6ee7b7; /* Darkens the background color on hover */
-}
-.depositButton {
-  background-color: #a7f3d0; /* Tailwind's bg-green-200 */
-  color: black; /* Tailwind's text-black */
-  padding-left: 1rem; /* Tailwind's px-4 */
-  padding-right: 1rem; /* Tailwind's px-4 */
-  padding-top: 0.5rem; /* Tailwind's py-2 */
-  padding-bottom: 0.5rem; /* Tailwind's py-2 */
-  border-radius: 0.375rem; /* Tailwind's rounded-md */
-  border: none; /* Ensures there's no border */
-  cursor: pointer; /* Makes the button clickable */
-  transition: background-color 0.2s ease; /* Smooth hover effect */
+.depositButton:hover, .depositBtcButton2:hover {
+  background-color: #6ee7b7; /* Darken on hover */
 }
 
-.depositButton:hover {
-  background-color: #6ee7b7; /* Darkens the background color on hover */
+/* Align buttons in the center with equal spacing */
+.button-group {
+  display: flex;
+  justify-content: center; /* Center the buttons */
+  gap: 1rem; /* Add space between the buttons */
 }
 
-.depositBtcButton2 {
-  background-color: #a7f3d0; /* Tailwind's bg-green-200 */
-  color: black; /* Tailwind's text-black */
-  padding-left: 1rem; /* Tailwind's px-4 */
-  padding-right: 1rem; /* Tailwind's px-4 */
-  padding-top: 0.5rem; /* Tailwind's py-2 */
-  padding-bottom: 0.5rem; /* Tailwind's py-2 */
-  border-radius: 0.375rem; /* Tailwind's rounded-md */
-  border: none; /* Ensures there's no border */
-  cursor: pointer; /* Makes the button clickable */
-  transition: background-color 0.2s ease; /* Smooth hover effect */
-}
-
-.depositBtcButton2:hover {
-  background-color: #6ee7b7; /* Darkens the background color on hover */
-}
-.button {
-  padding-left: 1rem;  /* Tailwind's px-4 */
-  padding-right: 1rem; /* Tailwind's px-4 */
-  padding-top: 0.5rem; /* Tailwind's py-2 */
-  padding-bottom: 0.5rem; /* Tailwind's py-2 */
-  border-radius: 0.375rem; /* Tailwind's rounded-md */
-  border: none; /* Ensures there's no border */
-  cursor: pointer; /* Makes the button clickable */
-  transition: background-color 0.2s ease; /* Smooth hover effect */
-  color: black; /* Tailwind's text-black */
-}
 
