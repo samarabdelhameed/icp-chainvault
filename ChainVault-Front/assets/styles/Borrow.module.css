@@ -463,7 +463,18 @@
   box-shadow: 0 0px 10px 0 #3a283a;
   font-weight: 500;
 }
-
+.input3Container2 {
+  border: 2px #2b242b;
+  border-style: solid;
+  color: white;
+  width: 100%;
+  padding: 5px;
+  float: right;
+  border-radius: 20px;
+  background-color: rgb(19, 19, 19);
+  box-shadow: 0 0px 10px 0 #3a283a;
+  font-weight: 500;
+}
 
 .input2Container input::-webkit-outer-spin-button,
 .input2Container input::-webkit-inner-spin-button {
@@ -501,6 +512,29 @@
   box-shadow: 0 0px 40px 0 #7b3f7b;
   transition: 0.3s;
 }
+
+.createWalletButton2 {
+  padding: 10px;
+  font-size: 17px;
+  background: linear-gradient(135deg, #ec98fbe1, rgba(187, 135, 250, 0.638));
+  color: rgb(255, 255, 255);
+  border: 0px solid #19b1cc00;
+  box-shadow: 0 0px 30px 0 #663566;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: -80px; /* تحريك الزر نحو اليسار */
+  margin-top: -20px;
+}
+
+.createWalletButton2:hover {
+  border: 0px solid #19b1cc00;
+  box-shadow: 0 0px 40px 0 #7b3f7b;
+  transition: 0.3s;
+}
+
+
 .formCont {
   display: flex;
   height: 50vh;
@@ -514,13 +548,24 @@
 .rightboxes {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex:1;
 }
 
 .rightboxes > div {
   margin: 10px;
   flex: 1;
 }
+.rightboxes2 {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+}
+
+.rightboxes2 > div {
+  margin: 10px;
+  flex: 1;
+}
+
 .input24Container {
   border: 0px #2b242b;
   border-style: solid;
@@ -537,6 +582,14 @@
   float: right;
   font-weight: 500;
 }
+.input29Container2 {
+  border: 0px #2b242b;
+  border-style: solid;
+  width: 100%;
+  padding: 20px;
+  float: right;
+  font-weight: 300;
+}
 .input31Container {
   border: 0px #2b242b;
   border-style: solid;
@@ -544,10 +597,21 @@
   width: 100%;
   font-weight: 500;
 }
+.input31Container2 {
+  border: 0px #2b242b;
+  border-style: solid;
+  padding: 20px;
+  width: 120%;
+  font-weight: 500;
+}
 @media (max-width: 960px) {
   .input31Container {
     float: right;
     width: 100%;
+  }
+  .input31Container2 {
+    float: right;
+    width: 120%;
   }
 }
 
@@ -567,6 +631,10 @@
     transform: none;
   }
   .input31Container {
+    float: right;
+    width: 100%;
+  }
+  .input31Container2 {
     float: right;
     width: 100%;
   }
@@ -882,6 +950,24 @@
 }
 
 
+.rightboxes {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
 
+.rightboxes > div {
+  margin: 10px;
+  flex: 1;
+}
+
+.input29Container {
+  border: 0px #2b242b;
+  border-style: solid;
+  width: 100%;
+  padding: 20px;
+  float: right;
+  font-weight: 500;
+}
   
 }

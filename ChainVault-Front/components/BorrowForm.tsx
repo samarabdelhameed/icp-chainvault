@@ -667,14 +667,12 @@ const Borrow = () => {
       case "Create Vault":
         //  setVaultID(0);
         return (
-
-          <form className={styles.container3} >
-           <div >
-           <div className={styles.innerContainer3}>
+          <form className={styles.formCont}>
+            <div className={styles.leftbox}>
               <div className={styles.input24Container}>
                 <div className={styles.createWalletContainer}>
                   <button
-                    className={styles.createWalletButton}
+                    className={styles.createWalletButton2}
                     onClick={handleCreateVaultFunction} //or use  onClick={handleCreateVaultFunction}
                   >
                     Create Vault
@@ -684,7 +682,7 @@ const Borrow = () => {
                       style={{
                         backgroundColor: "black",
                         color: "white",
-                        border: "2px solid #98FF98",
+                        border: "2px solid #0f0d3b",
                         borderRadius: "5px",
                         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                         fontFamily: "Arial, sans-serif",
@@ -759,12 +757,11 @@ const Borrow = () => {
                   )}
                 </div>
               </div>
-            
-            <div className={styles.rightboxes}>
+            </div>
+            <div className={styles.rightboxes2}>
               <div>
-
-                <div className={styles.input3Container}>
-                  <div className={styles.inputGroup}>
+                <div className={styles.input3Container2}>
+                  <div className={styles.inputGroup31}>
                     <label htmlFor="ckBtc" className={styles.labelWithIcon}>
                       Vault LTV Ratio
                     </label>
@@ -823,12 +820,11 @@ const Borrow = () => {
                   </div>
                 </div>
               </div>
-
               <div>
+                <div className={styles.input3Container2}>
                   <label htmlFor="sUsd">
-                  <div className={styles.formGroup2}>
-                      <label className={styles.label}>
-                      Vault ID </label>
+                    <div className={styles.inputGroup31}>
+                      Vault ID
                       <input
                         type="text"
                         id="vaultID"
@@ -836,24 +832,20 @@ const Borrow = () => {
                         value={vaultID}
                         onChange={handleVaultIDChange}
                         placeholder="0"
-                        className={styles.input2}
-
                       />
                     </div>
                   </label>
                   <div className={styles.gasFee}></div>
-                
+                </div>
               </div>
               <div>
                 <button
-                className={styles.button3}
-                onClick={handleGetVaultDetails}
+                  className={styles.button3}
+                  onClick={handleGetVaultDetails}
                 >
                   Get Vault Details
                 </button>
               </div>
-            </div>
-            </div>
             </div>
           </form>
         );

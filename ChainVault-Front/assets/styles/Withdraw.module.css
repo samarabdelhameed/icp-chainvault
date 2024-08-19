@@ -148,7 +148,7 @@
   align-items: center;
   justify-content: center;
   border: 2px double transparent;
-  background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255)), radial-gradient(circle at left top, rgb(1, 110, 218), rgb(217, 0, 192));
+  background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255)), radial-gradient(circle at left top, rgb(1, 110, 218), rgb(0, 217, 40));
   background-origin: border-box;
   background-clip: padding-box, border-box;
     color: rgb(0, 0, 0);
