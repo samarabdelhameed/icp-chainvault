@@ -4,10 +4,11 @@
       "main": "src/OracleModule/oracle.ts",
       "type": "custom",
       "build": "npx azle oracle",
-      "root": "src",
+      "root": "src/wallet",
       "ts": "src/OracleModule/oracle.ts",
       "candid": "src/candidFiles/oracle.did",
       "wasm": ".azle/oracle/oracle.wasm.gz"
+   
     },
     "deposit": {
       "main": "src/DepositModule/ckBTCDeposit.ts",
@@ -52,7 +53,9 @@
       "type": "custom",
       "candid": "src/candidFiles/wallet.did",
       "wasm": "src/wallet/wallet.wasm",
-      "build": ""
+      "build": "npx azle wallet" 
     }
+
+    
   }
 }

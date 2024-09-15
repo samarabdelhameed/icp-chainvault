@@ -17,8 +17,13 @@ ChainVault is a pioneering decentralized finance (DeFi) protocol developed on th
 # Project Title
 
 ## Presentation
+project deployeed : https://chain-vault-front-lq0atklpo-samarabdelhameeds-projects.vercel.app/_app.html
 
 Watch the presentation video on YouTube: [Presentation Video](https://www.youtube.com/watch?v=OX3CH_nsY88)
+## Demo - Frontend
+
+Watch the Frontend demo on YouTube: [frontend Demo Video](https://drive.google.com/file/d/1pmLpT4pEPvs-7oT_zXL5oVm_bUqSXKga/view?usp=sharing)
+
 
 ## Demo - Backend
 
