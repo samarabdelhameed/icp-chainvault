@@ -242,7 +242,7 @@ Base module for managing synthetic tokens, including minting, transfers, and app
 6. **Create the `synbase` Canister:**
    Create the `synbase` canister:
 
-   ```sh
+   ```sh``
    dfx canister create synbase
    ```
 
@@ -407,12 +407,12 @@ dfx deploy synbase --argument='(record {
     permitted_drift_nanos = 86400000000000;
     transaction_window_nanos = 86400000000000;
     minting_account = (opt record {
-        owner = principal "b77ix-eeaaa-aaaaa-qaada-cai";
+        owner = principal "br5f7-7uaaa-aaaaa-qaaca-cai";
         subaccount = null;
     });
     primary_account = (opt record {
-      2hfao-epw3w-htxiz-lg52d-kawgm-zw4x3-tv3xm-jeeru-yqx6a-tmw5u-3ae
-        owner = principal "hkoto-7ykqd-y6gid-qvkx4-hxslt-lscav-zlc2f-nu7fx-movq2-v5ety-wqe";
+      hfao-epw3w-htxiz-lg52d-kawgm-zw4x3-tv3xm-jeeru-yqx6a-tmw5u-3ae
+        owner = principal "dhb5g-r3gjc-ywwb3-voxfo-dappg-bftgi-kvb25-x2y5w-ah62x-ldhvb-2ae";
         subaccount = null;
     });
 })'
@@ -782,3 +782,26 @@ URLs:
     
 
 5. **Update the Canister Address of SynBase in SynthMinter.**
+
+
+
+6. **Deploy the SynBase Canister with Argument:**
+   ```sh
+   dfx deploy synbase --argument='(record {
+       name = "Synthetic USD";                         
+       symbol = "SynUsd";                           
+       decimal = 8;                                           
+       fee = 10;
+       permitted_drift_nanos = 86_400_000_000_000;
+       transaction_window_nanos = 86_400_000_000_000;                                                                                   
+       minting_account = (opt record {
+           owner = principal "<canister id of synthminter deployed above>";
+           subaccount = null;
+       });
+
+       primary_account = (opt record {
+           owner = principal "<enter your principal>";
+           subaccount = null;
+       });
+   })'
+   ```

@@ -8,6 +8,7 @@ ChainVault is a pioneering decentralized finance (DeFi) protocol developed on th
 
 ## Frontend intgration
 
+![front end last repo ](https://github.com/samarabdelhameed/icp-chainvault-frontend)
 ![Launch app](https://github.com/samarabdelhameed/pics/blob/main/26.png)
 ![Home page2](https://github.com/samarabdelhameed/pics/blob/main/25.png)
 ![Home page3](https://github.com/samarabdelhameed/pics/blob/main/24.png)
@@ -313,3 +314,72 @@ dfx identity get-principal
 ## Conclusion
 
 ChainVault represents a significant advancement in the DeFi space, offering a novel and secure solution for Bitcoin liquidity on the ICP platform. By bridging the gap between Bitcoin and decentralized finance, ChainVault paves the way for innovative financial solutions that prioritize security, efficiency, and user accessibility.
+
+{
+  "deposit": {
+    "ic": "ivtqt-gqaaa-aaaal-qcdra-cai"
+  },
+  "oracle": {
+    "ic": "nhkh6-wiaaa-aaaal-qcdpq-cai"
+  },
+  "synbase": {
+    "ic": "i3r53-5aaaa-aaaal-qcdqa-cai"
+  },
+  "synthMinter": {
+    "ic": "i4q3p-qyaaa-aaaal-qcdqq-cai"
+  },
+  "vaultmanager": {
+    "ic": "isswh-liaaa-aaaal-qcdrq-cai"
+  }
+}
+
+
+dfx canister status bd3sg-teaaa-aaaaa-qaaba-cai --network local
+
+Canister status call result for bd3sg-teaaa-aaaaa-qaaba-cai.
+Status: Running
+Controllers: dhb5g-r3gjc-ywwb3-voxfo-dappg-bftgi-kvb25-x2y5w-ah62x-ldhvb-2ae
+Memory allocation: 0
+Compute allocation: 0
+Freezing threshold: 2_592_000
+Memory Size: Nat(3217295)
+Balance: 99_999_520_780_023 Cycles
+Reserved: 0 Cycles
+Reserved cycles limit: 5_000_000_000_000 Cycles
+Wasm memory limit: 0 Bytes
+Module hash: 0x1208093dcc5b31286a073f00f748ac6612dbae17b66c22332762705960a8aaad
+Number of queries: 17
+Instructions spent in queries: 171_470_310
+Total query request payload size (bytes): 29_525
+Total query response payload size (bytes): 1_860_433
+Log visibility: controllers
+➜  ChainVault-Backend git:(main) ✗ dfx identity get-principal
+
+dhb5g-r3gjc-ywwb3-voxfo-dappg-bftgi-kvb25-x2y5w-ah62x-ldhvb-2ae
+➜  ChainVault-Backend git:(main) ✗ dfx deploy oracle --network local
+
+Deploying: oracle
+All canisters have already been created.
+Building canisters...
+Executing 'npx azle oracle'
+
+Building canister oracle
+
+[1/2] 🔨 Compiling TypeScript... 5.46s
+[2/2] 🚧 Building Wasm binary... 10.90s
+
+Done in 17.00s.
+
+🎉 Built canister oracle at .azle/oracle/oracle.wasm.gz
+Installing canisters...
+Upgrading code for canister oracle, with canister ID bkyz2-fmaaa-aaaaa-qaaaq-cai
+Deployed canisters.
+URLs:
+  Backend canister via Candid interface:
+    deposit: http://127.0.0.1:4943/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai&id=by6od-j4aaa-aaaaa-qaadq-cai
+    oracle: http://127.0.0.1:4943/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai&id=bkyz2-fmaaa-aaaaa-qaaaq-cai
+    synbase: http://127.0.0.1:4943/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai&id=b77ix-eeaaa-aaaaa-qaada-cai
+    synthMinter: http://127.0.0.1:4943/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai&id=br5f7-7uaaa-aaaaa-qaaca-cai
+    vaultmanager: http://127.0.0.1:4943/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai&id=bw4dl-smaaa-aaaaa-qaacq-cai
+➜  ChainVault-Backend git:(main) ✗ 
+
