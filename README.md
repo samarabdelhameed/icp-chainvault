@@ -29,9 +29,19 @@ Watch the presentation video on YouTube: [Presentation Video](https://www.youtub
 Watch the Frontend demo on YouTube: [frontend Demo Video](https://drive.google.com/file/d/1pmLpT4pEPvs-7oT_zXL5oVm_bUqSXKga/view?usp=sharing)
 
 
+
 ## Demo - Backend
 
 Watch the backend demo on YouTube: [Backend Demo Video](https://www.youtube.com/watch?v=zH_UVhJcVKM)
+
+## 📑 Security Audit Report  
+
+We have conducted a **comprehensive security audit** to ensure the safety and reliability of the ICP-ChainVault platform.  
+You can read the full report here:  
+
+🔗 [View Security Audit Report](https://docs.google.com/document/d/1XANnNJpqm9B7iec7Ii1UF01mTcD2wGHI_6j3J7GhslM/edit?usp=sharing)
+
+
 
 ## Inspiration
 
