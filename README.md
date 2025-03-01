@@ -5,6 +5,34 @@
 
 ChainVault is a pioneering decentralized finance (DeFi) protocol developed on the Internet Computer Protocol (ICP) platform, designed to unlock instant liquidity for Bitcoin holders. By leveraging the seamless integration of ICP with the Bitcoin network, ChainVault enables users to use ckBTC as collateral to mint stablecoins, providing a secure and efficient solution for liquidity without compromising the inherent security of the Bitcoin network.
 
+                   🚀 ICP-ChainVault Achievements 🚀                    
+                                                                        
+ ┌──────────────────────────┐      ┌──────────────────────────┐      
+ │ Backend Development      │      │ Frontend Development     │      
+ ├──────────────────────────┤      ├──────────────────────────┤      
+ │ ✅ Deployed Canisters    │      │ ✅ UI/UX Design Improved │      
+ │   - VaultManager         │      │ ✅ Connected to Backend  │      
+ │   - Oracle               │      │ ✅ User Authentication   │      
+ │   - SynBase              │      │ ✅ Real-time Updates     │      
+ │   - SynthMinter          │      ├──────────────────────────┤      
+ ├──────────────────────────┤      │ 🛠 Work in Progress:     │      
+ │ ✅ API Testing           │      │ - Advanced UX Features  │      
+ │   - createVault()        │      │ - Enhanced Accessibility│      
+ │   - borrow()             │      │ - Mobile Optimization   │      
+ │   - repayDebt()          │      ├──────────────────────────┤      
+ ├──────────────────────────┤      │ 📌 Next Milestone:      │      
+ │ ✅ Security Audit        │      │ - Beta Testing          │      
+ │   - Smart Contract Review│      │ - UI Finalization       │      
+ │   - Penetration Testing  │      │ - User Feedback Loop    │      
+ │   - Rate Limiting        │      ├──────────────────────────┤      
+ │   - Data Integrity       │      │ 🌟 Ready for Next Grant │      
+ ├──────────────────────────┤      └──────────────────────────┘      
+ │ 🌟 Fully Tested & Secure │                                      
+ └──────────────────────────┘                                      
+        │                          │                                 
+        └──────────► 🚀 Ready for Next Grant Proposal 🚀            
+
+
 
 ## Frontend intgration
 
