@@ -8,7 +8,13 @@ ChainVault is a pioneering decentralized finance (DeFi) protocol developed on th
 
 ## Frontend intgration
 
-![front end last repo ](https://github.com/samarabdelhameed/icp-chainvault-frontend)
+## 🔗 Frontend Repository (In Progress)  
+
+We are currently working on an improved version of the frontend. You can check out the latest repository here:  
+
+🚀 [Frontend Last Repo (Work in Progress)](https://github.com/samarabdelhameed/icp-chainvault-frontend)
+
+
 ![Launch app](https://github.com/samarabdelhameed/pics/blob/main/50.png)
 ![Home page2](https://github.com/samarabdelhameed/pics/blob/main/51.png)
 ![Home page3](https://github.com/samarabdelhameed/pics/blob/main/52.png)
